@@ -1,0 +1,28 @@
+@body-x: 1rem;
+@body-y: 1rem;
+
+@layer base {
+  .body {
+    padding: @body-y @body-x;
+  }
+  .body-x {
+    padding-left: @body-x;
+    padding-right: @body-x;
+  }
+  .body-y {
+    padding-top: @body-y;
+    padding-bottom: @body-y;
+  }
+  .body-left {
+    padding-left: @body-x;
+  }
+  .body-right {
+    padding-right: @body-x;
+  }
+  .body-top {
+    padding-top: @body-y;
+  }
+  .body-bottom {
+    padding-bottom: @body-y;
+  }
+}
