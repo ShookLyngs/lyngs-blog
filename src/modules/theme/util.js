@@ -26,7 +26,7 @@ class ThemeManager {
       throw new Error(`Param 'options' must be Object or Array`);
     }
 
-    this.theme = null;
+    this.theme = this.themes[0];
     if (this.themes.length && this.element) {
       this.setTheme(this.themes[0]);
     }
