@@ -1,4 +1,4 @@
-import { createTheme } from '../util';
+import { createTheme } from '@lyngs/themer-vue';
 
 export default createTheme({
   name: 'light',

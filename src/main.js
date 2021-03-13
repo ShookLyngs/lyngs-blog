@@ -7,7 +7,7 @@ const app = createApp(App);
 import router from '@/modules/router';
 app.use(router);
 
-// Import ThemeManager
+// Import Themer
 import theme from '@/modules/theme';
 app.use(theme);
 
