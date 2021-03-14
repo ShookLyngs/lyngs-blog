@@ -1,11 +1,11 @@
-import { createTailwindPreset } from '@lyngs/themer';
+import { createTailwindPreset } from '@lyngs/themer-vue';
 import { manager } from './src/modules/theme';
 
 export default {
   purge: {
     enabled: process.env.NODE_ENV === 'production',
     content: [
-      './src/**/*.{vue,js,jsx}',
+      './src/**/*.{vue,html,js,jsx}',
       './src/assets/styles/index.less',
     ],
   },
