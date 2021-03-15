@@ -1,26 +1,25 @@
 import { defineConfig } from 'vite';
 
-import postcss from './postcss.config';
-
 // Vite plugins
 import vue from '@vitejs/plugin-vue';
 import eslint from 'vite-plugin-eslint';
+
+// PostCSS
+import postcss from './postcss.config';
 
 // Path
 import { join } from 'path';
 const resolve = (...paths) => join(__dirname, ...paths);
 
-import { getDirectories } from './src/assets/util/glob';
-const directories = getDirectories({
-  root: process.cwd(),
-  path: 'src',
-  depth: 1,
-});
-console.log(directories);
-
 export default defineConfig({
   css: {
     postcss,
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true,
+        hack: `true; @import "${resolve('src/assets/styles/index.less')}";`,
+      },
+    },
   },
   resolve: {
     alias: {

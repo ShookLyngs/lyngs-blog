@@ -13,6 +13,7 @@ app.use(theme);
 
 // Import tailwind-css, the base css-style-framework
 import 'tailwindcss/tailwind.css';
+//import '@/assets/styles/index.less';
 
 // Mounting Vue App into document
 app.mount('#app');
