@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 // Vite plugins
 import vue from '@vitejs/plugin-vue';
 import eslint from 'vite-plugin-eslint';
+import legacy from '@vitejs/plugin-legacy';
 
 // PostCSS
 import postcss from './postcss.config';
@@ -16,18 +17,21 @@ export default defineConfig({
     postcss,
     preprocessorOptions: {
       less: {
-        javascriptEnabled: true,
-        hack: `true; @import "${resolve('src/assets/styles/index.less')}";`,
-      },
-    },
+        modifyVars: {
+          hack: `true; @import "@/assets/styles/index.less";`,
+        }
+      }
+    }
   },
   resolve: {
-    alias: {
-      '@': resolve('src'),
-    },
+    alias: [
+      { find: /^~/, replacement: '' },
+      { find: '@', replacement: resolve('src') },
+    ]
   },
   plugins: [
     vue(),
+    legacy(),
     eslint({
       include: [ './src/*/**.js', './src/*/**.vue' ],
     }),

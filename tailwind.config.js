@@ -14,7 +14,11 @@ export default {
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      textColor: ['active'],
+      backgroundColor: ['active'],
+      boxShadow: ['active'],
+    },
   },
   plugins: [],
   presets: [

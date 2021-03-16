@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="body-x" some="" thing="" not="" right="">
+    <div class="body-x ">
       111
-<!--      <div v-for="item in 100" :key="item" class="h-6">something worth remembering</div>-->
+      <div v-for="item in 100" :key="item" class="h-6 text-center">something worth remembering</div>
     </div>
   </div>
 </template>

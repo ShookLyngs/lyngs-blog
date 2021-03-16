@@ -13,7 +13,9 @@ app.use(theme);
 
 // Import tailwind-css, the base css-style-framework
 import 'tailwindcss/tailwind.css';
-//import '@/assets/styles/index.less';
+
+import BorderButton from '@/components/border-button.vue';
+app.component(BorderButton.name, BorderButton);
 
 // Mounting Vue App into document
 app.mount('#app');

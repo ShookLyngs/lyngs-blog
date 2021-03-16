@@ -1,5 +1,5 @@
 <template>
-  <footer class="mt-auto">
+  <footer class="mt-auto body">
     <span>footer</span>
   </footer>
 </template>

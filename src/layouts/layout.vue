@@ -1,10 +1,12 @@
 <template>
-  <div class="h-full flex-auto">
-    <layout-header />
-    <main>
-      <slot />
-    </main>
-    <layout-footer />
+  <div class="h-full flex-auto flex flex-col">
+    <div class="flex-auto flex flex-col overflow-y-auto">
+      <layout-header />
+      <main class="flex flex-col">
+        <slot />
+      </main>
+      <layout-footer />
+    </div>
   </div>
 </template>
 
