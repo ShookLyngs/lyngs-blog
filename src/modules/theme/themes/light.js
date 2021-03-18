@@ -6,13 +6,15 @@ export default createTheme({
   data: {
     colors: {
       negative: {
+        700: '#f3f3f3',
         800: '#f9f9f9',
         900: '#ffffff',
       },
       positive: {
-        default: '#2a2a2a',
-        900: '#2a2a2a',
-        800: '#393939',
+        default: '#333333',
+        800: '#333333',
+        600: '#5d5d5d',
+        500: '#636363',
       },
       theme: {
         default: '#3c7dff',

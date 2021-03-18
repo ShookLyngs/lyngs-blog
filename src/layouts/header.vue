@@ -1,21 +1,44 @@
 <template>
-  <header class="header">
-    <div class="px-4 flex flex-col md:flex-row md:items-center md:content md:px-0">
-      <div class="flex-static flex justify-center mb-3 md:md-0">
-        <img class="h-12" src="@/assets/images/logo.svg" alt="logo">
+  <!-- LOGO -->
+  <div class="py-3 flex justify-center md:hidden">
+    <img
+      class="h-12 select-none"
+      src="@/assets/images/logo.svg"
+      alt="logo"
+    >
+  </div>
+  <header class="header sticky top-0 left-0 right-0">
+    <div class="body-x flex w-full md:px-0 md:content">
+      <!-- LOGO -->
+      <div class="hidden flex-auto md:flex flex justify-center md:justify-start md:md-0">
+        <img
+          class="h-12 select-none"
+          src="@/assets/images/logo.svg"
+          alt="logo"
+        >
       </div>
-      <div class="flex-auto flex items-center">
-        <div class="ml-4">
-          navs
+
+      <!-- Navigation -->
+      <div class="flex-auto flex items-center justify-between md:justify-end">
+        <div class="flex">
+          <div>文章</div>
+          <div class="px-3">想法</div>
         </div>
-        <div class="flex-static ml-5">
-          <border-button>发布文章</border-button>
-        </div>
-        <div class="flex-static ml-2.5 w-10 h-10 rounded-full bg-gray-100">
-          <img class="w-full object-fit border-2 border-theme-500 rounded-full" src="@/assets/images/avatar.jpg" alt="avatar">
+        <div class="flex">
+          <div class="flex-static ml-5">
+            <border-button>发布文章</border-button>
+          </div>
+          <div class="flex-static ml-2.5 w-10 h-10 rounded-full bg-gray-100">
+            <img
+              class="w-full object-fit border-2 border-theme-500 rounded-full"
+              src="@/assets/images/avatar.jpg"
+              alt="avatar"
+            >
+          </div>
         </div>
       </div>
     </div>
+
   </header>
 </template>
 
@@ -27,8 +50,7 @@
 
 <style lang="less" scoped>
   .header {
-    @apply sticky top-0 left-0 right-0 py-3;
-    @apply flex-static flex justify-center items-center;
+    @apply py-3 flex-static flex flex-col justify-center items-center;
     @apply bg-mask-600;
     min-height: 5rem;
     backdrop-filter: saturate(180%) blur(20px);

@@ -1,34 +1,45 @@
-@body-x: 1rem;
-@body-y: 1rem;
+@body-x: 1.25rem;
+@body-y: 1.25rem;
 
 @layer base {
-  /* body */
-  .body {
-    padding: @body-y @body-x;
-  }
-  .body-x {
-    padding-left: @body-x;
-    padding-right: @body-x;
-  }
-  .body-y {
-    padding-top: @body-y;
-    padding-bottom: @body-y;
-  }
-  .body-left {
-    padding-left: @body-x;
-  }
-  .body-right {
-    padding-right: @body-x;
-  }
-  .body-top {
-    padding-top: @body-y;
-  }
-  .body-bottom {
-    padding-bottom: @body-y;
-  }
 
-  /* container */
-  .content {
-    width: 600px;
+}
+
+@layer utilities {
+  @variants responsive {
+    /* body */
+    .body {
+      padding: @body-y @body-x;
+    }
+    .body-x {
+      padding-left: @body-x;
+      padding-right: @body-x;
+    }
+    .body-y {
+      padding-top: @body-y;
+      padding-bottom: @body-y;
+    }
+    .body-left {
+      padding-left: @body-x;
+    }
+    .body-right {
+      padding-right: @body-x;
+    }
+    .body-top {
+      padding-top: @body-y;
+    }
+    .body-bottom {
+      padding-bottom: @body-y;
+    }
+
+    .px-0 {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    /* container */
+    .content {
+      width: (600/16 + (@body-x * 2));
+    }
   }
 }
