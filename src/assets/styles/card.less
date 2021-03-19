@@ -1,0 +1,14 @@
+@layer base {
+  .scale-card {
+    @apply transition duration-300 select-none cursor-pointer;
+    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+    transform: scale3d(1, 1, 1);
+    outline: none;
+
+    &:active {
+      outline: none;
+      transform: scale3d(.97, .97, 1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+    }
+  }
+}

@@ -6,6 +6,7 @@ export default createTheme({
   data: {
     colors: {
       negative: {
+        600: '#dbdbdb',
         700: '#f3f3f3',
         800: '#f9f9f9',
         900: '#ffffff',
@@ -15,6 +16,7 @@ export default createTheme({
         800: '#333333',
         600: '#5d5d5d',
         500: '#636363',
+        400: '#707070',
       },
       theme: {
         default: '#3c7dff',
