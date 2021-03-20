@@ -22,7 +22,9 @@ module.exports = {
         'allowFirstLine': false
       }
     }],
-    // 允许空行
+    // 允许单行标签不换行
+    'vue/singleline-html-element-content-newline': ['off'],
+    // 允许多行标签空行
     'vue/multiline-html-element-content-newline': ['error', {
       'allowEmptyLines': true
     }]

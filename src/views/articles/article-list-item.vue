@@ -1,7 +1,19 @@
 <template>
-  <div class="py-2.5">
-    <div class="scale-card relative rounded-xl border border-negative-700 bg-negative-900 body">
-      <timeline-node></timeline-node>
+  <div class="py-2.5 relative">
+
+    <!--
+      Timeline,
+      only shows when the screen size is larger than or equals to `lg`
+    -->
+    <timeline-node
+      class="hidden lg:block"
+      :is-first="isFirst"
+      :is-last="isLast"
+      :time="row.createTime"
+    />
+
+    <!-- Card -->
+    <div class="scale-card body box-border rounded-xl border-inset border border-negative-700 bg-negative-900">
       <div class="text-xl text-positive-800 font-bold truncate md:text-2xl">
         {{ row.title }}
       </div>
@@ -11,16 +23,14 @@
       <div class="flex flex-wrap pt-2">
         <tag v-for="tag in row.tags" :key="tag">{{ tag }}</tag>
       </div>
-      <div>isExist: {{ isExist }}</div>
-      <div>isFirst: {{ isFirst }}</div>
-      <div>isLast: {{ isLast }}</div>
     </div>
+
   </div>
 </template>
 
 <script>
   // Functions
-  import { useListItem } from "./use-list";
+  import { useListItem } from '@/hooks/use-list';
   // Components
   import Tag from '@/components/tag.vue';
   import TimelineNode from '@/components/timeline-node.vue';
@@ -40,10 +50,10 @@
     setup(props) {
       const {
         data: row,
-        isFirst,
-        isLast,
-        isExist
-      } = useListItem(() => props.data);
+        isFirst, isLast, isExist,
+      } = useListItem({
+        row: () => props.data
+      });
 
       return {
         row,
