@@ -1,15 +1,86 @@
-import { ref } from 'vue';
+import { ref, isRef, unref, provide, inject, watchEffect } from 'vue';
+import ResizeObserver from 'resize-observer-polyfill';
 
-const width = ref(window.innerWidth);
-const height = ref(window.innerHeight);
-window.addEventListener('resize', () => {
-  width.value = window.innerWidth;
-  height.value = window.innerHeight;
-});
+export function useElementResize(target) {
+  const width  = ref(null);
+  const height = ref(null);
 
-export function useWindowResize() {
+  function onResize() {
+    const updatedSize = getSize(target);
+    width.value = updatedSize.width;
+    height.value = updatedSize.height;
+    console.log('onResize', width.value, height.value);
+  }
+
+  const listener = ref(new ResizeObserver(onResize));
+  function listen() {
+    listener.value.observe(unref(target));
+  }
+  function remove() {
+    listener.value.unobserve(unref(target));
+  }
+
+  if (isRef(target)) {
+    watchEffect(() => {
+      if (target.value) {
+        remove();
+        listen();
+        onResize();
+      }
+    });
+  }
+  if (!isRef(target) && target) {
+    listen();
+    onResize();
+  }
+
   return {
-    windowWidth: width,
-    windowHeight: height,
+    width,
+    height,
+    remove,
   };
+}
+
+function getSize(target) {
+  const unwrapped = unref(target);
+
+  if (unwrapped === window) {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  } else if (unwrapped) {
+    const { width, height } = unwrapped.getBoundingClientRect();
+    return {
+      width,
+      height,
+    };
+  } else {
+    return {
+      width: null,
+      height: null,
+    };
+  }
+}
+
+/*
+const windowResize = useElementResize(window);
+export function useWindowResize() {
+  return windowResize;
+}
+*/
+
+const useResizeKey = 'useResizeKey';
+export function createResize(element, key = useResizeKey) {
+  const resize = useElementResize(element);
+
+  provide(key, resize);
+  return resize;
+}
+export function useResize(key = useResizeKey) {
+  try {
+    return inject(key);
+  } catch {
+    throw new Error(`You need to create Resize by calling 'createResize()' before using it.`);
+  }
 }

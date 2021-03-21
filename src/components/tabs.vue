@@ -11,7 +11,7 @@
 <script>
   import { ref, computed, watch, watchEffect } from 'vue';
   import { useList } from '@/hooks/use-list';
-  import { useWindowResize } from '@/hooks/use-resize';
+  import { useResize } from '@/hooks/use-resize';
 
   export default {
     name: 'tabs',
@@ -36,9 +36,9 @@
       watch(() => state.current, () => emit('update', state.current));
 
       const tabs = ref(null);
-      const { windowHeight, windowWidth } = useWindowResize();
+      const { width, height } = useResize();
       watchEffect(() => {
-        if (tabs.value && windowWidth.value && windowHeight.value) {
+        if (tabs.value && width.value && height.value) {
           const rect = tabs.value.getBoundingClientRect();
           if (rect) {
             state.tabsRect = rect;

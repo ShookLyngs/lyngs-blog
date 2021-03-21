@@ -11,19 +11,12 @@ app.use(router);
 import theme from '@/modules/theme';
 app.use(theme);
 
-// Import tailwind-css, the base css-style-framework
+// Import TailwindCSS
 import 'tailwindcss/tailwind.css';
 
-// Set global components
-import BorderButton from '@/components/border-button.vue';
-app.component(BorderButton.name, BorderButton);
-import Imager from '@/components/imager.vue';
-app.component(Imager.name, Imager);
-import Empty from '@/components/empty.vue';
-app.component(Empty.name, Empty);
-// Install Global components
-import Loading from '@/components/loading';
-app.use(Loading);
+// Use global components
+import components from '@/modules/component';
+app.use(components);
 
 // Mounting Vue App into document
 app.mount('#app');
