@@ -1,11 +1,16 @@
 <template>
   <div class="flex flex-col items-center">
     <div class="body-x w-full pt-5 md:px-0 md:content">
-      <ArticleListItem
-        v-for="item in list"
-        :key="item.id"
-        :data="item"
-      />
+      <transition-group name="list">
+        <ArticleListItem
+          v-for="item in list"
+          :key="item.id"
+          :data="item"
+        />
+      </transition-group>
+
+
+      <empty />
     </div>
   </div>
 </template>
@@ -17,7 +22,7 @@
   import ArticleListItem from './article-list-item.vue';
 
   export default {
-    name: 'home-index',
+    name: 'articles',
     components: {
       ArticleListItem,
     },
@@ -63,5 +68,15 @@
 </script>
 
 <style lang="less" scoped>
-
+  .list-enter-active,
+  .list-leave-active {
+    transition: all 1s ease;
+  }
+  .list-move {
+    transition: transform 0.8s ease;
+  }
+  .list-enter-from,
+  .list-leave-to {
+    opacity: 0;
+  }
 </style>

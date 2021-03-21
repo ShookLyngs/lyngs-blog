@@ -1,7 +1,7 @@
 <template>
   <!-- LOGO -->
   <div class="py-3 flex justify-center md:hidden">
-    <router-link to="/home">
+    <router-link to="/">
       <img
         class="h-12 select-none"
         src="@/assets/images/logo.svg"
@@ -13,7 +13,7 @@
     <div class="body-x flex w-full md:px-0 md:content">
       <!-- LOGO -->
       <div class="hidden flex-auto md:flex flex justify-center md:justify-start md:md-0">
-        <router-link to="/home">
+        <router-link to="/">
           <img
             class="h-12 select-none"
             src="@/assets/images/logo.svg"
@@ -26,8 +26,12 @@
       <div class="select-none flex-auto flex items-center justify-between md:justify-end">
         <div class="flex">
           <tabs :current="currentTab" @upadte="onTabUpdate">
-            <tab value="/articles">文章</tab>
-            <tab value="/memos">想法</tab>
+            <tab value="articles">
+              <router-link to="/articles">文章</router-link>
+            </tab>
+            <tab value="memos">
+              <router-link to="/memos">想法</router-link>
+            </tab>
           </tabs>
         </div>
         <div class="flex">
@@ -50,7 +54,8 @@
 
 <script>
   // Functions
-  import { ref } from 'vue';
+  import { ref, watchEffect } from 'vue';
+  import { useRoute } from 'vue-router';
   // Components
   import Tabs from '@/components/tabs.vue';
   import Tab from '@/components/tab.vue';
@@ -66,6 +71,9 @@
       function onTabUpdate(current) {
         currentTab.value = current;
       }
+
+      const route = useRoute();
+      watchEffect(() => currentTab.value = route.name);
 
       return {
         currentTab,

@@ -13,6 +13,13 @@ import { join } from 'path';
 const resolve = (...paths) => join(__dirname, ...paths);
 
 export default defineConfig({
+  base: './',
+  resolve: {
+    alias: [
+      { find: /^~/, replacement: '' },
+      { find: '@', replacement: resolve('src') },
+    ]
+  },
   css: {
     postcss,
     preprocessorOptions: {
@@ -22,12 +29,6 @@ export default defineConfig({
         }
       }
     }
-  },
-  resolve: {
-    alias: [
-      { find: /^~/, replacement: '' },
-      { find: '@', replacement: resolve('src') },
-    ]
   },
   plugins: [
     vue(),

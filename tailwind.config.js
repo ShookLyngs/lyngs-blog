@@ -5,7 +5,7 @@ export default {
   purge: {
     enabled: process.env.NODE_ENV === 'production',
     content: [
-      './src/**/*.{vue,html,js,jsx}',
+      './src/**/*.{vue,html,js}',
       './src/assets/styles/index.less',
     ],
   },

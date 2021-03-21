@@ -19,7 +19,6 @@ export function useList({ list = [], state = {}, key = useListKey } = {}) {
     list.value.splice(index, 1);
     return true;
   }
-
   function isFirstChild(row) {
     return findIndex(row) === 0;
   }

@@ -1,7 +1,7 @@
 <template>
   <button
     ref="tab"
-    class="tab select-none box-content mx-2 h-9 leading-9 font-medium"
+    class="tab select-none box-content mx-2 h-9 leading-9 font-medium transition-all"
     :class="isCurrent ? 'text-theme-600' : 'text-positive-800'"
     @click="onClickTab"
   >
@@ -19,7 +19,11 @@
     props: {
       value: {
         type: String,
-        default: '',
+        default: void 0,
+      },
+      values: {
+        type: Array,
+        default: () => ([]),
       },
       disabled: {
         type: Boolean,
@@ -38,7 +42,7 @@
       onBeforeUnmount(remove);
 
       const isCurrent = computed(() => {
-        return state.current === props.value;
+        return state.current === props.value || props.values.includes(state.current);
       });
 
       const { windowHeight, windowWidth } = useWindowResize();

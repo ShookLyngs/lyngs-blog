@@ -32,12 +32,8 @@
         },
       });
 
-      watch(() => props.current, () => {
-        state.current = props.current;
-      });
-      watch(() => state.current, () => {
-        emit('update', state.current);
-      });
+      watch(() => props.current, () => state.current = props.current);
+      watch(() => state.current, () => emit('update', state.current));
 
       const tabs = ref(null);
       const { windowHeight, windowWidth } = useWindowResize();
@@ -51,21 +47,17 @@
       });
 
       const decoratorStyle = computed(() => {
-        const {
-          width: tabWidth,
-          left: tabLeft,
-        } = state.tabRect;
-        const {
-          left: tabsLeft,
-        } = state.tabsRect;
+        const { width: tabWidth, left: tabLeft } = state.tabRect;
+        const { left: tabsLeft } = state.tabsRect;
 
-        if (!tabWidth || !tabLeft || !tabsLeft) return {};
-
-        const computedLeft = tabLeft - tabsLeft;
+        if (!tabWidth || !tabLeft || !tabsLeft) return {
+          opacity: '0',
+        };
 
         return {
           width: tabWidth ? `${tabWidth}px` : '0',
-          left: `${computedLeft}px`,
+          left: `${tabLeft - tabsLeft}px`,
+          opacity: '1',
         };
       });
 
