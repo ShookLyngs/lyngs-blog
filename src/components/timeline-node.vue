@@ -41,7 +41,7 @@
 
       symbolSize: {
         type: Number,
-        default: 1.25
+        default: 1,
       },
       nodeHeight: {
         type: Number,
@@ -72,7 +72,7 @@
       });
 
       const lineWrapperStyle = computed(() => {
-        const top = props.isFirst ? `${(props.nodeHeight / 2) + props.symbolSize}rem` : `0`;
+        const top = props.isFirst ? `${props.nodeHeight + (props.symbolSize / 2)}rem` : `0`;
         const bottom = props.isLast ? 'initial' : '0';
         const height = props.isLast ? `${props.nodeTop + (props.nodeHeight / 2)}rem` : 'auto';
 

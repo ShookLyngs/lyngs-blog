@@ -1,6 +1,8 @@
 <template>
-  <footer class="mt-auto body">
-    <span>footer</span>
+  <footer class="footer mt-auto flex justify-center bg-negative-900">
+    <div class="body w-full pt-5 md:px-0 md:content">
+      <span>footer</span>
+    </div>
   </footer>
 </template>
 
@@ -11,5 +13,7 @@
 </script>
 
 <style scoped>
-  
+  .footer {
+    height: 24rem;
+  }
 </style>

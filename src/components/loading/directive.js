@@ -1,6 +1,6 @@
 // Functions
 import { createApp } from 'vue';
-import { setParentClass } from './util';
+import { setParentClass } from '@/assets/util/dom';
 // Components
 import component from './loading.vue';
 

@@ -9,7 +9,6 @@ export function useElementResize(target) {
     const updatedSize = getSize(target);
     width.value = updatedSize.width;
     height.value = updatedSize.height;
-    console.log('onResize', width.value, height.value);
   }
 
   const listener = ref(new ResizeObserver(onResize));

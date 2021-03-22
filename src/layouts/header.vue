@@ -9,7 +9,7 @@
       >
     </router-link>
   </div>
-  <header class="header z-10 sticky top-0 left-0 right-0">
+  <header class="header z-30 sticky top-0 left-0 right-0">
     <div class="body-x flex w-full md:px-0 md:content">
       <!-- LOGO -->
       <div class="hidden flex-auto md:flex flex justify-center md:justify-start md:md-0">
@@ -26,12 +26,12 @@
       <div class="select-none flex-auto flex items-center justify-between md:justify-end">
         <div class="flex">
           <tabs :current="currentTab" @upadte="onTabUpdate">
-            <tab value="articles">
-              <router-link to="/articles">文章</router-link>
-            </tab>
-            <tab value="memos">
-              <router-link to="/memos">想法</router-link>
-            </tab>
+            <router-link to="/articles">
+              <tab value="articles">文章</tab>
+            </router-link>
+            <router-link to="/memos">
+              <tab value="memos">想法</tab>
+            </router-link>
           </tabs>
         </div>
         <div class="flex">

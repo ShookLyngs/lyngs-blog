@@ -23,7 +23,7 @@
 <script>
   // Functions
   import { ref, computed } from 'vue';
-  import { delayThrottle } from './util';
+  import { delayThrottle } from '@/assets/util/event';
   // Components
   import LoadingCircle from './loading-circle.vue';
 
@@ -102,9 +102,9 @@
 
 <style lang="less" scoped>
   .ls-loading-wrap {
-    @apply flex justify-center items-center;
+    @apply bg-mask-600 flex justify-center items-center;
     @apply absolute w-full h-full left-0 top-0 overflow-hidden select-none;
-    background-color: rgba(255, 255, 255, .7);
+    //background-color: rgba(255, 255, 255, .7);
     backface-visibility: hidden;
     z-index: 100;
   }
