@@ -1,9 +1,7 @@
 import component from './loading.vue';
 import directive from './directive';
+import { createInstallableComponent } from '@/assets/util/component';
 
-export default {
-  install(app) {
-    app.component(component.name, component);
-    app.use(directive);
-  }
-};
+export default createInstallableComponent(component, (app) => {
+  app.use(directive);
+});

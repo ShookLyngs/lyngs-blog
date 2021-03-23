@@ -1,7 +1,4 @@
 import component from './icon.vue';
+import { createInstallableComponent } from '@/assets/util/component';
 
-export default {
-  install(app) {
-    app.component(component.name, component);
-  }
-};
+export default createInstallableComponent(component);
