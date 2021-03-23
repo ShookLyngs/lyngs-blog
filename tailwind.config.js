@@ -19,6 +19,7 @@ export default {
       backgroundColor: ['active'],
       boxShadow: ['active'],
       borderWidth: ['hover'],
+      borderColor: ['active'],
     },
   },
   plugins: [],

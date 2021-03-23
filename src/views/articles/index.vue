@@ -1,5 +1,6 @@
 <template>
   <container>
+    <empty key="empty" v-if="!list.length" />
     <transition-group name="list">
       <ArticleListItem
         v-for="item in list"
@@ -8,28 +9,8 @@
       />
     </transition-group>
 
-    <empty />
+    <pager class="mt-5" v-if="list.length" />
 
-    <div class="flex justify-between">
-      <div class="flex">
-        <div>
-          <icon name="icon-arrow-left" />
-        </div>
-        <div>
-          <icon name="icon-arrow-right" />
-        </div>
-      </div>
-
-      <div class="flex">
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-      </div>
-
-      <div class="flex">
-        前往
-      </div>
-    </div>
   </container>
 </template>
 
@@ -38,11 +19,13 @@
   import { useList } from '@/hooks/use-list';
   // Components
   import ArticleListItem from './article-list-item.vue';
+  import Pager from '@/components/pager.vue';
 
   export default {
     name: 'articles',
     components: {
       ArticleListItem,
+      Pager,
     },
     setup() {
       const { list } = useList();
@@ -142,4 +125,5 @@
 </script>
 
 <style lang="less" scoped>
+
 </style>
