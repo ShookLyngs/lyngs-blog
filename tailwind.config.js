@@ -17,9 +17,9 @@ export default {
     extend: {
       textColor: ['active'],
       backgroundColor: ['active'],
-      boxShadow: ['active'],
+      boxShadow: ['active', 'focus'],
       borderWidth: ['hover'],
-      borderColor: ['active'],
+      borderColor: ['active', 'focus'],
     },
   },
   plugins: [],
