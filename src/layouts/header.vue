@@ -27,7 +27,7 @@
         <div class="flex">
           <tabs :current="currentTab" @upadte="onTabUpdate">
             <router-link to="/articles">
-              <tab value="articles">文章</tab>
+              <tab value="articles" :values="['articles', 'article']">文章</tab>
             </router-link>
             <router-link to="/memos">
               <tab value="memos">想法</tab>
@@ -36,7 +36,7 @@
         </div>
         <div class="flex">
           <div class="flex-static ml-5">
-            <border-button>发布文章</border-button>
+            <border-button border-width="md">发布文章</border-button>
           </div>
           <div class="rounded-full overflow-hidden flex-static ml-2.5 w-10 h-10 bg-gray-100">
             <img

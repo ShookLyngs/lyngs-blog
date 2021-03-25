@@ -13,7 +13,7 @@
     />
 
     <!-- Card -->
-    <div class="scale-card body box-border rounded-xl border-inset border border-negative-700 bg-negative-900">
+    <div class="scale-card body box-border rounded-xl border border-negative-700 bg-negative-900">
       <div class="text-xl text-positive-800 font-bold truncate md:text-2xl">
         {{ row.title }}
       </div>

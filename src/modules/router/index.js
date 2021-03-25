@@ -16,6 +16,12 @@ const routes = [
     name: 'memos',
     component: () => import('@/views/memos/index.vue')
   },
+
+  {
+    path: '/article/:id',
+    name: 'article',
+    component: () => import('@/views/article-detail/index.vue')
+  },
 ];
 
 export default createRouter({

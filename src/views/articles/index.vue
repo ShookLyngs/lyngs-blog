@@ -6,6 +6,7 @@
         v-for="item in list"
         :key="item.id"
         :data="item"
+        @click.native="toArticle(item)"
       />
     </transition-group>
 
@@ -17,6 +18,7 @@
 <script>
   // Functions
   import { useList } from '@/hooks/use-list';
+  import { useRouter } from 'vue-router';
   // Components
   import ArticleListItem from './article-list-item.vue';
   import Pager from '@/components/pager.vue';
@@ -117,8 +119,19 @@
         }, 500);
       }, 1000);
 
+      const { push } = useRouter();
+      function toArticle(row) {
+        push({
+          name: 'article',
+          params: {
+            id: row.id,
+          },
+        });
+      }
+
       return {
         list,
+        toArticle,
       };
     },
   };

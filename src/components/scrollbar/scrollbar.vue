@@ -223,14 +223,12 @@
       overflow: scroll;
     }
     & &__thumb {
-      @apply bg-positive-800 transition;
-      position: relative;
+      @apply relative transition bg-positive-800;
+      transition-property: opacity, height;
+      border-radius: @ls-scrollbar-width;
       user-select: none;
       cursor: grab;
-      transition-property: opacity;
       z-index: 40;
-
-      border-radius: @ls-scrollbar-width;
       opacity: 0;
     }
     & &__bar {
