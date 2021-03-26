@@ -17,25 +17,43 @@
 
 <script>
   // Functions
-  import { ref } from 'vue';
-  import { createResize } from '@/hooks/use-resize';
+  import { ref, /*watchEffect*/ } from 'vue';
+  import { useRoute } from 'vue-router';
+  import { createResizeObserver } from '@/hooks/use-resize-observer';
   // Components
   import LayoutHeader from './header.vue';
   import LayoutFooter from './footer.vue';
+  import Scrollbar from '@/components/scrollbar';
 
   export default {
     name: 'layout',
     components: {
       LayoutHeader,
       LayoutFooter,
+      Scrollbar,
     },
     setup() {
       // Create ResizeObserver on content scroller
       const content = ref(null);
-      createResize(content);
+      createResizeObserver(content);
+
+      const scrollbar = ref(null);
+      const route = useRoute();
+      console.log(route);
+      //const lastPath = ref(route.path);
+      /*watchEffect(() => {
+        console.log(route);
+        if (route.path !== lastPath.value && scrollbar.value) {
+          console.log(scrollbar.value);
+          //scrollbar.value.scrollTo(0, 0);
+        }
+
+        lastPath.value = route.path;
+      });*/
 
       return {
         content,
+        scrollbar,
       };
     },
   };

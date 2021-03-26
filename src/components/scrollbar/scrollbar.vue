@@ -150,6 +150,11 @@
         this.size.height = this.getBarVerticalSize();
         this.size.width = this.getBarHorizontalSize();
       },
+      setScroll(x, y) {
+        if (this.$refs.wrap) {
+          this.$refs.wrap.scrollTo(x, y);
+        }
+      },
       getWrapSizes() {
         if (!this.wrap) return null;
 

@@ -11,7 +11,7 @@
 <script>
   import { ref, computed, watch, watchEffect } from 'vue';
   import { useList } from '@/hooks/use-list';
-  import { useResize } from '@/hooks/use-resize';
+  import { useResizeObserver } from '@/hooks/use-resize-observer';
 
   export default {
     name: 'tabs',
@@ -36,7 +36,7 @@
       watch(() => state.current, () => emit('update', state.current));
 
       const tabs = ref(null);
-      const { width, height } = useResize();
+      const { width, height } = useResizeObserver();
       watchEffect(() => {
         if (tabs.value && width.value && height.value) {
           const rect = tabs.value.getBoundingClientRect();
