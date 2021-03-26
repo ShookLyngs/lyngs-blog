@@ -26,7 +26,7 @@
   // Functions
   import { ref, watchEffect } from 'vue';
   import { useRoute } from 'vue-router';
-  import { createResize } from '@/hooks/use-resize';
+  import { createResizeObserver } from '@/hooks/use-resize-observer';
   // Components
   import LayoutHeader from './header.vue';
   import LayoutFooter from './footer.vue';
@@ -40,7 +40,7 @@
     setup() {
       // Create ResizeObserver on content scroller
       const content = ref(null);
-      createResize(content);
+      createResizeObserver(content);
 
       // Watch route changes
       // When route updated, scroll content to the top
