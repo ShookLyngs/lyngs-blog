@@ -70,16 +70,16 @@ export function useWindowResize() {
 */
 
 const useResizeKey = 'useResizeKey';
-export function createResize(element, key = useResizeKey) {
+export function createResizeObserver(element, key = useResizeKey) {
   const resize = useElementResize(element);
 
   provide(key, resize);
   return resize;
 }
-export function useResize(key = useResizeKey) {
+export function useResizeObserver(key = useResizeKey) {
   try {
     return inject(key);
   } catch {
-    throw new Error(`You need to create Resize by calling 'createResize()' before using it.`);
+    throw new Error(`You need to create Resize by calling 'createResizeObserver()' before using it.`);
   }
 }

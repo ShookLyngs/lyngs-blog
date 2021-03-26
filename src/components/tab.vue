@@ -12,7 +12,7 @@
 <script>
   import { ref, computed, watchEffect, onBeforeUnmount } from 'vue';
   import { useListItem } from '@/hooks/use-list';
-  import { useResize } from '@/hooks/use-resize';
+  import { useResizeObserver } from '@/hooks/use-resize-observer';
 
   export default {
     name: 'tab',
@@ -45,7 +45,7 @@
         return state.current === props.value || props.values.includes(state.current);
       });
 
-      const { width, height } = useResize();
+      const { width, height } = useResizeObserver();
       watchEffect(() => {
         if (isCurrent.value && tab.value && width.value && height.value) {
           const rect = tab.value.getBoundingClientRect();
