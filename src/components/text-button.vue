@@ -65,7 +65,7 @@
 
     // padding x
     &.w-sm {
-      @apply px-3;
+      @apply px-2;
     }
     &.w-md {
       @apply px-6;
