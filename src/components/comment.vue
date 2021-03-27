@@ -16,15 +16,15 @@
       <div class="flex mt-1">
         <div class="flex items-center">
           <icon class="text-xl" name="icon-setting" />
-          <text-button type="gray" padding="sm">认可</text-button>
+          <span>认可</span>
         </div>
-        <div class="flex items-center ml-4">
+        <div class="action-button flex items-center ml-4">
           <icon class="text-xl" name="icon-setting" />
-          <text-button type="gray" padding="sm">反对</text-button>
+          <span>反对</span>
         </div>
-        <div class="flex items-center ml-4">
+        <div class="action-button flex items-center ml-4">
           <icon class="text-xl" name="icon-setting" />
-          <text-button type="gray" padding="sm">回复</text-button>
+          <span>回复</span>
         </div>
       </div>
     </div>
@@ -46,14 +46,15 @@
 
 <style lang="less" scoped>
   .article-comment {
+    @apply transition duration-300;
 
     @media (min-width: theme('screens.md')) {
-      .actions {
+      .action-button {
         display: none;
       }
       &:hover {
         @apply bg-negative-800;
-        .actions {
+        .action-button {
           display: flex;
         }
       }

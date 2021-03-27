@@ -57,8 +57,10 @@
       </div>-->
 
       <div>
-        <comment v-for="item in 100" :key="item">{{ item }}</comment>
+        <comment v-for="item in 10" :key="item">{{ item }}</comment>
       </div>
+
+      <empty class="my-20" />
     </div>
 
   </container>
