@@ -20,6 +20,11 @@
         default: 'md',
         validator: value => [ 'sm', 'md' ].includes(value),
       },
+      height: {
+        type: String,
+        default: 'md',
+        validator: value => [ 'sm', 'md' ].includes(value),
+      },
       borderWidth: {
         type: String,
         default: 'sm',
@@ -44,6 +49,9 @@
         if (props.padding) {
           result.push(`w-${props.padding}`);
         }
+        if (props.height) {
+          result.push(`h-${props.padding}`);
+        }
         if (props.borderWidth) {
           result.push(`border-${props.borderWidth}`);
         }
@@ -64,9 +72,8 @@
 <style lang="less" scoped>
   .border-button {
     @apply scale-card inline-flex justify-center items-center;
-    @apply rounded-md box-border h-10 text-sm font-semibold text-center;
+    @apply rounded-md box-border text-sm font-semibold text-center;
     @apply active:shadow-lg;
-    //min-width: 110px;
 
     & + & {
       @apply ml-2;
@@ -78,6 +85,14 @@
     }
     &.w-md {
       @apply px-6;
+    }
+
+    // height x
+    &.h-sm {
+      @apply h-8;
+    }
+    &.h-md {
+      @apply h-10;
     }
 
     // border-width

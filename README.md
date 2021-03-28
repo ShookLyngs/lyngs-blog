@@ -17,10 +17,16 @@ You can take a look at the designs of the project in beblow.
 # Goals
 - [x] Designs
 - [ ] Articles
+  - [x] ListItem
+  - [x] Pager
+  - [ ] Locale time string 
 - [ ] Article detail
+  - [x] Markdown to HTML
+  - [ ] Detail basics
 - [ ] Post Article
 - [ ] Memos
 - [ ] Memo detail
 - [ ] Post Memo
 - [ ] Comments
+  - [ ] ListItem
 - [ ] Submit Comment

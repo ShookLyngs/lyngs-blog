@@ -6,7 +6,7 @@
       only shows when the screen size is larger than or equals to `lg`
     -->
     <timeline-node
-      class="hidden lg:block"
+      class="mr-7 hidden lg:block"
       :is-first="isFirst"
       :is-last="isLast"
       :time="row.createTime"

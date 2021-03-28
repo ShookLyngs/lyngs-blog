@@ -1,10 +1,8 @@
 <template>
-  <div class="absolute right-full mr-7 top-0 bottom-0">
+  <div class="absolute right-full top-0 bottom-0">
     <div class="flex items-center select-none" :style="nodeStyle">
-      <div class="mr-2 whitespace-nowrap font-semibold text-sm text-positive-400">
-        <slot name="time">
-          {{ time }}
-        </slot>
+      <div class="mr-2 whitespace-nowrap font-semibold text-sm text-positive-400" v-if="$slots.time || time">
+        <slot name="time">{{ time }}</slot>
       </div>
       <div
         class="box-border rounded-full border-4 border-positive-400 bg-negative-800 z-10"
@@ -39,6 +37,10 @@
         default: false,
       },
 
+      hideSymbol: {
+        type: Boolean,
+        default: false,
+      },
       symbolSize: {
         type: Number,
         default: 1,
@@ -66,6 +68,7 @@
 
       const symbolStyle = computed(() => {
         return {
+          display: props.hideSymbol ? 'none' : 'block',
           width: `${props.symbolSize}rem`,
           height: `${props.symbolSize}rem`,
         };

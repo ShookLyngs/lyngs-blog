@@ -25,6 +25,12 @@ export default createTheme({
         500: '#3c7dff',
         600: '#225aca',
       },
+      success: {
+        600: '#789981',
+      },
+      error: {
+        600: '#a77575',
+      },
       mask: {
         50:  alpha('#f9f9f9', 0.1),
         100: alpha('#f9f9f9', 0.2),

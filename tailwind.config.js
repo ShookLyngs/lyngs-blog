@@ -20,6 +20,7 @@ export default {
       boxShadow: ['active', 'focus'],
       borderWidth: ['hover'],
       borderColor: ['active', 'focus'],
+      opacity: ['active'],
     },
   },
   plugins: [],

@@ -11,7 +11,7 @@
     <!-- content -->
     <div class="relative body-x mt-36 rounded-lg border border-negative-700 bg-negative-900">
       <!-- title -->
-      <div class="body-top text-xl text-positive-800 font-bold md:text-2xl">
+      <div class="pt-7 text-xl text-positive-800 font-bold md:text-2xl">
         你可以说我嫉妒清华大学博士，我自己是井底之蛙，我被阴谋论洗脑，我自己不行不代表别人不行
       </div>
 
@@ -47,19 +47,25 @@
 
     <!-- comment -->
     <div class="relative mt-5 rounded-lg border border-negative-700 bg-negative-900">
-      <div class="body flex items-center select-none">
-        <div>评论</div>
-        <tag no-gap padding="sm" class="ml-2">23</tag>
+      <div class="body flex items-center justify-between select-none z-10 sticky top-20 rounded-lg bg-negative-900">
+        <div class="flex items-center">
+          <div>评论</div>
+          <tag no-gap padding="sm" class="ml-1.5">23</tag>
+        </div>
+
+        <border-button padding="sm" height="md">发表评论</border-button>
       </div>
 
-      <!--<div class="body-x">
+      <!--<div class="body sticky top-0">
         <textarea class="w-full p-4 rounded-lg outline-none box-border border-3 border-negative-600" name="reply" cols="20" ></textarea>
       </div>-->
 
-      <div>
-        <comment v-for="item in 10" :key="item">{{ item }}</comment>
-      </div>
-
+      <comment
+        v-for="(item, index) in 10"
+        :key="item"
+        :is-first="index === 0"
+        :is-last="index === 9"
+      />
       <empty class="my-20" />
     </div>
 
