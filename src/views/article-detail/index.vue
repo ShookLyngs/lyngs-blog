@@ -47,13 +47,13 @@
 
     <!-- comment -->
     <div class="relative mt-5 rounded-lg border border-negative-700 bg-negative-900">
-      <div class="body flex items-center justify-between select-none z-10 sticky top-20 rounded-lg bg-negative-900">
+      <div class="body flex items-center justify-between select-none rounded-lg bg-negative-900">
         <div class="flex items-center">
           <div>评论</div>
           <tag no-gap padding="sm" class="ml-1.5">23</tag>
         </div>
 
-        <border-button padding="sm" height="md">发表评论</border-button>
+        <border-button padding="sm" height="sm">发表评论</border-button>
       </div>
 
       <!--<div class="body sticky top-0">

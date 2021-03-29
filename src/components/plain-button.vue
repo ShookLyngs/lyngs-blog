@@ -1,9 +1,9 @@
 <template>
-  <div class="plain-button" :class="active ? activeClass : normalClass" @click="onClick">
+  <div class="plain-button" :class="active ? activeClass : normalClass" @click.stop="onClick">
     <slot name="icon">
       <icon class="text-lg" :name="icon" v-if="icon" />
     </slot>
-    <span class="ml-1 text-sm" v-if="$slots.default || text">
+    <span class="ml-1.5 text-sm" v-if="$slots.default || text">
       <slot>{{ text }}</slot>
     </span>
   </div>
@@ -45,9 +45,7 @@
     emits: [ 'click' ],
     setup(props, { emit }) {
       function onClick() {
-        if (props.disabled) {
-          emit('click');
-        }
+        if (!props.disabled) emit('click');
       }
 
       return {
@@ -59,7 +57,7 @@
 
 <style lang="less" scoped>
   .plain-button {
-    @apply bg-negative-700 px-2 py-1 rounded;
+    @apply px-2 py-1 rounded;
     @apply flex items-center cursor-pointer select-none transition duration-300 active:opacity-70;
 
     & + & {

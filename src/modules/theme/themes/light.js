@@ -26,10 +26,12 @@ export default createTheme({
         600: '#225aca',
       },
       success: {
-        600: '#789981',
+        500: '#42a773',
+        600: '#3e7946',
       },
       error: {
-        600: '#a77575',
+        500: '#e35f5f',
+        600: '#b14c4c',
       },
       mask: {
         50:  alpha('#f9f9f9', 0.1),

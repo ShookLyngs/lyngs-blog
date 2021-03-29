@@ -50,7 +50,7 @@
           result.push(`w-${props.padding}`);
         }
         if (props.height) {
-          result.push(`h-${props.padding}`);
+          result.push(`h-${props.height}`);
         }
         if (props.borderWidth) {
           result.push(`border-${props.borderWidth}`);
