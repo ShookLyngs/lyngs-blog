@@ -2,11 +2,15 @@ import { ref, isRef, unref, provide, inject, watchEffect } from 'vue';
 import ResizeObserver from 'resize-observer-polyfill';
 
 export function useElementResize(target) {
+  const left  = ref(null);
+  const top  = ref(null);
   const width  = ref(null);
   const height = ref(null);
 
   function onResize() {
     const updatedSize = getSize(target);
+    width.left = updatedSize.left;
+    width.top = updatedSize.top;
     width.value = updatedSize.width;
     height.value = updatedSize.height;
   }
@@ -17,6 +21,9 @@ export function useElementResize(target) {
   }
   function remove() {
     listener.value.unobserve(unref(target));
+  }
+  function forceUpdate() {
+    onResize();
   }
 
   if (isRef(target)) {
@@ -34,9 +41,12 @@ export function useElementResize(target) {
   }
 
   return {
+    left,
+    top,
     width,
     height,
     remove,
+    forceUpdate,
   };
 }
 

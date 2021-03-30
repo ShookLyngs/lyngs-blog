@@ -1,5 +1,10 @@
 <template>
   <container>
+    <!-- post reply button, teleport to the header layout -->
+    <teleport to="#header-button-slot">
+      <border-button border-width="md">发表评论</border-button>
+    </teleport>
+
     <!-- banner -->
     <div class="relative">
       <div

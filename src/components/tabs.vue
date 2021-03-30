@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import { ref, computed, watch, watchEffect } from 'vue';
+  import { ref, computed, watch, watchEffect, onBeforeUpdate } from 'vue';
   import { useList } from '@/hooks/use-list';
   import { useResizeObserver } from '@/hooks/use-resize-observer';
 
@@ -37,14 +37,16 @@
 
       const tabs = ref(null);
       const { width, height } = useResizeObserver();
-      watchEffect(() => {
+      function updateTabsRect() {
         if (tabs.value && width.value && height.value) {
           const rect = tabs.value.getBoundingClientRect();
           if (rect) {
             state.tabsRect = rect;
           }
         }
-      });
+      }
+      watchEffect(updateTabsRect);
+      onBeforeUpdate(updateTabsRect);
 
       const decoratorStyle = computed(() => {
         const { width: tabWidth, left: tabLeft } = state.tabRect;

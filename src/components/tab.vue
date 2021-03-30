@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import { ref, computed, watchEffect, onBeforeUnmount } from 'vue';
+  import {ref, computed, watchEffect, onBeforeUnmount, onBeforeUpdate } from 'vue';
   import { useListItem } from '@/hooks/use-list';
   import { useResizeObserver } from '@/hooks/use-resize-observer';
 
@@ -32,12 +32,10 @@
     },
     setup(props) {
       const tab = ref(null);
-
       const { list, state, remove } = useListItem({
         key: 'tabs',
         row: tab,
       });
-
       list.value.push(tab);
       onBeforeUnmount(remove);
 
@@ -46,14 +44,16 @@
       });
 
       const { width, height } = useResizeObserver();
-      watchEffect(() => {
+      function updateTabRect() {
         if (isCurrent.value && tab.value && width.value && height.value) {
           const rect = tab.value.getBoundingClientRect();
           if (rect) {
             state.tabRect = rect;
           }
         }
-      });
+      }
+      watchEffect(updateTabRect);
+      onBeforeUpdate(updateTabRect);
 
       function onClickTab() {
         if (!props.disabled) {

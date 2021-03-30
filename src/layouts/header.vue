@@ -35,8 +35,8 @@
           </tabs>
         </div>
         <div class="flex">
-          <div class="flex-static ml-5">
-            <border-button border-width="md">发布文章</border-button>
+          <div class="flex-static ml-5" id="header-button-slot">
+            <!--<border-button border-width="md">发布文章</border-button>-->
           </div>
           <div class="rounded-full overflow-hidden flex-static ml-2.5 w-10 h-10 bg-gray-100">
             <img
