@@ -1,6 +1,5 @@
 <template>
   <div class="py-2.5 relative">
-
     <!--
       Timeline,
       only shows when the screen size is larger than or equals to `lg`
@@ -13,18 +12,21 @@
     />
 
     <!-- Card -->
-    <div class="scale-card body box-border rounded-xl border border-negative-700 bg-negative-900">
+    <div
+      class="scale-card body box-border rounded-xl border border-negative-700 bg-negative-900"
+    >
       <div class="text-xl text-positive-800 font-bold truncate md:text-2xl">
         {{ row.title }}
       </div>
-      <div class="mt-3 text-base text-positive-600 font-medium overflow-hidden line-clamp">
+      <div
+        class="mt-3 text-base text-positive-600 font-medium overflow-hidden line-clamp"
+      >
         {{ row.content }}
       </div>
       <div class="flex flex-wrap pt-2">
         <tag v-for="tag in row.tags" :key="tag">{{ tag }}</tag>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -44,15 +46,12 @@
     props: {
       data: {
         type: Object,
-        default: () => ({})
+        default: () => ({}),
       },
     },
     setup(props) {
-      const {
-        data: row,
-        isFirst, isLast, isExist,
-      } = useListItem({
-        row: () => props.data
+      const { data: row, isFirst, isLast, isExist } = useListItem({
+        row: () => props.data,
       });
 
       return {

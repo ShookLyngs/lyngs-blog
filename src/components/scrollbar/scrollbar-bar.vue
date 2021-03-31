@@ -1,5 +1,9 @@
 <template>
-  <div class="ls-scrollbar__bar" :class="barClasses" @mousedown="onMouseDownBar">
+  <div
+    class="ls-scrollbar__bar"
+    :class="barClasses"
+    @mousedown="onMouseDownBar"
+  >
     <div
       ref="thumb"
       class="ls-scrollbar__thumb"
@@ -33,18 +37,13 @@
 
   export default {
     name: 'scrollbar-bar',
-    inject: [
-      'scrollbar'
-    ],
-    emits: [
-      'drag-start',
-      'drag-end',
-    ],
+    inject: ['scrollbar'],
+    emits: ['drag-start', 'drag-end'],
     props: {
       direction: {
         type: String,
         default: 'vertical',
-        validator: value => [ 'vertical', 'horizontal' ].includes(value)
+        validator: (value) => ['vertical', 'horizontal'].includes(value),
       },
       size: {
         type: String,
@@ -83,9 +82,11 @@
         return classes;
       },
       thumbStyle() {
-        const axis      = this.direction,
-              direction = ({ horizontal: 'width', vertical: 'height' })[axis],
-              translate = ({ horizontal: 'translateX', vertical: 'translateY' })[axis];
+        const axis = this.direction,
+          direction = { horizontal: 'width', vertical: 'height' }[axis],
+          translate = { horizontal: 'translateX', vertical: 'translateY' }[
+            axis
+          ];
 
         return {
           [direction]: this.size,
@@ -97,7 +98,11 @@
       // proactive
       update() {},
       addGlobalListeners() {
-        this.event.mousemove = on(document, 'mousemove', this.onGlobalMouseMove);
+        this.event.mousemove = on(
+          document,
+          'mousemove',
+          this.onGlobalMouseMove
+        );
         this.event.mouseup = on(document, 'mouseup', this.onGlobalMouseUp);
       },
       removeGlobalListeners() {
@@ -124,32 +129,36 @@
         this.dragging = true;
         this.addGlobalListeners();
 
-        const bar        = this.bar,
-              store      = this.store,
-              target     = event.currentTarget,
-              targetRect = target.getBoundingClientRect();
+        const bar = this.bar,
+          store = this.store,
+          target = event.currentTarget,
+          targetRect = target.getBoundingClientRect();
 
-        store[bar.axis] = target[bar.offsetSize] - (event[bar.clientAxis] - targetRect[bar.rectDirection]);
+        store[bar.axis] =
+          target[bar.offsetSize] -
+          (event[bar.clientAxis] - targetRect[bar.rectDirection]);
 
         this.$emit('drag-start');
       },
       onGlobalMouseMove(event) {
         if (!this.dragging) return;
 
-        const bar   = this.bar,
-              store = this.store,
-              wrap  = this.wrap,
-              thumb = this.$refs.thumb,
-              rect  = this.$el.getBoundingClientRect();
+        const bar = this.bar,
+          store = this.store,
+          wrap = this.wrap,
+          thumb = this.$refs.thumb,
+          rect = this.$el.getBoundingClientRect();
 
         const last = store[bar.axis];
         if (!last) return;
 
-        const offset             = -1 * (rect[bar.rectDirection] - event[bar.clientAxis]),
-              clickPosition      = thumb[bar.offsetSize] - last,
-              positionPercentage = (offset - clickPosition) * 100 / this.$el[bar.scrollSize];
+        const offset = -1 * (rect[bar.rectDirection] - event[bar.clientAxis]),
+          clickPosition = thumb[bar.offsetSize] - last,
+          positionPercentage =
+            ((offset - clickPosition) * 100) / this.$el[bar.scrollSize];
 
-        wrap[bar.scrollDirection] = positionPercentage * wrap[bar.scrollSize] / 100;
+        wrap[bar.scrollDirection] =
+          (positionPercentage * wrap[bar.scrollSize]) / 100;
       },
       onGlobalMouseUp() {
         this.dragging = false;
@@ -159,5 +168,5 @@
         this.$emit('drag-end');
       },
     },
-  }
+  };
 </script>

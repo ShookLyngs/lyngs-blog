@@ -13,19 +13,19 @@
       type: {
         type: String,
         default: 'theme',
-        validator: value => [ 'theme', 'gray' ].includes(value),
+        validator: (value) => ['theme', 'gray'].includes(value),
       },
       padding: {
         type: String,
         default: 'md',
-        validator: value => [ 'sm', 'md' ].includes(value),
+        validator: (value) => ['sm', 'md'].includes(value),
       },
       disabled: {
         type: Boolean,
         default: false,
       },
       text: {
-        type: [ String, Number ],
+        type: [String, Number],
         default: '',
       },
     },
@@ -47,7 +47,7 @@
       });
 
       return {
-        classes
+        classes,
       };
     },
   };
@@ -78,7 +78,7 @@
 
       &.is-disabled {
         @apply active:text-positive-700;
-        opacity: .6;
+        opacity: 0.6;
       }
     }
 

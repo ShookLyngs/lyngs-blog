@@ -44,12 +44,12 @@
   export default {
     name: 'scrollbar',
     components: {
-      LsResizeObserver: defineAsyncComponent(() => import('@/components/resize-observer.vue')),
+      LsResizeObserver: defineAsyncComponent(() =>
+        import('@/components/resize-observer.vue')
+      ),
       LsScrollbarBar: defineAsyncComponent(() => import('./scrollbar-bar.vue')),
     },
-    emits: [
-      'scroll'
-    ],
+    emits: ['scroll'],
     provide() {
       return {
         scrollbar: this,
@@ -65,27 +65,27 @@
         default: false,
       },
       wrapClass: {
-        type: [ Object, Array, String ],
+        type: [Object, Array, String],
         default: '',
       },
       wrapStyle: {
-        type: [ Object, String ],
+        type: [Object, String],
         default: '',
       },
       viewClass: {
-        type: [ Object, Array, String ],
+        type: [Object, Array, String],
         default: '',
       },
       viewStyle: {
-        type: [ Object, String ],
+        type: [Object, String],
         default: '',
       },
       viewMaxHeight: {
-        type: [ Number, String ],
+        type: [Number, String],
         default: void 0,
       },
       viewMaxWidth: {
-        type: [ Number, String ],
+        type: [Number, String],
         default: void 0,
       },
     },
@@ -125,22 +125,31 @@
         if (!this.gutterWithUnit) return this.wrapStyle;
 
         const gutterWithUnit = this.gutterWithUnit,
-              gutterStyle    = {
-                marginBottom: gutterWithUnit,
-                marginRight: gutterWithUnit,
-              };
+          gutterStyle = {
+            marginBottom: gutterWithUnit,
+            marginRight: gutterWithUnit,
+          };
 
         return mergeStyle(this.wrapStyle, gutterStyle);
       },
       mergedViewStyle() {
         const viewStyle = this.viewStyle,
-              viewMaxHeight = this.viewMaxHeight,
-              viewMaxWidth = this.viewMaxWidth;
+          viewMaxHeight = this.viewMaxHeight,
+          viewMaxWidth = this.viewMaxWidth;
 
-        return mergeStyle({
-          maxHeight: typeof viewMaxHeight === 'number' ? `${viewMaxHeight}px` : viewMaxHeight,
-          maxWidth: typeof viewMaxWidth === 'number' ? `${viewMaxWidth}px` : viewMaxWidth,
-        }, viewStyle);
+        return mergeStyle(
+          {
+            maxHeight:
+              typeof viewMaxHeight === 'number'
+                ? `${viewMaxHeight}px`
+                : viewMaxHeight,
+            maxWidth:
+              typeof viewMaxWidth === 'number'
+                ? `${viewMaxWidth}px`
+                : viewMaxWidth,
+          },
+          viewStyle
+        );
       },
     },
     methods: {
@@ -159,24 +168,32 @@
         if (!this.wrap) return null;
 
         const {
-          scrollTop, scrollHeight, clientHeight,
-          scrollLeft, scrollWidth, clientWidth,
+          scrollTop,
+          scrollHeight,
+          clientHeight,
+          scrollLeft,
+          scrollWidth,
+          clientWidth,
         } = this.wrap;
 
         return {
-          scrollTop, scrollHeight, clientHeight,
-          scrollLeft, scrollWidth, clientWidth,
+          scrollTop,
+          scrollHeight,
+          clientHeight,
+          scrollLeft,
+          scrollWidth,
+          clientWidth,
         };
       },
       getBarVerticalSize() {
         const { clientHeight, scrollHeight } = this.getWrapSizes(),
-              percentage   = clientHeight * 100 / scrollHeight;
+          percentage = (clientHeight * 100) / scrollHeight;
 
         return percentage < 100 ? `${percentage}%` : '';
       },
       getBarHorizontalSize() {
         const { clientWidth, scrollWidth } = this.getWrapSizes(),
-              percentage  = clientWidth * 100 / scrollWidth;
+          percentage = (clientWidth * 100) / scrollWidth;
 
         return percentage < 100 ? `${percentage}%` : '';
       },
@@ -184,12 +201,14 @@
       // passive
       onScroll() {
         const {
-          scrollTop, scrollLeft,
-          clientHeight, clientWidth,
+          scrollTop,
+          scrollLeft,
+          clientHeight,
+          clientWidth,
         } = this.getWrapSizes();
 
-        this.move.x = scrollLeft * 100 / clientWidth;
-        this.move.y = scrollTop * 100 / clientHeight;
+        this.move.x = (scrollLeft * 100) / clientWidth;
+        this.move.y = (scrollTop * 100) / clientHeight;
 
         this.$emit('scroll', {
           scrollLeft,
@@ -212,7 +231,7 @@
     updated() {
       this.update();
     },
-  }
+  };
 </script>
 
 <style lang="less">
@@ -267,20 +286,19 @@
     &:hover {
       > .ls-scrollbar__bar {
         > .ls-scrollbar__thumb {
-          opacity: .3;
+          opacity: 0.3;
         }
       }
     }
     > .ls-scrollbar__bar {
-
       > .ls-scrollbar__thumb {
         &:hover {
-          opacity: .4;
+          opacity: 0.4;
         }
       }
       &.is-active {
         > .ls-scrollbar__thumb {
-          opacity: .2;
+          opacity: 0.2;
         }
       }
     }

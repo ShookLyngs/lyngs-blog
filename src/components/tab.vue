@@ -10,7 +10,13 @@
 </template>
 
 <script>
-  import {ref, computed, watchEffect, onBeforeUnmount, onBeforeUpdate } from 'vue';
+  import {
+    ref,
+    computed,
+    watchEffect,
+    onBeforeUnmount,
+    onBeforeUpdate,
+  } from 'vue';
   import { useListItem } from '@/hooks/use-list';
   import { useResizeObserver } from '@/hooks/use-resize-observer';
 
@@ -23,7 +29,7 @@
       },
       values: {
         type: Array,
-        default: () => ([]),
+        default: () => [],
       },
       disabled: {
         type: Boolean,
@@ -40,7 +46,9 @@
       onBeforeUnmount(remove);
 
       const isCurrent = computed(() => {
-        return state.current === props.value || props.values.includes(state.current);
+        return (
+          state.current === props.value || props.values.includes(state.current)
+        );
       });
 
       const { width, height } = useResizeObserver();
@@ -72,7 +80,7 @@
 
 <style scoped>
   .tab {
-    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
     outline: none;
   }
 </style>

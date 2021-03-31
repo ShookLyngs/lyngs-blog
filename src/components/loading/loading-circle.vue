@@ -1,9 +1,6 @@
 <template>
   <div class="ls-loading-circle" :style="styles">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      :viewBox="viewBox"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" :viewBox="viewBox">
       <circle
         class="circle-background"
         fill="transparent"
@@ -33,15 +30,15 @@
     name: 'loading-circle',
     props: {
       size: {
-        type: [ Number, String ],
+        type: [Number, String],
         default: 26,
       },
       width: {
-        type: [ Number, String ],
+        type: [Number, String],
         default: 4,
       },
       value: {
-        type: [ Number, String ],
+        type: [Number, String],
         default: 0,
       },
     },
@@ -64,13 +61,13 @@
         return `${((100 - this.normalizedValue) / 100) * this.circumference}px`;
       },
       strokeWidth() {
-        return Number(this.width) / +this.size * this.viewBoxSize * 2;
+        return (Number(this.width) / +this.size) * this.viewBoxSize * 2;
       },
       viewBoxSize() {
         return this.radius / (1 - Number(this.width) / +this.size);
       },
       viewBox() {
-        const size   = this.viewBoxSize;
+        const size = this.viewBoxSize;
         const double = this.viewBoxSize * 2;
         return `${size} ${size} ${double} ${double}`;
       },
@@ -81,7 +78,7 @@
         };
       },
     },
-  }
+  };
 </script>
 
 <style lang="less">
@@ -117,7 +114,7 @@
 
       > .circle-background {
         @apply transition-all;
-        stroke: rgba(0, 0, 0, .1);
+        stroke: rgba(0, 0, 0, 0.1);
         z-index: 2;
       }
       > .circle-bar {

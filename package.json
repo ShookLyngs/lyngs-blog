@@ -4,7 +4,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint --ext .vue,.js src/ --fix",
+    "format": "prettier --write 'src/**/*.{ts,js,vue,css,html,json}'"
   },
   "dependencies": {
     "@lyngs/themer": "^0.4.4",
@@ -27,9 +29,12 @@
     "@vue/compiler-sfc": "^3.0.5",
     "autoprefixer": "^10.2.4",
     "eslint": "^7.20.0",
+    "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.6.0",
     "postcss": "^8.2.6",
+    "prettier": "^2.2.1",
     "tailwindcss": "^2.0.3",
     "vite": "^2.0.3",
     "vite-plugin-eslint": "^1.1.0"

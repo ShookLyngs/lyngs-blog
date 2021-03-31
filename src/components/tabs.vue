@@ -21,7 +21,7 @@
         default: '',
       },
     },
-    emits: [ 'update' ],
+    emits: ['update'],
     setup(props, { emit }) {
       const { list, state } = useList({
         key: 'tabs',
@@ -32,8 +32,14 @@
         },
       });
 
-      watch(() => props.current, () => state.current = props.current);
-      watch(() => state.current, () => emit('update', state.current));
+      watch(
+        () => props.current,
+        () => (state.current = props.current)
+      );
+      watch(
+        () => state.current,
+        () => emit('update', state.current)
+      );
 
       const tabs = ref(null);
       const { width, height } = useResizeObserver();
@@ -52,9 +58,10 @@
         const { width: tabWidth, left: tabLeft } = state.tabRect;
         const { left: tabsLeft } = state.tabsRect;
 
-        if (!tabWidth || !tabLeft || !tabsLeft) return {
-          opacity: '0',
-        };
+        if (!tabWidth || !tabLeft || !tabsLeft)
+          return {
+            opacity: '0',
+          };
 
         return {
           width: tabWidth ? `${tabWidth}px` : '0',

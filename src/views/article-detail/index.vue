@@ -2,7 +2,14 @@
   <container>
     <!-- post reply button, teleport to the header layout -->
     <teleport to="#header-button-slot">
-      <border-button border-width="md">发表评论</border-button>
+      <collapse
+        direction="horizontal"
+        show-class="opacity-100"
+        hidden-class="opacity-0"
+        :show="isShowHeaderPostButton"
+      >
+        <border-button border-width="md" style="min-width: 110px">发表评论</border-button>
+      </collapse>
     </teleport>
 
     <!-- banner -->
@@ -14,7 +21,9 @@
     </div>
 
     <!-- content -->
-    <div class="relative body-x mt-36 rounded-lg border border-negative-700 bg-negative-900">
+    <div
+      class="relative body-x mt-36 rounded-lg border border-negative-700 bg-negative-900"
+    >
       <!-- title -->
       <div class="pt-7 text-xl text-positive-800 font-bold md:text-2xl">
         你可以说我嫉妒清华大学博士，我自己是井底之蛙，我被阴谋论洗脑，我自己不行不代表别人不行
@@ -26,7 +35,10 @@
       </div>
 
       <!-- content -->
-      <div class="body-y text-base text-positive-600 font-medium" v-html="data.content" />
+      <div
+        class="body-y text-base text-positive-600 font-medium"
+        v-html="data.content"
+      />
 
       <!-- taken block, donate -->
       <empty class="mt-20" />
@@ -34,7 +46,10 @@
       <!-- userinfo, and actions -->
       <div class="mt-20 body-y flex justify-between bg-negative-900">
         <div class="flex items-center">
-          <imager class="flex-static w-10 h-10 rounded-full overflow-hidden select-none" :src="avatarImage" />
+          <imager
+            class="flex-static w-10 h-10 rounded-full overflow-hidden select-none"
+            :src="avatarImage"
+          />
           <div class="ml-3 select-none">
             <div class="text-sm font-semibold">Shook</div>
             <div class="text-xs text-positive-100">发布于 昨天 xx:xx</div>
@@ -47,18 +62,23 @@
           </text-button>
         </div>
       </div>
-
     </div>
 
     <!-- comment -->
-    <div class="relative mt-5 rounded-lg border border-negative-700 bg-negative-900">
-      <div class="body flex items-center justify-between select-none rounded-lg bg-negative-900">
+    <div
+      class="relative mt-5 rounded-lg border border-negative-700 bg-negative-900"
+    >
+      <div
+        class="body flex items-center justify-between select-none rounded-lg bg-negative-900"
+      >
         <div class="flex items-center">
           <div>评论</div>
           <tag no-gap padding="sm" class="ml-1.5">23</tag>
         </div>
 
-        <border-button padding="sm" height="sm">发表评论</border-button>
+        <border-button ref="postButton" padding="sm" height="sm">
+          发表评论
+        </border-button>
       </div>
 
       <!--<div class="body sticky top-0">
@@ -73,14 +93,14 @@
       />
       <empty class="my-20" />
     </div>
-
   </container>
 </template>
 
 <script>
   // Functions
-  import { ref } from 'vue';
+  import { ref, computed } from 'vue';
   import { parse } from 'markdown';
+  import { useLayoutState } from '@/hooks/use-layout-state';
   // Components
   import Tag from '@/components/tag.vue';
   import Comment from '@/components/comment.vue';
@@ -96,7 +116,7 @@
     },
     setup() {
       const data = ref({
-        tags: [ '前端开发', 'Vue3' ],
+        tags: ['前端开发', 'Vue3'],
         content: parse(`
 # Hello world
 ## secondary text
@@ -132,8 +152,28 @@ something darker for *us*
         `),
       });
 
+      // Post button
+      // When the post button has been scrolled out of the screen,
+      // the button shows in header
+      const postButton = ref(null);
+      const { scrollTop } = useLayoutState();
+      const isShowHeaderPostButton = computed(() => {
+        if (postButton.value && scrollTop.value) {
+          const rect = postButton.value.$el.getBoundingClientRect();
+          return rect.top < (80 - rect.height);
+        } else {
+          return false;
+        }
+      });
+
       return {
         data,
+
+        postButton,
+        scrollTop,
+        isShowHeaderPostButton,
+
+        // resources
         detailImage,
         avatarImage,
       };
@@ -141,11 +181,20 @@ something darker for *us*
   };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .background {
     @apply absolute top-0 overflow-hidden rounded-2xl;
     left: 50%;
     height: 260px;
     transform: translate3d(-50%, 0, 0);
+  }
+
+  .post-button {
+    &--show {
+      @apply transform scale-100 opacity-100;
+    }
+    &--hidden {
+      @apply transform scale-50 opacity-0;
+    }
   }
 </style>

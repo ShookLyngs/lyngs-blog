@@ -18,7 +18,7 @@ export default defineConfig({
     alias: [
       { find: /^~/, replacement: '' },
       { find: '@', replacement: resolve('src') },
-    ]
+    ],
   },
   css: {
     postcss,
@@ -26,15 +26,15 @@ export default defineConfig({
       less: {
         modifyVars: {
           hack: `true; @import "@/assets/styles/index.less";`,
-        }
-      }
-    }
+        },
+      },
+    },
   },
   plugins: [
     vue(),
     legacy(),
     eslint({
-      include: [ './src/*/**.js', './src/*/**.vue' ],
+      include: ['./src/*/**.js', './src/*/**.vue'],
     }),
   ],
 });

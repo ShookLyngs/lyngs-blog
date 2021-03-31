@@ -18,9 +18,7 @@
         :text="number"
       />
       <border-button
-        class="is-active"
-        type="gray"
-        padding="sm"
+        class="is-active" type="gray" padding="sm"
         text="6"
       />
     </div>
@@ -29,7 +27,8 @@
       <input
         ref="input"
         type="number"
-        min="1" max="3"
+        min="1"
+        max="3"
         class="pager-input w-full"
         v-model="jumper"
         @focus="onInputFocus"
@@ -93,8 +92,8 @@
     -webkit-appearance: none;
     margin: 0;
   }
-  input[type=number] {
-    -moz-appearance:textfield;
+  input[type='number'] {
+    -moz-appearance: textfield;
   }
 
   // button

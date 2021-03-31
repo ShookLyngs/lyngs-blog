@@ -3,14 +3,14 @@ import { ref, isRef, unref, reactive, provide, inject, watchEffect } from 'vue';
 export const useListKey = 'use-list';
 
 export function useList({ list = [], state = {}, key = useListKey } = {}) {
-  list  = ref(list);
+  list = ref(list);
   state = reactive(state);
 
   function find(row) {
-    return list.value.find(current => current === row);
+    return list.value.find((current) => current === row);
   }
   function findIndex(row) {
-    return list.value.findIndex(current => current === row);
+    return list.value.findIndex((current) => current === row);
   }
   function remove(row) {
     const index = findIndex(row);
@@ -42,9 +42,12 @@ export function useList({ list = [], state = {}, key = useListKey } = {}) {
 
 export function useListItem({ row, key = useListKey } = {}) {
   const {
-    list, state,
-    find, findIndex,
-    isFirstChild, isLastChild,
+    list,
+    state,
+    find,
+    findIndex,
+    isFirstChild,
+    isLastChild,
     remove: removeRow,
   } = inject(key);
 
@@ -68,7 +71,7 @@ export function useListItem({ row, key = useListKey } = {}) {
     if (row instanceof Function) return row();
     if (isRef(row)) return unref(row);
 
-    throw new Error(`'row' must be a Lambda expression or a Ref object.`);
+    throw new Error('\'row\' must be a Lambda expression or a Ref object.');
   }
 
   function remove() {
@@ -85,4 +88,3 @@ export function useListItem({ row, key = useListKey } = {}) {
     isLast,
   };
 }
-

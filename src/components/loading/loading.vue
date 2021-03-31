@@ -32,10 +32,7 @@
     components: {
       LoadingCircle,
     },
-    emits: [
-      'after-leave',
-      'click-wrap',
-    ],
+    emits: ['after-leave', 'click-wrap'],
     setup(props, { emit }) {
       // refs
       const text = ref('');
@@ -71,8 +68,8 @@
           setVisibleAsync(value);
         }
       };
-      const setVisibleAsync = delayThrottle(value => {
-        visible.value = value
+      const setVisibleAsync = delayThrottle((value) => {
+        visible.value = value;
       }, 300);
       const setFullscreen = (value) => {
         fullscreen.value = value;

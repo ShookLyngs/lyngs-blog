@@ -7,7 +7,7 @@
   import { findDOMNode } from '@/assets/util/dom';
 
   export default {
-    name: "ls-resize-observer",
+    name: 'ls-resize-observer',
     props: {
       disabled: {
         type: Boolean,
@@ -22,11 +22,9 @@
         height: 0,
       };
     },
-    emits: [
-      'resize',
-    ],
+    emits: ['resize'],
     methods: {
-      onComponentUpdated () {
+      onComponentUpdated() {
         if (this.disabled) {
           this.destroyObserver();
           return;
@@ -61,12 +59,12 @@
         }
       },
 
-      destroyObserver () {
+      destroyObserver() {
         if (this.observer) {
           this.observer.disconnect();
           this.observer = null;
         }
-      }
+      },
     },
     mounted() {
       this.onComponentUpdated();

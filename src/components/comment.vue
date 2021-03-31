@@ -20,7 +20,9 @@
               <span class="ml-3 text-theme-600">Shook</span>
             </span>
           </div>
-          <div class="mt-0.5 select-none text-xs text-positive-100">昨天 22:44</div>
+          <div class="mt-0.5 select-none text-xs text-positive-100">
+            昨天 22:44
+          </div>
         </div>
       </div>
       <div class="mt-1">

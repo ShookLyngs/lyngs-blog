@@ -9,18 +9,18 @@ const routes = [
   {
     path: '/articles',
     name: 'articles',
-    component: () => import('@/views/articles/index.vue')
+    component: () => import('@/views/articles/index.vue'),
   },
   {
     path: '/memos',
     name: 'memos',
-    component: () => import('@/views/memos/index.vue')
+    component: () => import('@/views/memos/index.vue'),
   },
 
   {
     path: '/article/:id',
     name: 'article',
-    component: () => import('@/views/article-detail/index.vue')
+    component: () => import('@/views/article-detail/index.vue'),
   },
 ];
 

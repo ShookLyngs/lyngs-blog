@@ -1,7 +1,10 @@
 <template>
   <div class="absolute right-full top-0 bottom-0">
     <div class="flex items-center select-none" :style="nodeStyle">
-      <div class="mr-2 whitespace-nowrap font-semibold text-sm text-positive-400" v-if="$slots.time || time">
+      <div
+        class="mr-2 whitespace-nowrap font-semibold text-sm text-positive-400"
+        v-if="$slots.time || time"
+      >
         <slot name="time">{{ time }}</slot>
       </div>
       <div
@@ -62,7 +65,7 @@
       const nodeStyle = computed(() => {
         return {
           height: `${props.nodeHeight}rem`,
-          marginTop: `${props.nodeTop}rem`
+          marginTop: `${props.nodeTop}rem`,
         };
       });
 
@@ -75,9 +78,13 @@
       });
 
       const lineWrapperStyle = computed(() => {
-        const top = props.isFirst ? `${props.nodeHeight + (props.symbolSize / 2)}rem` : `0`;
+        const top = props.isFirst
+          ? `${props.nodeHeight + props.symbolSize / 2}rem`
+          : '0';
         const bottom = props.isLast ? 'initial' : '0';
-        const height = props.isLast ? `${props.nodeTop + (props.nodeHeight / 2)}rem` : 'auto';
+        const height = props.isLast
+          ? `${props.nodeTop + props.nodeHeight / 2}rem`
+          : 'auto';
 
         return {
           top,
@@ -96,5 +103,4 @@
   };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -2,15 +2,11 @@ import { ref, isRef, unref, provide, inject, watchEffect } from 'vue';
 import ResizeObserver from 'resize-observer-polyfill';
 
 export function useElementResize(target) {
-  const left  = ref(null);
-  const top  = ref(null);
-  const width  = ref(null);
+  const width = ref(null);
   const height = ref(null);
 
   function onResize() {
     const updatedSize = getSize(target);
-    width.left = updatedSize.left;
-    width.top = updatedSize.top;
     width.value = updatedSize.width;
     height.value = updatedSize.height;
   }
@@ -41,8 +37,6 @@ export function useElementResize(target) {
   }
 
   return {
-    left,
-    top,
     width,
     height,
     remove,
@@ -90,6 +84,8 @@ export function useResizeObserver(key = useResizeKey) {
   try {
     return inject(key);
   } catch {
-    throw new Error(`You need to create Resize by calling 'createResizeObserver()' before using it.`);
+    throw new Error(
+      'You need to create Resize by calling \'createResizeObserver()\' before using it.'
+    );
   }
 }

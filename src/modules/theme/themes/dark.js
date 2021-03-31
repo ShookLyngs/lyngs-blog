@@ -11,5 +11,5 @@ export default createTheme({
         700: '#dbdbdb',
       },
     },
-  }
+  },
 });

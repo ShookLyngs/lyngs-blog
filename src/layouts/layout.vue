@@ -6,6 +6,7 @@
       class="flex-auto flex flex-col"
       wrap-class="flex-auto flex flex-col"
       view-class="flex-auto flex flex-col"
+      @scroll="onScroll"
     >
       <keep-alive>
         <layout-header />
@@ -27,6 +28,8 @@
   import { ref, watchEffect } from 'vue';
   import { useRoute } from 'vue-router';
   import { createResizeObserver } from '@/hooks/use-resize-observer';
+  import { createLayoutState } from '@/hooks/use-layout-state';
+
   // Components
   import LayoutHeader from './header.vue';
   import LayoutFooter from './footer.vue';
@@ -54,14 +57,26 @@
         lastFullPath.value = route.fullPath;
       });
 
+      // Update scrollTop
+      const scrollTop = ref(0);
+      function onScroll({ scrollTop: top }) {
+        scrollTop.value = top;
+      }
+
+      // Create layout state store
+      createLayoutState({
+        scrollTop,
+      });
+
       return {
         content,
         scroll,
+
+        scrollTop,
+        onScroll,
       };
     },
   };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

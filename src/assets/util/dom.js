@@ -23,7 +23,7 @@ export const findDOMNode = (instance) => {
  */
 export const on = (target, type, event, options = false) => {
   if (!target?.addEventListener) {
-    throw Error("target is not a listenable object");
+    throw Error('target is not a listenable object');
   }
 
   target.addEventListener(type, event, options);
@@ -51,24 +51,29 @@ export const off = (target, type, event) => {
  * @param element {HTMLElement} - DOM target
  */
 
-export const setParentClass = (type, classes = [], each = false,element = document.body) => {
+export const setParentClass = (
+  type,
+  classes = [],
+  each = false,
+  element = document.body
+) => {
   if (!Array.isArray(classes)) {
-    classes = typeof classes === 'string' ? classes.split(' ') : [ classes ];
+    classes = typeof classes === 'string' ? classes.split(' ') : [classes];
   }
 
-  const body   = document.body;
-  let   parent = (element !== body && element.parentElement) || element;
+  const body = document.body;
+  let parent = (element !== body && element.parentElement) || element;
 
   const process = () => {
     if (type === 'add') {
-      classes.forEach(item => parent.classList.add(item));
+      classes.forEach((item) => parent.classList.add(item));
     } else if (type === 'remove') {
-      classes.forEach(item => parent.classList.remove(item));
+      classes.forEach((item) => parent.classList.remove(item));
     }
   };
 
   if (each) {
-    while(parent) {
+    while (parent) {
       process();
       parent = parent.parentElement ?? null;
     }
@@ -76,7 +81,6 @@ export const setParentClass = (type, classes = [], each = false,element = docume
     process();
   }
 };
-
 
 let scrollBarWidth = null;
 /**

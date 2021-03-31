@@ -6,8 +6,8 @@ import component from './loading.vue';
 
 const store = new Map();
 const useStore = (root) => {
-  const app      = createApp(component);
-  const element  = document.createElement('div');
+  const app = createApp(component);
+  const element = document.createElement('div');
   const instance = append(root, element, app);
 
   store.set(root, { app, element, instance });
@@ -32,11 +32,7 @@ const updateStore = (root, binding) => {
 
   const { instance } = store.get(root);
   const visible = !!binding.value;
-  const {
-    text,
-    theme,
-    fullscreen,
-  } = getAttributes(root);
+  const { text, theme, fullscreen } = getAttributes(root);
 
   setParentClass(
     visible ? 'add' : 'remove',
@@ -76,7 +72,6 @@ const append = (root, element, app) => {
   root.appendChild(element);
   return app.mount(element);
 };
-
 
 const getAttributes = (root) => ({
   text: root.getAttribute('ls-loading-text'),

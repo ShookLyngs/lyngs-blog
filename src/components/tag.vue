@@ -13,14 +13,14 @@
       padding: {
         type: String,
         default: 'md',
-        validator: value => [ 'sm', 'md' ].includes(value),
+        validator: (value) => ['sm', 'md'].includes(value),
       },
       noGap: {
         type: Boolean,
         default: false,
       },
       text: {
-        type: [ String, Number ],
+        type: [String, Number],
         default: '',
       },
     },
@@ -39,7 +39,7 @@
       });
 
       return {
-        classes
+        classes,
       };
     },
   };

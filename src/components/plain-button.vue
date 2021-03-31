@@ -1,5 +1,9 @@
 <template>
-  <div class="plain-button" :class="active ? activeClass : normalClass" @click.stop="onClick">
+  <div
+    class="plain-button"
+    :class="active ? activeClass : normalClass"
+    @click.stop="onClick"
+  >
     <slot name="icon">
       <icon class="text-lg" :name="icon" v-if="icon" />
     </slot>
@@ -22,7 +26,7 @@
         default: '',
       },
       text: {
-        type: [ String, Number ],
+        type: [String, Number],
         default: '',
       },
       active: {
@@ -34,15 +38,15 @@
         default: false,
       },
       normalClass: {
-        type: [ Object, Array, String ],
+        type: [Object, Array, String],
         default: '',
       },
       activeClass: {
-        type: [ Object, Array, String ],
+        type: [Object, Array, String],
         default: '',
       },
     },
-    emits: [ 'click' ],
+    emits: ['click'],
     setup(props, { emit }) {
       function onClick() {
         if (!props.disabled) emit('click');

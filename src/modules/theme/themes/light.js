@@ -34,7 +34,7 @@ export default createTheme({
         600: '#b14c4c',
       },
       mask: {
-        50:  alpha('#f9f9f9', 0.1),
+        50: alpha('#f9f9f9', 0.1),
         100: alpha('#f9f9f9', 0.2),
         200: alpha('#f9f9f9', 0.3),
         300: alpha('#f9f9f9', 0.4),
@@ -46,5 +46,5 @@ export default createTheme({
         900: '#f9f9f9',
       },
     },
-  }
+  },
 });

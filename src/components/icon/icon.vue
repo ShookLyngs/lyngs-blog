@@ -23,7 +23,7 @@
       name: {
         type: String,
         default: '',
-      }
+      },
     },
   };
 </script>

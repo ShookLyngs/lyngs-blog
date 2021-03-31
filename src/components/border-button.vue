@@ -13,29 +13,29 @@
       type: {
         type: String,
         default: 'theme',
-        validator: value => [ 'theme', 'gray' ].includes(value),
+        validator: (value) => ['theme', 'gray'].includes(value),
       },
       padding: {
         type: String,
         default: 'md',
-        validator: value => [ 'sm', 'md' ].includes(value),
+        validator: (value) => ['sm', 'md'].includes(value),
       },
       height: {
         type: String,
         default: 'md',
-        validator: value => [ 'sm', 'md' ].includes(value),
+        validator: (value) => ['sm', 'md'].includes(value),
       },
       borderWidth: {
         type: String,
         default: 'sm',
-        validator: value => [ 'sm', 'md' ].includes(value),
+        validator: (value) => ['sm', 'md'].includes(value),
       },
       disabled: {
         type: Boolean,
         default: false,
       },
       text: {
-        type: [ String, Number ],
+        type: [String, Number],
         default: '',
       },
     },
@@ -63,7 +63,7 @@
       });
 
       return {
-        classes
+        classes,
       };
     },
   };
@@ -110,7 +110,7 @@
 
       &.is-disabled {
         @apply active:border-negative-700 active:text-positive-700;
-        opacity: .6;
+        opacity: 0.6;
       }
     }
     &--theme {
@@ -119,7 +119,7 @@
 
       &.is-disabled {
         @apply active:bg-transparent active:text-theme-600;
-        opacity: .6;
+        opacity: 0.6;
       }
     }
 

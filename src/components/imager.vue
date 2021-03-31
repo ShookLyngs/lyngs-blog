@@ -35,14 +35,14 @@
     name: 'imager',
     props: {
       src: {
-        type: [ Object, String ],
+        type: [Object, String],
         default: '',
       },
     },
     setup() {
       const request = ref(true);
       const loading = ref(true);
-      const error   = ref(false);
+      const error = ref(false);
 
       function retry() {
         request.value = true;
@@ -72,6 +72,4 @@
   };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
