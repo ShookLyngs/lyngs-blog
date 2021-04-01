@@ -12,7 +12,7 @@
         <layout-header />
       </keep-alive>
 
-      <main class="flex flex-col pb-36">
+      <main class="main flex flex-col pb-36">
         <slot />
       </main>
 
@@ -79,4 +79,8 @@
   };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+  .main {
+    min-height: calc(100vh - 80px);
+  }
+</style>

@@ -1,5 +1,10 @@
 <template>
   <container>
+    <!-- post article button, teleport to the header layout -->
+    <teleport to="#header-button-slot">
+      <border-button border-width="md" @click="toPost">发布文章</border-button>
+    </teleport>
+
     <empty key="empty" v-if="!list.length" />
     <transition-group name="list">
       <ArticleListItem
@@ -132,16 +137,22 @@
       const { push } = useRouter();
       function toArticle(row) {
         push({
-          name: 'article',
+          name: 'article-view',
           params: {
             id: row.id,
           },
+        });
+      }
+      function toPost() {
+        push({
+          name: 'article-post',
         });
       }
 
       return {
         list,
         toArticle,
+        toPost,
       };
     },
   };

@@ -27,7 +27,7 @@
         <div class="flex">
           <tabs :current="currentTab" @upadte="onTabUpdate">
             <router-link to="/articles">
-              <tab value="articles" :values="['articles', 'article']">文章</tab>
+              <tab value="articles" :values="['articles', 'article-view', 'article-post']">文章</tab>
             </router-link>
             <router-link to="/memos">
               <tab value="memos">想法</tab>

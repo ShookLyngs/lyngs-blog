@@ -12,15 +12,20 @@ const routes = [
     component: () => import('@/views/articles/index.vue'),
   },
   {
-    path: '/memos',
-    name: 'memos',
-    component: () => import('@/views/memos/index.vue'),
+    path: '/article/view/:id',
+    name: 'article-view',
+    component: () => import('@/views/article-detail/index.vue'),
+  },
+  {
+    path: '/article/post',
+    name: 'article-post',
+    component: () => import('@/views/article-post/index.vue'),
   },
 
   {
-    path: '/article/:id',
-    name: 'article',
-    component: () => import('@/views/article-detail/index.vue'),
+    path: '/memos',
+    name: 'memos',
+    component: () => import('@/views/memos/index.vue'),
   },
 ];
 
