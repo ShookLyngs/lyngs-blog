@@ -1,8 +1,5 @@
 <template>
   <div class="h-full flex flex-col">
-    <div class="body-bottom">
-      <border-button padding="sm">switch</border-button>
-    </div>
     <textarea
       class="flex-auto w-full p-4 rounded-lg outline-none box-border border-3 border-negative-600 resize-none"
       v-model="content"

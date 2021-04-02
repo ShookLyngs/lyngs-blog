@@ -12,7 +12,8 @@ import theme from '@/modules/theme';
 app.use(theme);
 
 // Import TailwindCSS
-import 'tailwindcss/tailwind.css';
+// import 'tailwindcss/tailwind.css';
+import '@/assets/styles/index.less';
 
 // Use global components
 import components from '@/modules/component';

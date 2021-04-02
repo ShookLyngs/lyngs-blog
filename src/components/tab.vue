@@ -81,6 +81,6 @@
 <style scoped>
   .tab {
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-    outline: none;
+    outline-width: 0;
   }
 </style>

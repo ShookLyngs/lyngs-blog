@@ -99,7 +99,6 @@
 <script>
   // Functions
   import { ref, computed } from 'vue';
-  import { parse } from 'markdown';
   import { useLayoutState } from '@/hooks/use-layout-state';
   // Components
   import Tag from '@/components/tag.vue';
@@ -117,7 +116,7 @@
     setup() {
       const data = ref({
         tags: ['前端开发', 'Vue3'],
-        content: parse(`
+        content: `
 # Hello world
 ## secondary text
 ### third text
@@ -149,7 +148,7 @@ something darker for *us*
 something darker for *us*
 
 something darker for *us*
-        `),
+        `,
       });
 
       // Post button
