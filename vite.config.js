@@ -34,6 +34,7 @@ export default defineConfig({
     vue(),
     legacy(),
     eslint({
+      cache: false,
       include: ['./src/*/**.js', './src/*/**.vue'],
     }),
   ],

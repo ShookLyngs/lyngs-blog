@@ -11,7 +11,11 @@
     <form class="post flex-auto relative body mt-36 rounded-lg border border-negative-700 bg-negative-900" @submit.prevent>
       
       <field label="标题">
-        <input type="text">
+        <form-input type="text" placeholder="请输入标题" />
+      </field>
+
+      <field label="标签">
+        <form-input type="text" placeholder="请输入标签" />
       </field>
       
       <markdown-editor v-model="form.content" />
@@ -22,12 +26,14 @@
 <script>
   import { reactive } from 'vue';
   import Field from '@/components/field.vue';
+  import FormInput from '@/components/form-input.vue';
   import MarkdownEditor from '@/components/markdown-editor.vue';
 
   export default {
     name: 'article-post',
     components: {
       Field,
+      FormInput,
       MarkdownEditor,
     },
     setup() {

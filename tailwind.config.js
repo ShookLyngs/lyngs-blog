@@ -3,10 +3,9 @@ import { manager } from './src/modules/theme';
 
 export default {
   purge: [
-    './src/**/*.{vue,html,js}',
-    './src/assets/styles/index.less'
+    './src/**/*.{vue,js,html}',
   ],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: false,
   theme: {
     extend: {},
   },
@@ -21,5 +20,7 @@ export default {
     },
   },
   plugins: [],
-  presets: [createTailwindPreset(manager)],
+  presets: [
+    createTailwindPreset(manager),
+  ],
 };

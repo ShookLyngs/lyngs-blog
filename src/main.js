@@ -3,7 +3,7 @@ import { createApp } from 'vue';
 import App from '@/app.vue';
 const app = createApp(App);
 
-// Import VueRouter@next
+// Import VueRouter
 import router from '@/modules/router';
 app.use(router);
 
@@ -11,8 +11,7 @@ app.use(router);
 import theme from '@/modules/theme';
 app.use(theme);
 
-// Import TailwindCSS
-// import 'tailwindcss/tailwind.css';
+// Import TailwindCSS and custom styles
 import '@/assets/styles/index.less';
 
 // Use global components
