@@ -37,6 +37,9 @@ export function useField(initialState = {}) {
 
     content.value?.[name]?.(...args);
   }
+  function trigger(name, ...args) {
+    fieldState?.[name]?.(...args);
+  }
 
   const fieldState = reactive({
     content,
@@ -44,6 +47,7 @@ export function useField(initialState = {}) {
     register,
     deregister,
     execute,
+    trigger,
     ...initialState,
   });
 

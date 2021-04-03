@@ -5,6 +5,7 @@
       class="w-full focus:outline-none"
       v-bind="$attrs"
       @click.prevent
+      @focus="onFocus"
       @blur="onBlur"
     >
   </div>
@@ -24,20 +25,26 @@
       function blur() {
         if (input.value) input.value.blur();
       }
-      function onBlur() {
-        /**/
-      }
 
-      useFieldContent({
+      const { fieldState } = useFieldContent({
         ref: input,
         focus,
         blur,
       });
 
+      const { trigger } = fieldState;
+      function onFocus() {
+        trigger('onFocus');
+      }
+      function onBlur() {
+        trigger('onBlur');
+      }
+
       return {
         input,
         focus,
         blur,
+        onFocus,
         onBlur,
       };
     },

@@ -1,5 +1,9 @@
 <template>
-  <div class="field px-3.5 py-3 rounded-lg outline-none box-border border-3 border-negative-700" @click="focus">
+  <div
+    class="field px-3.5 py-3 transition rounded-lg outline-none box-border border-3 border-negative-700"
+    :class="wrapperClass"
+    @click="focus"
+  >
     <div class="text-xl font-bold text-positive-800 select-none" v-if="label">
       <slot name="label">
         {{ label }}
@@ -11,6 +15,7 @@
 
 <script>
   import { useField } from '@/hooks/use-form';
+  import {computed, ref} from 'vue';
 
   export default {
     name: 'field',
@@ -21,13 +26,37 @@
       },
     },
     setup() {
-      const { execute } = useField();
+      const focusing = ref(false);
+      function onFocus() {
+        focusing.value = true;
+      }
+      function onBlur() {
+        focusing.value = false;
+      }
+
+      const { execute } = useField({
+        onFocus,
+        onBlur,
+      });
       function focus() {
         execute('focus');
       }
 
+      const wrapperClass = computed(() => {
+        const classes = [];
+
+        if (focusing.value) {
+          classes.push('is-focus');
+        }
+
+        return classes;
+      });
+
       return {
+        focusing,
         focus,
+
+        wrapperClass,
       };
     },
   };
@@ -37,6 +66,9 @@
   .field {
     & + & {
       @apply mt-5;
+    }
+    &.is-focus {
+      @apply border-theme-500;
     }
   }
 </style>

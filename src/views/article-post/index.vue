@@ -18,7 +18,7 @@
         <form-input type="text" placeholder="请输入标签" />
       </field>
       
-      <markdown-editor v-model="form.content" />
+<!--      <markdown-editor v-model="form.content" />-->
     </form>
   </container>
 </template>
