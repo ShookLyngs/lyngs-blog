@@ -12,9 +12,15 @@
         v-if="icon"
       />
     </slot>
-    <span class="ml-1.5 text-sm" v-if="$slots.default || text">
-      <slot>{{ text }}</slot>
-    </span>
+    <slot>
+      <span
+        class="text-sm"
+        :class="$slots.icon || icon ? 'ml-1.5' : ''"
+        v-if="$slots.default || text"
+      >
+        {{ text }}
+      </span>
+    </slot>
   </div>
 </template>
 
@@ -73,9 +79,9 @@
     @apply px-2 py-1 rounded;
     @apply flex items-center cursor-pointer select-none transition duration-300 active:opacity-70;
 
-    & + & {
+    /*& + & {
       @apply ml-4;
-    }
+    }*/
     &.is-disabled {
       @apply cursor-default opacity-60 active:opacity-60;
     }

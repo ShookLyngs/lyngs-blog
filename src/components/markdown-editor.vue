@@ -39,11 +39,11 @@
         default: '',
       },
     },
-    emits: [ 'update:value' ],
+    emits: [ 'update:modelValue' ],
     setup(props, { emit }) {
       const content = ref(props.value);
       watch(() => props.value, () => content.value = props.value);
-      watch(content, () => emit('update:value', content.value));
+      watch(content, () => emit('update:modelValue', content.value));
 
       const converted = ref(content.value);
       watchEffect(() => {

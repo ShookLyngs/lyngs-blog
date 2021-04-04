@@ -21,24 +21,24 @@ export function useField(initialState = {}) {
     ...initialState,
   };
 
-  const content = ref(null);
-  const isRegistered = computed(() => !!content.value);
+  const contentState = ref(null);
+  const isRegistered = computed(() => !!contentState.value);
   function register(value) {
-    content.value = value;
+    contentState.value = value;
   }
   function deregister() {
-    content.value = null;
+    contentState.value = null;
   }
   function execute(name, ...args) {
     if (!isRegistered.value) return;
-    content.value?.[name]?.(...args);
+    contentState.value?.[name]?.(...args);
   }
 
   function trigger(name, ...args) {
     fieldState?.[name]?.(...args);
   }
   const fieldState = reactive({
-    content,
+    contentState,
     isRegistered,
     register,
     deregister,

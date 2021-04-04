@@ -18,6 +18,7 @@ export default createTheme({
         600: '#575757',
         500: '#636363',
         400: '#707070',
+        200: '#9e9e9e',
         100: '#aeaeae',
       },
       theme: {

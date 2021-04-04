@@ -113,3 +113,23 @@ export const getScrollBarWidth = () => {
 
   return scrollBarWidth;
 };
+
+/**
+ * Set cursor position to the end of element.
+ * @param element
+ */
+export function setCaretToEnd(element) {
+  const position = element.textContent.length;
+  const [ childNode ] = element.childNodes;
+  if (!childNode) {
+    return;
+  }
+
+  const range = document.createRange();
+  const selection = window.getSelection();
+  range.setStart(childNode, position);
+  range.setEnd(childNode, position);
+  range.collapse(true);
+  selection.removeAllRanges();
+  selection.addRange(range);
+}

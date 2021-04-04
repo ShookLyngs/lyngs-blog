@@ -1,24 +1,26 @@
 <template>
-  <div class="form-input mt-1 w-full flex items-end">
+  <div class="form-input w-full flex items-end" :class="inputClass">
     <!-- Content Input, not a regular input -->
     <div
-      contenteditable
       ref="input"
-      class="flex-auto focus:outline-none"
+      class="form-input__content lex-auto focus:outline-none"
       v-bind="$attrs"
+      :contenteditable="!disabled"
+      @click.stop
       @input="onInput"
       @focus="onFocus"
       @blur="onBlur"
-      @click.stop
+      @keyup.enter="onEnter"
+      @keyup.delete="onDelete"
     />
 
-    <!-- Clear value button -->
+    <!-- Clear modelValue button -->
     <transition name="fade-fast">
       <plain-button
         padding="sm"
         icon="icon-no"
         icon-class="text-base"
-        v-if="`${actualValue}`.length"
+        v-if="!disabled && clearable && `${actualValue}`.length"
         @click="clearValue"
       />
     </transition>
@@ -27,8 +29,10 @@
 
 <script>
   // Functions
-  import { ref, watch } from 'vue';
+  import { ref, computed, watch } from 'vue';
   import { useFieldContent } from '@/hooks/use-form';
+  import { useCaret } from '@/hooks/use-caret';
+  import { setCaretToEnd } from '@/assets/util/dom';
   // Components
   import PlainButton from '@/components/plain-button.vue';
 
@@ -38,21 +42,37 @@
       PlainButton,
     },
     props: {
-      value: {
+      modelValue: {
         type: [ String, Number ],
         default: '',
       },
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
+      clearable: {
+        type: Boolean,
+        default: false,
+      },
     },
-    emits: [ 'update:value' ],
+    emits: [ 'update:modelValue', 'enter', 'delete' ],
     setup(props, { emit }) {
-      const actualValue = ref(props.value);
-      watch(() => props.value, () => {
-        actualValue.value = props.value;
-        updateInput();
+      const actualValue = ref(props.modelValue);
+      watch(() => props.modelValue, () => {
+        if (actualValue.value !== props.modelValue) {
+          actualValue.value = props.modelValue;
+          updateInput();
+        }
       });
-      watch(actualValue, () => emit('update:value', actualValue.value));
+      watch(actualValue, () => {
+        emit('update:modelValue', actualValue.value);
+      });
       function onInput({ target: { innerText } }) {
-        actualValue.value = innerText;
+        saveSelection(actualValue.value);
+        actualValue.value = filterInput(innerText);
+        if (innerText !== actualValue.value) {
+          updateInput();
+        }
       }
       function clearValue() {
         actualValue.value = '';
@@ -60,19 +80,30 @@
         focus();
       }
 
+      function filterInput(text) {
+        return text.replace(/\n/g, ' ');
+      }
+
       const input = ref(null);
       function updateInput() {
         input.value.innerText = actualValue.value;
+        restoreSelection();
       }
       function focus() {
         input.value?.focus?.();
+        setCaretToEnd(input.value);
       }
       function blur() {
         input.value?.blur?.();
       }
 
+      const { saveSelection, restoreSelection } = useCaret(input);
+
       const { fieldState } = useFieldContent({
+        type: 'input',
+        cursor: 'text',
         ref: input,
+        props,
         focus,
         blur,
       });
@@ -87,6 +118,20 @@
         focusing.value = false;
         trigger('onBlur');
       }
+      function onEnter() {
+        emit('enter');
+      }
+      function onDelete() {
+        emit('delete');
+      }
+
+      const inputClass = computed(() => {
+        const classes = [];
+        if (focusing.value) {
+          classes.push('is-focus');
+        }
+        return classes;
+      });
 
       return {
         actualValue,
@@ -100,6 +145,10 @@
         blur,
         onFocus,
         onBlur,
+        onEnter,
+        onDelete,
+
+        inputClass,
       };
     },
   };
@@ -107,6 +156,16 @@
 
 <style lang="less" scoped>
   .form-input {
+    &:not(.is-focus) {
 
+    }
+    .form-input__content {
+      &:empty {
+        &::before {
+          @apply text-positive-200;
+          content: attr(placeholder);
+        }
+      }
+    }
   }
 </style>

@@ -36,7 +36,7 @@
     setup() {
       const { list } = useList();
 
-      // Set list-value, async
+      // Set list-modelValue, async
       setTimeout(() => {
         list.value = [
           {
