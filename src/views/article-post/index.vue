@@ -8,9 +8,9 @@
       />
     </div>
 
-    <form class="post flex-auto relative body mt-36 rounded-lg border border-negative-700 bg-negative-900" @submit.prevent>
+    <form class="post flex-auto relative body-x py-8 mt-36 rounded-lg border border-negative-700 bg-negative-900" @submit.prevent>
       
-      <field label="标题">
+      <field label="标题" class="cursor-text">
         <form-input type="text" placeholder="请输入标题" />
       </field>
 
@@ -18,7 +18,7 @@
         <form-input type="text" placeholder="请输入标签" />
       </field>
       
-<!--      <markdown-editor v-model="form.content" />-->
+      <!--<markdown-editor v-model="form.content" />-->
     </form>
   </container>
 </template>

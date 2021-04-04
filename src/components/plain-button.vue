@@ -5,7 +5,12 @@
     @click.stop="onClick"
   >
     <slot name="icon">
-      <icon class="text-lg" :name="icon" v-if="icon" />
+      <icon
+        class="text-lg"
+        :class="iconClass"
+        :name="icon"
+        v-if="icon"
+      />
     </slot>
     <span class="ml-1.5 text-sm" v-if="$slots.default || text">
       <slot>{{ text }}</slot>
@@ -42,6 +47,10 @@
         default: '',
       },
       activeClass: {
+        type: [Object, Array, String],
+        default: '',
+      },
+      iconClass: {
         type: [Object, Array, String],
         default: '',
       },

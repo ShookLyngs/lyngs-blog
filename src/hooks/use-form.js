@@ -31,16 +31,12 @@ export function useField(initialState = {}) {
   }
   function execute(name, ...args) {
     if (!isRegistered.value) return;
-    if (!content.value?.[name]) {
-      throw new Error(`No method in Field is call: ${name}`);
-    }
-
     content.value?.[name]?.(...args);
   }
+
   function trigger(name, ...args) {
     fieldState?.[name]?.(...args);
   }
-
   const fieldState = reactive({
     content,
     isRegistered,

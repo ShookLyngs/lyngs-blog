@@ -1,10 +1,10 @@
 <template>
   <div
-    class="field px-3.5 py-3 transition rounded-lg outline-none box-border border-3 border-negative-700"
+    class="field px-3.5 py-3"
     :class="wrapperClass"
     @click="focus"
   >
-    <div class="text-xl font-bold text-positive-800 select-none" v-if="label">
+    <div class="text-lg font-bold text-positive-800 select-none" v-if="label">
       <slot name="label">
         {{ label }}
       </slot>
@@ -44,11 +44,9 @@
 
       const wrapperClass = computed(() => {
         const classes = [];
-
         if (focusing.value) {
           classes.push('is-focus');
         }
-
         return classes;
       });
 
@@ -64,6 +62,9 @@
 
 <style lang="less" scoped>
   .field {
+    @apply transition rounded-lg outline-none;
+    @apply box-border border-3 border-negative-700 active:border-theme-500;
+
     & + & {
       @apply mt-5;
     }
