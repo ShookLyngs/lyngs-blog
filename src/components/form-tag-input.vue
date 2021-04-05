@@ -61,10 +61,10 @@
       });
 
       const input = ref(null);
-      const lastValue = computed(() => {
-        console.log('input.value.lastValue', input.value.lastValue);
-        return input.value ? input.value.lastValue : null;
-      });
+      const lastValue = computed(() => input.value?.lastValue ?? null);
+      function updateInput(value) {
+        input.value?.updateInput?.(value);
+      }
 
       const tags = ref([]);
       function removeTag(tag) {
@@ -78,14 +78,12 @@
         const index = tags.value.findIndex(row => row.text === text);
         if (text.length && index < 0) {
           tags.value.push({ text });
-          actualValue.value = '';
+          updateInput((actualValue.value = ''));
         }
       }
-      function onDelete() {
-        console.log(lastValue.value);
-        const isActualValueEmpty = !actualValue.value.trim().length;
-        const isLastValueEmpty = typeof lastValue.value === 'string' && !lastValue.value.trim().length;
-        if (isActualValueEmpty && isLastValueEmpty && tags.value.length) {
+      function onDelete(beforePressText, afterPressText) {
+        const isEmpty = beforePressText.trim() === afterPressText.trim() && beforePressText.trim() === '';
+        if (isEmpty && tags.value.length) {
           removeTag(tags.value[tags.value.length - 1]);
         }
       }

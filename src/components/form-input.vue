@@ -11,7 +11,8 @@
       @focus="onFocus"
       @blur="onBlur"
       @keyup.enter="onEnter"
-      @keyup.delete="onDelete"
+      @keydown.delete="onKeyDownDelete"
+      @keyup.delete="onKeyUpDelete"
     />
 
     <!-- Clear modelValue button -->
@@ -66,7 +67,6 @@
         updateInput(props.modelValue);
       });
       watch(actualValue, () => {
-        if (actualValue.value) deleteEmptyTimes = 0;
         emit('update:modelValue', actualValue.value);
       });
       function onInput({ target: { innerText } }) {
@@ -99,7 +99,12 @@
         input.value?.blur?.();
       }
 
-      const { lastContent: lastValue, /*clearSelection,*/ saveSelection, restoreSelection } = useCaret(input);
+      const {
+        lastContent: lastValue,
+        saveSelection,
+        restoreSelection
+      } = useCaret(input);
+
       const { fieldState } = useFieldContent({
         type: 'input',
         cursor: 'text',
@@ -123,17 +128,12 @@
         emit('enter');
       }
 
-      let deleteEmptyTimes = 0;
-      function onDelete() {
-        console.log(deleteEmptyTimes);
-        if (!actualValue.value) {
-          deleteEmptyTimes++;
-        }
-        if (deleteEmptyTimes > 1) {
-          updateInput(actualValue.value);
-        }
-
-        emit('delete');
+      let beforeDeleteValue = null;
+      function onKeyDownDelete() {
+        beforeDeleteValue = actualValue.value;
+      }
+      function onKeyUpDelete() {
+        emit('delete', beforeDeleteValue, actualValue.value);
       }
 
       const inputClass = computed(() => {
@@ -151,6 +151,7 @@
         clearValue,
 
         input,
+        updateInput,
 
         focusing,
         focus,
@@ -158,7 +159,8 @@
         onFocus,
         onBlur,
         onEnter,
-        onDelete,
+        onKeyDownDelete,
+        onKeyUpDelete,
 
         inputClass,
       };

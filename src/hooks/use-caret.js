@@ -8,9 +8,11 @@ const range = ref(null);
 function getSelection() {
   return window.getSelection();
 }
+
 function createRange() {
   return document.createRange();
 }
+
 function setRange(node, start, end) {
   const [ childNode ] = node.childNodes;
   if (!childNode) return;
@@ -96,24 +98,13 @@ export function useCaret(target) {
   return {
     selection,
     range,
-    lastRange,
-    lastContent,
 
     isCurrent,
-    setRange,
-    createRange,
-    getSelection,
+
+    lastRange,
+    lastContent,
     saveSelection,
     restoreSelection,
     clearSelection,
   };
 }
-
-/*
-function copyTextContainer(target) {
-  const keys = [''];
-
-  const result = {};
-  keys.forEach(key => result[key] = target[key]);
-  return result;
-}*/
