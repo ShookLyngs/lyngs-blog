@@ -1,6 +1,6 @@
 <template>
   <div
-    class="field px-3.5 py-3"
+    class="field px-3.5 py-2.5"
     :class="wrapperClass"
     @click="focus"
   >

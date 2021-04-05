@@ -15,8 +15,9 @@
         />
       </template>
     </plain-button>
-    <div class="flex">
+    <div class="flex flex-auto">
       <form-input
+        clearable
         ref="input"
         :="$attrs"
         v-model="actualValue"
@@ -29,7 +30,7 @@
 
 <script>
   // Functions
-  import {computed, ref, watch} from 'vue';
+  import { ref, computed, watch } from 'vue';
   // Components
   import Icon from '@/components/icon';
   import FormInput from '@/components/form-input.vue';

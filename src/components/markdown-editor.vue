@@ -1,16 +1,20 @@
 <template>
   <div class="h-full flex flex-col">
-    <textarea
-      class="flex-auto w-full p-4 rounded-lg outline-none box-border border-3 border-negative-600 resize-none"
+    <!--<textarea
+      class="flex-auto w-full outline-none resize-none"
       v-model="content"
-    />
+    />-->
+    <form-input textarea v-model="content" />
     <div class="flex-auto" v-html="converted" />
   </div>
 </template>
 
 <script>
+  // Functions
   import { ref, watch, watchEffect } from 'vue';
-
+  // Components
+  import FormInput from '@/components/form-input.vue';
+  // Markdown
   import MarkdownIt from 'markdown-it';
   import highlight from 'highlight.js';
   import 'highlight.js/styles/tomorrow-night-eighties.css';
@@ -30,9 +34,11 @@
     }
   });
 
-
   export default {
     name: 'markdown-editor',
+    components: {
+      FormInput,
+    },
     props: {
       value: {
         type: String,

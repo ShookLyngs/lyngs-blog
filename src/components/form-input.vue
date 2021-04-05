@@ -3,7 +3,7 @@
     <!-- Content Input, not a regular input -->
     <div
       ref="input"
-      class="form-input__content lex-auto focus:outline-none"
+      class="form-input__content flex-auto focus:outline-none"
       v-bind="$attrs"
       :contenteditable="!disabled"
       @click.stop
@@ -55,7 +55,7 @@
         type: Boolean,
         default: false,
       },
-      inline: {
+      textarea: {
         type: Boolean,
         default: false,
       },
@@ -69,8 +69,8 @@
       watch(actualValue, () => {
         emit('update:modelValue', actualValue.value);
       });
-      function onInput({ target: { innerText } }) {
-        updateInput(filterInput(innerText));
+      function onInput(event) {
+        updateInput(filterInput(event.target.innerText));
       }
       function clearValue() {
         updateInput('');
@@ -78,7 +78,7 @@
       }
 
       function filterInput(text) {
-        return text.replace(/\n/g, '');
+        return props.textarea ? text : text.replace(/\n/g, '');
       }
 
       const input = ref(null);

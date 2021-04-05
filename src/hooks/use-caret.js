@@ -12,19 +12,50 @@ function getSelection() {
 function createRange() {
   return document.createRange();
 }
+function getRangeText(target) {
+  const parent = target.commonAncestorContainer.parentNode;
+  if (parent) return parent.innerText;
+  else return target.commonAncestorContainer?.innerText ?? '';
+}
 
 function setRange(node, start, end) {
   const [ childNode ] = node.childNodes;
   if (!childNode) return;
 
+  const parent = childNode.parentNode;
+  console.log(parent);
+
   const newRange = createRange();
-  newRange.setStart(childNode, start);
-  newRange.setEnd(childNode, end);
+  newRange.setStart(parent, start);
+  newRange.setEnd(parent, end);
   newRange.collapse(start === end);
 
   const currentSelection = getSelection();
   currentSelection.removeAllRanges();
   currentSelection.addRange(newRange);
+
+  /*for (let i = 0; i < childNodes.length; i++) {
+    const childNode = childNodes[i];
+    const childLength = childNode.textContent.length;
+    if (!childNode) {
+      continue;
+    }
+
+    if (start > childLength || end > childLength) {
+      start -= start > childLength ? childLength : 0;
+      end -= end > childLength ? childLength : 0;
+      continue;
+    }
+
+    const newRange = createRange();
+    newRange.setStart(parent, start);
+    newRange.setEnd(parent, end);
+    newRange.collapse(start === end);
+
+    const currentSelection = getSelection();
+    currentSelection.removeAllRanges();
+    currentSelection.addRange(newRange);
+  }*/
 }
 function isInNode(node) {
   return node === selection.value.focusNode.parentNode;
@@ -69,10 +100,11 @@ export function useCaret(target) {
       return;
     }
 
-    const currentText = range.value.commonAncestorContainer.textContent;
+    const currentText = getRangeText(range.value);
     const lastText = lastContent.value;
     const lastOffset = lastRange.value.endOffset;
     const diff = createDiff(lastText, currentText, lastOffset);
+    console.log('diff', diff);
 
     let changedOffset = lastOffset;
     for (let i = 0; i < diff.length; i++) {
@@ -92,7 +124,10 @@ export function useCaret(target) {
   }
 
   watch(range, () => {
-    saveSelection(range.value.commonAncestorContainer.textContent);
+    console.log('watch range', getRangeText(range.value));
+    if (range.value) {
+      saveSelection(getRangeText(range.value));
+    }
   });
 
   return {
