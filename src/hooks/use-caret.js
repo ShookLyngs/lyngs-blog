@@ -1,5 +1,5 @@
-import { ref, computed } from 'vue';
-import { diffChars } from 'diff';
+import {ref, computed, watch} from 'vue';
+import createDiff from 'fast-diff';
 
 // Current
 const selection = ref(null);
@@ -23,7 +23,6 @@ function setRange(node, start, end) {
   const currentSelection = getSelection();
   currentSelection.removeAllRanges();
   currentSelection.addRange(newRange);
-  console.log(start, end, newRange);
 }
 function isInNode(node) {
   return node === selection.value.focusNode.parentNode;
@@ -31,7 +30,6 @@ function isInNode(node) {
 function updateSelection(newSelection = getSelection()) {
   selection.value = newSelection;
   range.value = selection.value.getRangeAt(0);
-  // console.log(selection.value, range.value);
 }
 
 document.addEventListener('selectionchange', () => updateSelection());
@@ -45,38 +43,77 @@ export function useCaret(target) {
     }
   });
 
-  const storeRange = ref(null);
-  const storeContent = ref(null);
+  const lastRange = ref(null);
+  const lastContent = ref(null);
   function saveSelection(text) {
     const {
       startOffset, endOffset, collapse,
-      commonAncestorContainer, startContainer, endContainer
+      startContainer, endContainer, commonAncestorContainer,
     } = range.value;
-    storeRange.value = {
-      startOffset, endOffset, collapse,
-      commonAncestorContainer, startContainer, endContainer
+
+    lastRange.value = {
+      startOffset,
+      endOffset,
+      collapse,
+      startContainer,
+      endContainer,
+      commonAncestorContainer,
     };
-    storeContent.value = text;
-    console.log('save', storeRange.value);
+
+    lastContent.value = text;
   }
   function restoreSelection() {
-    if (!isCurrent.value) return;
+    if (!isCurrent.value) {
+      return;
+    }
 
-    console.log('store', range.value, storeRange.value);
     const currentText = range.value.commonAncestorContainer.textContent;
-    const storeText = storeContent.value;
-    console.log(currentText, storeText, diffChars(storeText, currentText));
-    //setRange(target.value, storeRange.value.startOffset, storeRange.value.endOffset);
+    const lastText = lastContent.value;
+    const lastOffset = lastRange.value.endOffset;
+    const diff = createDiff(lastText, currentText, lastOffset);
+
+    let changedOffset = lastOffset;
+    for (let i = 0; i < diff.length; i++) {
+      const rowState = diff[i][0];
+      const rowContent = diff[i][1];
+      if (rowState < 0) {
+        changedOffset -= rowContent.length;
+      } else if (rowState > 0) {
+        changedOffset += rowContent.length;
+      }
+    }
+
+    setRange(target.value, changedOffset, changedOffset);
   }
+  function clearSelection() {
+    updateSelection();
+  }
+
+  watch(range, () => {
+    saveSelection(range.value.commonAncestorContainer.textContent);
+  });
 
   return {
     selection,
     range,
+    lastRange,
+    lastContent,
+
     isCurrent,
     setRange,
     createRange,
     getSelection,
     saveSelection,
     restoreSelection,
+    clearSelection,
   };
 }
+
+/*
+function copyTextContainer(target) {
+  const keys = [''];
+
+  const result = {};
+  keys.forEach(key => result[key] = target[key]);
+  return result;
+}*/

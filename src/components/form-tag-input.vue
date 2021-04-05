@@ -15,8 +15,9 @@
         />
       </template>
     </plain-button>
-    <div class="flex mt-1 mb-1">
+    <div class="flex">
       <form-input
+        ref="input"
         :="$attrs"
         v-model="actualValue"
         @enter="onEnter"
@@ -28,7 +29,7 @@
 
 <script>
   // Functions
-  import { ref, watch } from 'vue';
+  import {computed, ref, watch} from 'vue';
   // Components
   import Icon from '@/components/icon';
   import FormInput from '@/components/form-input.vue';
@@ -59,6 +60,12 @@
         emit('input', actualValue.value);
       });
 
+      const input = ref(null);
+      const lastValue = computed(() => {
+        console.log('input.value.lastValue', input.value.lastValue);
+        return input.value ? input.value.lastValue : null;
+      });
+
       const tags = ref([]);
       function removeTag(tag) {
         const index = tags.value.findIndex(row => row === tag);
@@ -75,13 +82,18 @@
         }
       }
       function onDelete() {
-        if (!actualValue.value.trim().length && tags.value.length) {
+        console.log(lastValue.value);
+        const isActualValueEmpty = !actualValue.value.trim().length;
+        const isLastValueEmpty = typeof lastValue.value === 'string' && !lastValue.value.trim().length;
+        if (isActualValueEmpty && isLastValueEmpty && tags.value.length) {
           removeTag(tags.value[tags.value.length - 1]);
         }
       }
 
       return {
+        input,
         actualValue,
+        lastValue,
         tags,
         removeTag,
         onEnter,

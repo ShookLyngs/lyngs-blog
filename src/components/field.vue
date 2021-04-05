@@ -79,7 +79,6 @@
       return {
         focusing,
         focus,
-
         wrapperClass,
       };
     },

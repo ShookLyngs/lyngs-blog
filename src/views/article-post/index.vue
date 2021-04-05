@@ -17,8 +17,6 @@
       <field label="标签">
         <form-tag-input placeholder="请输入标签" />
       </field>
-
-      <textarea class="w-full h-auto resize-none overflow-visible"></textarea>
       
       <!--<markdown-editor v-model="form.content" />-->
     </form>

@@ -1,5 +1,5 @@
 <template>
-  <div class="form-input w-full flex items-end" :class="inputClass">
+  <div class="form-input pt-1 pb-1 w-full flex items-end" :class="inputClass">
     <!-- Content Input, not a regular input -->
     <div
       ref="input"
@@ -54,38 +54,40 @@
         type: Boolean,
         default: false,
       },
+      inline: {
+        type: Boolean,
+        default: false,
+      },
     },
     emits: [ 'update:modelValue', 'enter', 'delete' ],
     setup(props, { emit }) {
       const actualValue = ref(props.modelValue);
       watch(() => props.modelValue, () => {
-        if (actualValue.value !== props.modelValue) {
-          actualValue.value = props.modelValue;
-          updateInput();
-        }
+        updateInput(props.modelValue);
       });
       watch(actualValue, () => {
+        if (actualValue.value) deleteEmptyTimes = 0;
         emit('update:modelValue', actualValue.value);
       });
       function onInput({ target: { innerText } }) {
-        saveSelection(actualValue.value);
-        actualValue.value = filterInput(innerText);
-        if (innerText !== actualValue.value) {
-          updateInput();
-        }
+        updateInput(filterInput(innerText));
       }
       function clearValue() {
-        actualValue.value = '';
-        updateInput();
+        updateInput('');
         focus();
       }
 
       function filterInput(text) {
-        return text.replace(/\n/g, ' ');
+        return text.replace(/\n/g, '');
       }
 
       const input = ref(null);
-      function updateInput() {
+      function updateInput(value) {
+        if (!value && actualValue.value === value) {
+          saveSelection(actualValue.value);
+        }
+
+        actualValue.value = value;
         input.value.innerText = actualValue.value;
         restoreSelection();
       }
@@ -97,8 +99,7 @@
         input.value?.blur?.();
       }
 
-      const { saveSelection, restoreSelection } = useCaret(input);
-
+      const { lastContent: lastValue, /*clearSelection,*/ saveSelection, restoreSelection } = useCaret(input);
       const { fieldState } = useFieldContent({
         type: 'input',
         cursor: 'text',
@@ -121,7 +122,17 @@
       function onEnter() {
         emit('enter');
       }
+
+      let deleteEmptyTimes = 0;
       function onDelete() {
+        console.log(deleteEmptyTimes);
+        if (!actualValue.value) {
+          deleteEmptyTimes++;
+        }
+        if (deleteEmptyTimes > 1) {
+          updateInput(actualValue.value);
+        }
+
         emit('delete');
       }
 
@@ -135,6 +146,7 @@
 
       return {
         actualValue,
+        lastValue,
         onInput,
         clearValue,
 
