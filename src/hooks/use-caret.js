@@ -1,4 +1,4 @@
-import {ref, computed, watch} from 'vue';
+import { ref, computed, watch } from 'vue';
 import createDiff from 'fast-diff';
 
 // Current
@@ -8,54 +8,47 @@ const range = ref(null);
 function getSelection() {
   return window.getSelection();
 }
-
 function createRange() {
   return document.createRange();
 }
 function getRangeText(target) {
   const parent = target.commonAncestorContainer.parentNode;
   if (parent) return parent.innerText;
-  else return target.commonAncestorContainer?.innerText ?? '';
+
+  const { innerText, textContent } = target.commonAncestorContainer;
+  return innerText ?? textContent;
 }
 
 function setRange(node, start, end) {
-  const [ childNode ] = node.childNodes;
-  if (!childNode) return;
+  const childNodes = node.childNodes;
+  console.log(childNodes, start);
 
-  const parent = childNode.parentNode;
-  console.log(parent);
-
-  const newRange = createRange();
-  newRange.setStart(parent, start);
-  newRange.setEnd(parent, end);
-  newRange.collapse(start === end);
-
-  const currentSelection = getSelection();
-  currentSelection.removeAllRanges();
-  currentSelection.addRange(newRange);
-
-  /*for (let i = 0; i < childNodes.length; i++) {
+  for (let i = 0; i < childNodes.length; i++) {
     const childNode = childNodes[i];
-    const childLength = childNode.textContent.length;
-    if (!childNode) {
-      continue;
-    }
+    const childLength = Math.max((childNode.innerText || childNode.textContent)?.length, 1);
 
     if (start > childLength || end > childLength) {
+      console.log('too long', start, childLength, childNode);
       start -= start > childLength ? childLength : 0;
       end -= end > childLength ? childLength : 0;
       continue;
     }
+    if (start === 1 && !(childNode.innerText || childNode.textContent)) {
+      start = 0;
+      end = 0;
+    }
+
+    console.log(start, end);
 
     const newRange = createRange();
-    newRange.setStart(parent, start);
-    newRange.setEnd(parent, end);
+    newRange.setStart(childNode, start);
+    newRange.setEnd(childNode, end);
     newRange.collapse(start === end);
 
     const currentSelection = getSelection();
     currentSelection.removeAllRanges();
     currentSelection.addRange(newRange);
-  }*/
+  }
 }
 function isInNode(node) {
   return node === selection.value.focusNode.parentNode;
@@ -91,6 +84,7 @@ export function useCaret(target) {
       startContainer,
       endContainer,
       commonAncestorContainer,
+      commonNode: commonAncestorContainer.parentNode,
     };
 
     lastContent.value = text;
@@ -104,7 +98,8 @@ export function useCaret(target) {
     const lastText = lastContent.value;
     const lastOffset = lastRange.value.endOffset;
     const diff = createDiff(lastText, currentText, lastOffset);
-    console.log('diff', diff);
+
+    console.log({ lastText }, { currentText }, lastOffset);
 
     let changedOffset = lastOffset;
     for (let i = 0; i < diff.length; i++) {

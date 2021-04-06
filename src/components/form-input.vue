@@ -64,7 +64,9 @@
     setup(props, { emit }) {
       const actualValue = ref(props.modelValue);
       watch(() => props.modelValue, () => {
-        updateInput(props.modelValue);
+        if (actualValue.value !== props.modelValue) {
+          updateInput(props.modelValue);
+        }
       });
       watch(actualValue, () => {
         emit('update:modelValue', actualValue.value);
