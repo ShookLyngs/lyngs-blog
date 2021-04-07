@@ -1,15 +1,28 @@
 <template>
   <div class="flex flex-col flex-auto">
-    <form-input
-      textarea
-      v-bind="$attrs"
-      v-model="content"
-    />
-    <div class="flex-auto" v-html="converted" />
-    <div class="flex-static flex justify-between items-center" @click.stop.prevent @mousedown.prevent.stop>
-      <div>left</div>
+    <div class="flex-auto min-h-" v-if="!preview">
+      <form-input
+        textarea
+        v-bind="$attrs"
+        v-model="content"
+      />
+    </div>
+    <div class="py-1 flex-auto" v-html="converted" v-else />
+    <div class="py-2 sticky bottom-0 flex-static flex justify-between items-center bg-white">
       <div>
-        <border-button >发表</border-button>
+        <plain-button icon="icon-yes-fill" />
+      </div>
+      <div class="flex-static flex items-center">
+        <plain-button
+          icon="icon-yes-fill"
+          text="预览"
+          class="mr-3"
+          normal-class="text-positive-600"
+          active-class="text-theme-500"
+          :active="preview"
+          @click="togglePreview"
+        />
+        <border-button text="发表" />
       </div>
     </div>
   </div>
@@ -17,9 +30,12 @@
 
 <script>
   // Functions
-  import { ref, watch, watchEffect } from 'vue';
+  import { ref, watchEffect } from 'vue';
+  import { useModel } from '@/hooks/use-model';
   // Components
   import FormInput from '@/components/form-input.vue';
+  import BorderButton from '@/components/border-button.vue';
+  import PlainButton from '@/components/plain-button.vue';
   // Markdown
   import MarkdownIt from 'markdown-it';
   import highlight from 'highlight.js';
@@ -31,7 +47,7 @@
         try {
           const transformed = highlight.highlight(string, { language });
           return `<pre class="code hljs"><code>${transformed.value}</code></pre>`;
-        } catch (_) {
+        } catch {
           /**/
         }
       }
@@ -44,6 +60,8 @@
     name: 'markdown-editor',
     components: {
       FormInput,
+      BorderButton,
+      PlainButton,
     },
     props: {
       value: {
@@ -53,18 +71,22 @@
     },
     emits: [ 'update:modelValue' ],
     setup(props, { emit }) {
-      const content = ref(props.value);
-      watch(() => props.value, () => content.value = props.value);
-      watch(content, () => emit('update:modelValue', content.value));
-
+      const content = useModel('modelValue', () => props.value, emit);
       const converted = ref(content.value);
       watchEffect(() => {
         converted.value = markdown.render(content.value);
       });
 
+      const preview = ref(false);
+      function togglePreview() {
+        preview.value = !preview.value;
+      }
+
       return {
         content,
         converted,
+        preview,
+        togglePreview,
       };
     },
   };

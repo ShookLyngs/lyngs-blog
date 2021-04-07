@@ -1,5 +1,5 @@
 <template>
-  <div class="form-input pt-1 pb-1 w-full flex items-end" :class="inputClass">
+  <div class="form-input py-1 w-full flex items-end" :class="inputClass">
     <!-- Content Input, not a regular input -->
     <div
       ref="input"
@@ -10,6 +10,7 @@
       @input="onInput"
       @focus="onFocus"
       @blur="onBlur"
+      @paste="onPaste"
       @keyup.enter="onEnter"
       @keydown.delete="onKeyDownDelete"
       @keyup.delete="onKeyUpDelete"
@@ -32,7 +33,7 @@
 
 <script>
   // Functions
-  import { ref, computed, watch } from 'vue';
+  import { ref, computed, watch, onMounted } from 'vue';
   import { useFieldContent } from '@/hooks/use-form';
   import { useCaret } from '@/hooks/use-caret';
   import { setCaretToEnd } from '@/assets/util/dom';
@@ -87,7 +88,10 @@
         return props.textarea ? text.replace(/\n{,}/g, '\n\n\n') : text.replace(/\n/g, '');
       }
 
-      const input = ref(null);
+      const input = ref();
+      function triggerInput() {
+        onInput({ target: input.value });
+      }
       function updateInput(value) {
         if (!value && actualValue.value === value) {
           saveSelection(actualValue.value);
@@ -104,6 +108,12 @@
       function blur() {
         input.value?.blur?.();
       }
+
+      onMounted(() => {
+        if (input.value) {
+          input.value.innerText = actualValue.value;
+        }
+      });
 
       const {
         lastContent: lastValue,
@@ -133,6 +143,9 @@
       function onEnter() {
         emit('enter');
       }
+      function onPaste() {
+
+      }
 
       const composition = ref(false);
       function onCompositionStart() {
@@ -140,7 +153,7 @@
       }
       function onCompositionEnd() {
         composition.value = false;
-        onInput({ target: input.value });
+        triggerInput();
       }
 
       let beforeDeleteValue = null;
@@ -159,6 +172,7 @@
         return classes;
       });
 
+
       return {
         actualValue,
         lastValue,
@@ -173,6 +187,7 @@
         blur,
         onFocus,
         onBlur,
+        onPaste,
         onEnter,
         onKeyDownDelete,
         onKeyUpDelete,

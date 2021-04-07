@@ -16,11 +16,13 @@
         <form-tag-input clearable placeholder="按回车键注入标签" />
       </field>
 
-      <div class="h-10" />
+      <!-- 分割线 -->
+      <div class="h-12 flex justify-center items-center">
+        <div class="gap w-1/3 bg-negative-700" />
+      </div>
 
       <field label="正文" class="flex-auto flex flex-col">
         <markdown-editor placeholder="请输入正文" v-model="form.content" />
-        <template></template>
       </field>
     </form>
   </container>
@@ -62,6 +64,9 @@
     left: 50%;
     height: 260px;
     transform: translate3d(-50%, 0, 0);
+  }
+  .gap {
+    height: 2px;
   }
 
   .post {
