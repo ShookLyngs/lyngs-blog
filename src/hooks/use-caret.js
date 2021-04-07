@@ -82,8 +82,12 @@ function isInNode(node) {
   return node === selection.value.focusNode.parentNode;
 }
 function updateSelection(newSelection = getSelection()) {
-  selection.value = newSelection;
-  range.value = selection.value.getRangeAt(0);
+  try {
+    selection.value = newSelection;
+    range.value = selection.value.getRangeAt(0);
+  } catch {
+    /**/
+  }
 }
 
 document.addEventListener('selectionchange', () => updateSelection());

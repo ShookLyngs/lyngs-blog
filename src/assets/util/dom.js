@@ -119,8 +119,10 @@ export const getScrollBarWidth = () => {
  * @param element
  */
 export function setCaretToEnd(element) {
-  const childNodes = element.childNodes;
-  if (!childNodes.length) return;
+  if (!element) return;
+
+  const { childNodes } = element;
+  if (!childNodes?.length) return;
 
   const { [childNodes.length - 1]: lastNode } = childNodes;
   if (!lastNode) return;
