@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-col flex-auto">
-    <div class="flex-auto min-h-" v-if="!preview">
+    <div class="flex-auto editor-min-height" v-if="!preview">
       <form-input
         textarea
         v-bind="$attrs"
         v-model="content"
       />
     </div>
-    <div class="py-1 flex-auto" v-html="converted" v-else />
+    <div class="py-1 flex-auto editor-min-height" v-html="converted" v-else />
     <div class="py-2 sticky bottom-0 flex-static flex justify-between items-center bg-white">
       <div>
         <plain-button icon="icon-yes-fill" />
@@ -96,5 +96,8 @@
   .code {
     @apply rounded-md;
     white-space: pre;
+  }
+  .editor-min-height {
+    min-height: 200px;
   }
 </style>
