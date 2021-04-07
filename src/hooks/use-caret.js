@@ -19,16 +19,43 @@ function getRangeText(target) {
   return innerText ?? textContent;
 }
 
+function getRelativeOffset(wrapper, inner, innerOffset, inheritOffset = 0) {
+  const { childNodes } = wrapper;
+  const wrapperContent = wrapper.innerText || wrapper.textContent;
+
+  console.log('node-start', childNodes, inner, innerOffset);
+  for (let i = 0; i < childNodes.length; i++) {
+    const childNode = childNodes[i];
+    const isLastNode = i + 1 >= childNodes.length;
+
+    console.log(`node-${i}-0`, childNode.textContent, inner.textContent, childNode === inner);
+    if (childNode === inner) {
+      console.log(`node-${i}-1`);
+      const fixLength = innerOffset === 0 && isLastNode && childNode.nodeName === 'BR' ? 1 : 0;
+      return inheritOffset + innerOffset + fixLength;
+    } else if (childNode.childNodes?.length) {
+      console.log(`node-${i}-2`);
+      inheritOffset = getRelativeOffset(childNode, inner, innerOffset, inheritOffset);
+    } else {
+      console.log(`node-${i}-3`, wrapperContent);
+      const { innerText, textContent } = childNode;
+      const nodeLength = Math.max((innerText || textContent).length, 1);
+      inheritOffset += wrapperContent.length ? nodeLength : 0;
+    }
+  }
+
+  return inheritOffset;
+}
+
 function setRange(node, start, end) {
+  console.log('offset-start', start);
   const childNodes = node.childNodes;
-  console.log(childNodes, start);
 
   for (let i = 0; i < childNodes.length; i++) {
     const childNode = childNodes[i];
     const childLength = Math.max((childNode.innerText || childNode.textContent)?.length, 1);
 
     if (start > childLength || end > childLength) {
-      console.log('too long', start, childLength, childNode);
       start -= start > childLength ? childLength : 0;
       end -= end > childLength ? childLength : 0;
       continue;
@@ -38,7 +65,7 @@ function setRange(node, start, end) {
       end = 0;
     }
 
-    console.log(start, end);
+    console.log('offset-end', start, { childNode });
 
     const newRange = createRange();
     newRange.setStart(childNode, start);
@@ -48,6 +75,7 @@ function setRange(node, start, end) {
     const currentSelection = getSelection();
     currentSelection.removeAllRanges();
     currentSelection.addRange(newRange);
+    break;
   }
 }
 function isInNode(node) {
@@ -69,6 +97,7 @@ export function useCaret(target) {
     }
   });
 
+  const lastTarget = ref(null);
   const lastRange = ref(null);
   const lastContent = ref(null);
   function saveSelection(text) {
@@ -76,7 +105,6 @@ export function useCaret(target) {
       startOffset, endOffset, collapse,
       startContainer, endContainer, commonAncestorContainer,
     } = range.value;
-
     lastRange.value = {
       startOffset,
       endOffset,
@@ -84,22 +112,23 @@ export function useCaret(target) {
       startContainer,
       endContainer,
       commonAncestorContainer,
-      commonNode: commonAncestorContainer.parentNode,
+    };
+
+    lastTarget.value = {
+      childNodes: [ ...target.value.childNodes ],
+      innerText: text,
     };
 
     lastContent.value = text;
   }
   function restoreSelection() {
-    if (!isCurrent.value) {
-      return;
-    }
+    if (!isCurrent.value) return;
 
     const currentText = getRangeText(range.value);
     const lastText = lastContent.value;
-    const lastOffset = lastRange.value.endOffset;
-    const diff = createDiff(lastText, currentText, lastOffset);
-
-    console.log({ lastText }, { currentText }, lastOffset);
+    const lastOffset = getRelativeOffset(lastTarget.value, lastRange.value.endContainer, lastRange.value.endOffset);
+    const isLastAtEnd = lastText.length === lastOffset;
+    const diff = createDiff(lastText, currentText, lastOffset).map(row => [row[0], row[1], row[1].length]);
 
     let changedOffset = lastOffset;
     for (let i = 0; i < diff.length; i++) {
@@ -111,7 +140,10 @@ export function useCaret(target) {
         changedOffset += rowContent.length;
       }
     }
+    changedOffset = Math.max(Math.min(changedOffset, currentText.length), 0);
 
+    console.log('offset-diff', diff, lastText.length, lastOffset, isLastAtEnd);
+    console.log('offset-start', lastRange.value.endOffset, lastOffset, changedOffset);
     setRange(target.value, changedOffset, changedOffset);
   }
   function clearSelection() {
@@ -119,7 +151,6 @@ export function useCaret(target) {
   }
 
   watch(range, () => {
-    console.log('watch range', getRangeText(range.value));
     if (range.value) {
       saveSelection(getRangeText(range.value));
     }
