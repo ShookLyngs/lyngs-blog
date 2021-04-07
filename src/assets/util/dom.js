@@ -119,16 +119,18 @@ export const getScrollBarWidth = () => {
  * @param element
  */
 export function setCaretToEnd(element) {
-  const position = element.textContent.length;
-  const [ childNode ] = element.childNodes;
-  if (!childNode) {
-    return;
-  }
+  const childNodes = element.childNodes;
+  if (!childNodes.length) return;
+
+  const { [childNodes.length - 1]: lastNode } = childNodes;
+  if (!lastNode) return;
+
+  const position = lastNode.length || (lastNode.innerText || lastNode.textContent).length;
 
   const range = document.createRange();
   const selection = window.getSelection();
-  range.setStart(childNode, position);
-  range.setEnd(childNode, position);
+  range.setStart(lastNode, position);
+  range.setEnd(lastNode, position);
   range.collapse(true);
   selection.removeAllRanges();
   selection.addRange(range);

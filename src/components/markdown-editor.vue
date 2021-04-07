@@ -1,11 +1,17 @@
 <template>
-  <div class="h-full flex flex-col">
-    <!--<textarea
-      class="flex-auto w-full outline-none resize-none"
+  <div class="flex flex-col flex-auto">
+    <form-input
+      textarea
+      v-bind="$attrs"
       v-model="content"
-    />-->
-    <form-input textarea v-model="content" />
+    />
     <div class="flex-auto" v-html="converted" />
+    <div class="flex-static flex justify-between items-center" @click.stop.prevent @mousedown.prevent.stop>
+      <div>left</div>
+      <div>
+        <border-button >发表</border-button>
+      </div>
+    </div>
   </div>
 </template>
 

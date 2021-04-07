@@ -13,6 +13,8 @@
       @keyup.enter="onEnter"
       @keydown.delete="onKeyDownDelete"
       @keyup.delete="onKeyUpDelete"
+      @compositionstart="onCompositionStart"
+      @compositionend="onCompositionEnd"
     />
 
     <!-- Clear modelValue button -->
@@ -72,7 +74,9 @@
         emit('update:modelValue', actualValue.value);
       });
       function onInput(event) {
-        updateInput(filterInput(event.target.innerText));
+        if (!composition.value) {
+          updateInput(filterInput(event.target.innerText));
+        }
       }
       function clearValue() {
         updateInput('');
@@ -80,7 +84,7 @@
       }
 
       function filterInput(text) {
-        return props.textarea ? text : text.replace(/\n/g, '');
+        return props.textarea ? text.replace(/\n{,}/g, '\n\n\n') : text.replace(/\n/g, '');
       }
 
       const input = ref(null);
@@ -130,6 +134,15 @@
         emit('enter');
       }
 
+      const composition = ref(false);
+      function onCompositionStart() {
+        composition.value = true;
+      }
+      function onCompositionEnd() {
+        composition.value = false;
+        onInput({ target: input.value });
+      }
+
       let beforeDeleteValue = null;
       function onKeyDownDelete() {
         beforeDeleteValue = actualValue.value;
@@ -163,6 +176,8 @@
         onEnter,
         onKeyDownDelete,
         onKeyUpDelete,
+        onCompositionStart,
+        onCompositionEnd,
 
         inputClass,
       };
