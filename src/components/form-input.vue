@@ -85,7 +85,7 @@
       }
 
       function filterInput(text) {
-        return props.textarea ? text.replace(/\n{,}/g, '\n\n\n') : text.replace(/\n/g, '');
+        return props.textarea ? text.replace(/\n{4,}/g, '\n\n\n') : text.replace(/\n/g, '');
       }
 
       const input = ref();
@@ -98,8 +98,11 @@
         }
 
         actualValue.value = value;
-        input.value.innerText = actualValue.value;
+        syncInputContent();
         restoreSelection();
+      }
+      function syncInputContent() {
+        input.value.innerText = actualValue.value;
       }
       function focus() {
         input.value?.focus?.();
@@ -111,7 +114,7 @@
 
       onMounted(() => {
         if (input.value) {
-          input.value.innerText = actualValue.value;
+          syncInputContent();
         }
       });
 
@@ -139,6 +142,7 @@
       function onBlur() {
         focusing.value = false;
         trigger('onBlur');
+
       }
       function onEnter() {
         emit('enter');
