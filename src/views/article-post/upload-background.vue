@@ -45,6 +45,8 @@
           backgroundStyle.value = {
             backgroundImage: `url(${url})`,
           };
+
+          onBlur();
         }
       });
 
@@ -52,6 +54,7 @@
       const backgroundClass = computed(() => {
         const classes = [];
         if (isHover.value) classes.push('is-hover');
+        if (background.value) classes.push('is-fill');
         return classes;
       });
       function onHover() {
@@ -99,11 +102,16 @@
       @apply bg-negative-500;
       transform: scale3d(1, 1, 1);
     }
+    &.is-fill {
+      .upload-button {
+        @apply opacity-70;
+      }
+    }
     &.is-hover {
       @apply opacity-80 bg-negative-500;
 
       .upload-button {
-        @apply bg-negative-900 text-theme-500 shadow-xl;
+        @apply opacity-100 bg-negative-900 text-theme-500 shadow-xl;
         transform: scale3d(1.2, 1.2, 1);
       }
     }
