@@ -6,7 +6,8 @@ export default createTheme({
   data: {
     colors: {
       negative: {
-        600: '#dbdbdb',
+        500: '#dbdbdb',
+        600: '#ececec',
         700: '#f3f3f3',
         800: '#f9f9f9',
         900: '#ffffff',

@@ -1,12 +1,7 @@
 <template>
   <container class="flex-auto" content-class="flex-auto flex flex-col">
     <!-- banner -->
-    <div class="relative">
-      <div
-        class="background bg-cover bg-center bg-negative-700 w-full md:breaker-content"
-        :style="{ backgroundImage: `url()` }"
-      />
-    </div>
+    <upload-background  />
 
     <form class="post flex-auto flex flex-col relative body-x py-8 mt-36 rounded-lg border border-negative-700 bg-negative-900" @submit.prevent>
       <field label="标题">
@@ -36,6 +31,7 @@
   import FormInput from '@/components/form-input.vue';
   import FormTagInput from '@/components/form-tag-input.vue';
   import MarkdownEditor from '@/components/markdown-editor.vue';
+  import UploadBackground from './upload-background.vue';
 
   export default {
     name: 'article-post',
@@ -44,6 +40,7 @@
       FormInput,
       FormTagInput,
       MarkdownEditor,
+      UploadBackground,
     },
     setup() {
       const form = reactive({
@@ -59,12 +56,6 @@
 </script>
 
 <style lang="less" scoped>
-  .background {
-    @apply absolute top-0 overflow-hidden rounded-2xl;
-    left: 50%;
-    height: 260px;
-    transform: translate3d(-50%, 0, 0);
-  }
   .gap {
     height: 2px;
   }

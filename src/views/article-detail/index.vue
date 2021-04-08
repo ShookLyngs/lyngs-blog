@@ -82,7 +82,7 @@
       </div>
 
       <!--<div class="body sticky top-0">
-        <textarea class="w-full p-4 rounded-lg outline-none box-border border-3 border-negative-600" name="reply" cols="20" ></textarea>
+        <textarea class="w-full p-4 rounded-lg outline-none box-border border-3 border-negative-500" name="reply" cols="20" ></textarea>
       </div>-->
 
       <comment

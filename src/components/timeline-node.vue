@@ -16,7 +16,7 @@
       class="absolute flex justify-center box-content right-0"
       :style="lineWrapperStyle"
     >
-      <div class="w-px h-full bg-negative-600" />
+      <div class="w-px h-full bg-negative-500" />
     </div>
   </div>
 </template>

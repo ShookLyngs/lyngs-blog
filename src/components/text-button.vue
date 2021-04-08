@@ -73,7 +73,7 @@
 
     // types
     &--gray {
-      @apply md:hover:bg-negative-700 active:bg-negative-600 md:active:bg-negative-600;
+      @apply md:hover:bg-negative-700 active:bg-negative-500 md:active:bg-negative-500;
       @apply text-positive-700 active:text-theme-600;
 
       &.is-disabled {
