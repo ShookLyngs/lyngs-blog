@@ -40,7 +40,7 @@ function getRelativeOffset(wrapper, inner, innerOffset, inheritOffset = 0) {
       console.log(`node-${i}-3`, wrapperContent);
       const { innerText, textContent } = childNode;
       const nodeLength = Math.max((innerText || textContent).length, 1);
-      inheritOffset += wrapperContent.length ? nodeLength : 0;
+      inheritOffset += wrapperContent?.length ? nodeLength : 0;
     }
   }
 

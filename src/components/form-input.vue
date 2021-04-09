@@ -88,9 +88,10 @@
         updateInput('');
         focus();
       }
-
       function filterInput(text) {
-        return props.textarea ? text.replace(/\n{4,}/g, '\n\n\n') : text.replace(/\n/g, '');
+        return props.textarea
+          ? text.replace(/\n{4,}/g, '\n\n\n')
+          : text.replace(/\n/g, '');
       }
 
       const input = ref();
@@ -103,9 +104,6 @@
         restoreSelection();
       }
       function syncModelValue(value) {
-        if (!value && actualValue.value === value) {
-          saveSelection(actualValue.value);
-        }
         actualValue.value = value;
       }
       function syncInputContent() {
@@ -127,7 +125,6 @@
 
       const {
         lastContent: lastValue,
-        saveSelection,
         restoreSelection
       } = useCaret(input);
 
@@ -147,7 +144,7 @@
         trigger('onFocus');
       }
       function onBlur() {
-        triggerInput();
+        // triggerInput();
         focusing.value = false;
         trigger('onBlur');
       }
