@@ -10,9 +10,6 @@
     <div class="py-1 flex-auto editor-min-height" v-html="converted" v-else />
     <div class="py-2 sticky bottom-0 flex-static flex justify-between items-center bg-white">
       <div>
-        <plain-button icon="icon-yes-fill" />
-      </div>
-      <div class="flex-static flex items-center">
         <plain-button
           icon="icon-yes-fill"
           text="预览"
@@ -22,6 +19,8 @@
           :active="preview"
           @click="togglePreview"
         />
+      </div>
+      <div class="flex-static flex items-center">
         <border-button text="发表" />
       </div>
     </div>

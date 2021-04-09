@@ -8,12 +8,13 @@
       class="mr-7 hidden lg:block"
       :is-first="isFirst"
       :is-last="isLast"
-      :time="row.createTime"
+      :time="localeDateTime(row.createTime)"
     />
 
     <!-- Card -->
     <div
       class="scale-card body box-border rounded-xl border border-negative-700 bg-negative-900"
+      @click="onClick"
     >
       <div class="text-xl text-positive-800 font-bold truncate md:text-2xl">
         {{ row.title }}
@@ -32,6 +33,7 @@
 
 <script>
   // Functions
+  import { localeDateTime } from '@/assets/util/time';
   import { useListItem } from '@/hooks/use-list';
   // Components
   import Tag from '@/components/tag.vue';
@@ -49,16 +51,28 @@
         default: () => ({}),
       },
     },
-    setup(props) {
-      const { data: row, isFirst, isLast, isExist } = useListItem({
+    emits: [ 'click' ],
+    setup(props, { emit }) {
+      const {
+        data: row,
+        isFirst,
+        isLast,
+        isExist
+      } = useListItem({
         row: () => props.data,
       });
+
+      function onClick() {
+        emit('click');
+      }
 
       return {
         row,
         isFirst,
         isLast,
         isExist,
+        onClick,
+        localeDateTime,
       };
     },
   };
