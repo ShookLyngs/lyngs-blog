@@ -5,7 +5,7 @@
 
     <form class="post flex-auto flex flex-col relative body-x py-8 mt-36 rounded-lg border border-negative-700 bg-negative-900" @submit.prevent>
       <field label="标题">
-        <form-input clearable placeholder="响亮的标题" />
+        <form-input clearable placeholder="起个响亮的标题" />
       </field>
       <field label="标签">
         <form-tag-input clearable placeholder="按回车键注入标签" />
@@ -17,7 +17,7 @@
       </div>
 
       <field label="正文" class="flex-auto flex flex-col">
-        <markdown-editor placeholder="说点什么" v-model="form.content" />
+        <markdown-editor placeholder="说点什么吧" v-model="form.content" />
       </field>
 
     </form>

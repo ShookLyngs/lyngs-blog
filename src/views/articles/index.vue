@@ -2,8 +2,27 @@
   <container>
     <!-- post article button, teleport to the header layout -->
     <teleport to="#header-button-slot">
-      <border-button border-width="md" @click="toPost">发布文章</border-button>
+      <collapse
+        direction="horizontal"
+        show-class="opacity-100"
+        hidden-class="opacity-0"
+        :show="isShowHeaderPostButton"
+      >
+        <border-button border-width="md" style="min-width: 110px" @click="toPost">发布文章</border-button>
+      </collapse>
     </teleport>
+
+    <div class="h-36 mb-16 rounded-lg bg-center bg-cover bg-negative-600" :style="{ backgroundImage: `url(${articlesImage})` }" />
+
+    <div class="pb-8 flex justify-between items-center">
+      <div>
+        <div class="text-2xl font-bold">文章</div>
+        <div class="text-sm text-positive-400">一些比较完整的段落</div>
+      </div>
+      <div>
+        <border-button ref="postButton" border-width="md" @click="toPost">发布文章</border-button>
+      </div>
+    </div>
 
     <empty key="empty" v-if="!list.length" />
     <transition-group name="list">
@@ -21,11 +40,15 @@
 
 <script>
   // Functions
-  import { useList } from '@/hooks/use-list';
+  import { computed, ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import { useList } from '@/hooks/use-list';
+  import { useLayoutState } from '@/hooks/use-layout-state';
   // Components
   import ArticleListItem from './article-list-item.vue';
   import Pager from '@/components/pager.vue';
+  // Resources
+  import articlesImage from '@/assets/images/article/articles.jpg';
 
   export default {
     name: 'articles',
@@ -134,6 +157,17 @@
         }, 500);
       }, 1000);
 
+      const postButton = ref();
+      const { scrollTop } = useLayoutState();
+      const isShowHeaderPostButton = computed(() => {
+        if (postButton.value && scrollTop.value) {
+          const rect = postButton.value.$el.getBoundingClientRect();
+          return rect.top < (80 - rect.height);
+        } else {
+          return false;
+        }
+      });
+
       const { push } = useRouter();
       function toArticle(row) {
         push({
@@ -151,8 +185,14 @@
 
       return {
         list,
+
+        postButton,
+        isShowHeaderPostButton,
+
         toArticle,
         toPost,
+
+        articlesImage,
       };
     },
   };
