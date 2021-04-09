@@ -76,7 +76,12 @@
       });
       function onInput(event) {
         if (!composition.value) {
-          updateInput(filterInput(event.target.innerText));
+          const filteredInputValue = filterInput(event.target.innerText);
+          if (!props.textarea) {
+            updateInput(filteredInputValue);
+          } else {
+            syncModelValue(filterInput(filteredInputValue));
+          }
         }
       }
       function clearValue() {
@@ -93,13 +98,15 @@
         onInput({ target: input.value });
       }
       function updateInput(value) {
+        syncModelValue(value);
+        syncInputContent();
+        restoreSelection();
+      }
+      function syncModelValue(value) {
         if (!value && actualValue.value === value) {
           saveSelection(actualValue.value);
         }
-
         actualValue.value = value;
-        syncInputContent();
-        restoreSelection();
       }
       function syncInputContent() {
         input.value.innerText = actualValue.value;
@@ -140,9 +147,9 @@
         trigger('onFocus');
       }
       function onBlur() {
+        triggerInput();
         focusing.value = false;
         trigger('onBlur');
-
       }
       function onEnter() {
         emit('enter');

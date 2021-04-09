@@ -10,7 +10,7 @@
       @dragleave="onBlur"
       @dragover="onHover"
       @drop="onDrop"
-      @click="choose"
+      @click="select"
     >
       <div class="h-36 text-3xl text-positive-600 flex justify-center items-center">
         <div class="upload-button w-14 h-14 transition duration-300 flex justify-center items-center rounded-full">
@@ -28,11 +28,17 @@
 </template>
 
 <script>
+  // Functions
   import { ref, computed, watchEffect} from 'vue';
   import { useUpload } from '@/hooks/use-upload';
+  // Components
+  import Icon from '@/components/icon';
 
   export default {
     name: 'upload-background',
+    components: {
+      Icon,
+    },
     setup() {
       const background = ref('');
       const backgroundStyle = ref({});
@@ -41,6 +47,7 @@
       watchEffect(async () => {
         if (files.value.length) {
           background.value = files.value[0];
+
           const url = await loadFile(background.value);
           backgroundStyle.value = {
             backgroundImage: `url(${url})`,
@@ -65,7 +72,7 @@
       }
 
       const fileInput = ref();
-      function choose() {
+      function select() {
         fileInput.value.click();
       }
       function onFileInputChange({ target }) {
@@ -83,7 +90,7 @@
         onBlur,
 
         fileInput,
-        choose,
+        select,
         onFileInputChange,
       };
     },
@@ -104,11 +111,11 @@
     }
     &.is-fill {
       .upload-button {
-        @apply opacity-70;
+        @apply opacity-50;
       }
     }
     &.is-hover {
-      @apply opacity-80 bg-negative-500;
+      @apply opacity-80 bg-negative-600;
 
       .upload-button {
         @apply opacity-100 bg-negative-900 text-theme-500 shadow-xl;

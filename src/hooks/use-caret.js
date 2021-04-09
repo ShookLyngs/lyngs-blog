@@ -130,6 +130,7 @@ export function useCaret(target) {
 
     const currentText = getRangeText(range.value);
     const lastText = lastContent.value;
+    console.log('last-range', lastRange.value);
     const lastOffset = getRelativeOffset(lastTarget.value, lastRange.value.endContainer, lastRange.value.endOffset);
     const isLastAtEnd = lastText.length === lastOffset;
     const diff = createDiff(lastText, currentText, lastOffset).map(row => [row[0], row[1], row[1].length]);
