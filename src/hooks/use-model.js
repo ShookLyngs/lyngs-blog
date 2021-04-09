@@ -1,12 +1,11 @@
 import { ref, unref, watch } from 'vue';
 
-export function useModel(name, target, emit) {
+export function useModel(target, effect) {
   const getter = () => unwrap(target);
-  const emitName = `update:${name}`;
 
   const model = ref(getter());
   watch(getter, () => model.value = getter());
-  watch(model, () => emit(emitName, model.value));
+  watch(model, () => effect(model.value));
 
   return model;
 }

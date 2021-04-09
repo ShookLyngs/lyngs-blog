@@ -3,7 +3,7 @@
     <plain-button
       text="tag"
       normal-class="mt-0.5 mb-0.5 mr-1.5 font-medium bg-negative-700"
-      v-for="tag in tags"
+      v-for="tag in actualTags"
       :key="tag.text"
     >
       <template #default>
@@ -30,7 +30,8 @@
 
 <script>
   // Functions
-  import { ref, computed, watch } from 'vue';
+  import { ref, computed } from 'vue';
+  import { useModel } from '@/hooks/use-model';
   // Components
   import Icon from '@/components/icon';
   import FormInput from '@/components/form-input.vue';
@@ -48,44 +49,47 @@
         type: [ String, Number ],
         default: '',
       },
+      tags: {
+        type: Array,
+        default: () => [],
+      },
     },
-    emits: [ 'input' ],
+    emits: [ 'update:modelValue', 'update:tags' ],
     setup(props, { emit }) {
-      const actualValue = ref(props.modelValue);
-      watch(() => props.modelValue, () => {
-        if (actualValue.value !== props.modelValue) {
-          actualValue.value = props.modelValue;
-        }
-      });
-      watch(actualValue, () => {
-        emit('input', actualValue.value);
-      });
+      const actualValue = useModel(
+        () => props.modelValue,
+        (value) => emit('update:modelValue', value)
+      );
 
-      const input = ref(null);
+      const input = ref();
       const lastValue = computed(() => input.value?.lastValue ?? null);
       function updateInput(value) {
         input.value?.updateInput?.(value);
       }
 
-      const tags = ref([]);
+      const actualTags = useModel(
+        () => props.tags,
+        (value) => emit('update:tags', value)
+      );
       function removeTag(tag) {
-        const index = tags.value.findIndex(row => row === tag);
+        const index = actualTags.value.findIndex(row => row === tag);
         if (index > -1) {
-          tags.value.splice(index, 1);
+          actualTags.value.splice(index, 1);
         }
       }
       function onEnter() {
         const text = actualValue.value.trim();
-        const index = tags.value.findIndex(row => row.text === text);
+        const index = actualTags.value.findIndex(row => row.text === text);
         if (text.length && index < 0) {
-          tags.value.push({ text });
+          actualTags.value.push({ text });
           updateInput((actualValue.value = ''));
         }
       }
       function onDelete(beforePressText, afterPressText) {
-        const isEmpty = beforePressText.trim() === afterPressText.trim() && beforePressText.trim() === '';
-        if (isEmpty && tags.value.length) {
-          removeTag(tags.value[tags.value.length - 1]);
+        const isEmpty = (beforePressText = beforePressText.trim()) === '';
+        const isSame = beforePressText === afterPressText.trim();
+        if (isSame && isEmpty && actualTags.value.length) {
+          removeTag(actualTags.value[actualTags.value.length - 1]);
         }
       }
 
@@ -93,7 +97,7 @@
         input,
         actualValue,
         lastValue,
-        tags,
+        actualTags,
         removeTag,
         onEnter,
         onDelete,

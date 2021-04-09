@@ -1,7 +1,7 @@
 <template>
   <container class="flex-auto" content-class="flex-auto flex flex-col">
     <!-- banner -->
-    <upload-background  />
+    <upload-background />
 
     <form class="post flex-auto flex flex-col relative body-x py-8 mt-36 rounded-lg border border-negative-700 bg-negative-900" @submit.prevent>
       <field label="标题">
@@ -19,6 +19,7 @@
       <field label="正文" class="flex-auto flex flex-col">
         <markdown-editor placeholder="请输入正文" v-model="form.content" />
       </field>
+
     </form>
   </container>
 </template>

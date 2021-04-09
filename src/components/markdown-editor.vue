@@ -71,7 +71,10 @@
     },
     emits: [ 'update:modelValue' ],
     setup(props, { emit }) {
-      const content = useModel('modelValue', () => props.value, emit);
+      const content = useModel(
+        () => props.value,
+        (value) => emit('update:modelValue', value)
+      );
       const converted = ref(content.value);
       watchEffect(() => {
         converted.value = markdown.render(content.value);
