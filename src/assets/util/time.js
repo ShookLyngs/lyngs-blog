@@ -22,8 +22,6 @@ export function localeDateTime(targetTime) {
   const days = now.diff(target, 'd');
   const years = now.diff(target, 'y');
 
-  console.log(now.format('YYYY年 M月D日 HH:mm'));
-
   if (hours <= 6) {
     return target.fromNow();
   } else if (days < 2) {
