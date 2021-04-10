@@ -1,28 +1,22 @@
 <template>
   <container>
     <!-- post article button, teleport to the header layout -->
-    <teleport to="#header-button-slot">
-      <collapse
-        direction="horizontal"
-        show-class="opacity-100"
-        hidden-class="opacity-0"
-        :show="isShowHeaderPostButton"
-      >
-        <border-button border-width="md" style="min-width: 110px" @click="toPost">发布文章</border-button>
-      </collapse>
+    <teleport to="#header-actions">
+      <transition name="fade-fast">
+        <border-button
+          border-width="md"
+          style="min-width: 110px"
+          text="发布文章"
+          @click="toPost"
+          v-if="isShowPostButton"
+        />
+      </transition>
     </teleport>
 
-    <div class="h-36 mb-16 rounded-lg bg-center bg-cover bg-negative-600" :style="{ backgroundImage: `url(${articlesImage})` }" />
-
-    <div class="pb-8 flex justify-between items-center">
-      <div>
-        <div class="text-2xl font-bold">文章</div>
-        <div class="text-sm text-positive-400">一些比较完整的段落</div>
-      </div>
-      <div>
-        <border-button ref="postButton" border-width="md" @click="toPost">发布文章</border-button>
-      </div>
-    </div>
+    <div
+      class="h-36 mb-16 rounded-lg bg-center bg-cover bg-negative-600"
+      :style="{ backgroundImage: `url(${articlesImage})` }"
+    />
 
     <empty key="empty" v-if="!list.length" />
     <transition-group name="list">
@@ -40,10 +34,9 @@
 
 <script>
   // Functions
-  import { computed, ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
   import { useList } from '@/hooks/use-list';
-  import { useLayoutState } from '@/hooks/use-layout-state';
   // Components
   import ArticleListItem from './article-list-item.vue';
   import Pager from '@/components/pager.vue';
@@ -57,9 +50,8 @@
       Pager,
     },
     setup() {
+      // Article list
       const { list } = useList();
-
-      // Set list-modelValue, async
       setTimeout(() => {
         list.value = [
           {
@@ -79,7 +71,6 @@
             tags: ['前端开发', '开发日记', 'Vue3'],
           },
         ];
-
         // Add list item, async
         setTimeout(() => {
           list.value.push({
@@ -157,15 +148,10 @@
         }, 500);
       }, 1000);
 
-      const postButton = ref();
-      const { scrollTop } = useLayoutState();
-      const isShowHeaderPostButton = computed(() => {
-        if (postButton.value && scrollTop.value) {
-          const rect = postButton.value.$el.getBoundingClientRect();
-          return rect.top < (80 - rect.height);
-        } else {
-          return false;
-        }
+      // Header post button
+      const isShowPostButton = ref(false);
+      onMounted(() => {
+        setTimeout(() => isShowPostButton.value = true, 500);
       });
 
       const { push } = useRouter();
@@ -178,24 +164,27 @@
         });
       }
       function toPost() {
-        push({
-          name: 'article-post',
-        });
+        push({ name: 'article-post' });
       }
 
       return {
+        // Article list
         list,
 
-        postButton,
-        isShowHeaderPostButton,
+        // Header post button
+        isShowPostButton,
 
+        // Router
         toArticle,
         toPost,
 
+        // Resources
         articlesImage,
       };
     },
   };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+
+</style>

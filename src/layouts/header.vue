@@ -35,8 +35,15 @@
           </tabs>
         </div>
         <div class="flex">
-          <div class="flex-static ml-5" id="header-button-slot">
-            <!--<border-button border-width="md">发布文章</border-button>-->
+          <div class="flex-static ml-5">
+            <collapse
+              direction="horizontal"
+              show-class="opacity-100"
+              hidden-class="opacity-0"
+              :show="isShowHeaderActions"
+            >
+              <div class="w-max" id="header-actions" />
+            </collapse>
           </div>
           <div
             class="rounded-full overflow-hidden flex-static ml-2.5 w-10 h-10 bg-gray-100"
@@ -57,28 +64,42 @@
   // Functions
   import { ref, watchEffect } from 'vue';
   import { useRoute } from 'vue-router';
+  import { useLayoutState } from '@/hooks/use-layout-state';
   // Components
   import Tabs from '@/components/tabs.vue';
   import Tab from '@/components/tab.vue';
+  import Collapse from '@/components/collapse';
 
   export default {
     name: 'layout-header',
     components: {
       Tabs,
       Tab,
+      Collapse,
     },
     setup() {
+      // Current tab
       const currentTab = ref(null);
       function onTabUpdate(current) {
         currentTab.value = current;
       }
 
+      // Watch changes of current tab
       const route = useRoute();
       watchEffect(() => (currentTab.value = route.name));
+
+      // Show header parts
+      const isShowHeaderActions = ref(true);
+
+      // Add properties into layout state
+      const layoutState = useLayoutState();
+      layoutState.currentTab = currentTab;
+      layoutState.isShowHeaderActions = isShowHeaderActions;
 
       return {
         currentTab,
         onTabUpdate,
+        isShowHeaderActions,
       };
     },
   };

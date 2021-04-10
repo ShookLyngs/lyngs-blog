@@ -1,15 +1,15 @@
 <template>
   <container>
     <!-- post reply button, teleport to the header layout -->
-    <teleport to="#header-button-slot">
-      <collapse
-        direction="horizontal"
-        show-class="opacity-100"
-        hidden-class="opacity-0"
-        :show="isShowHeaderPostButton"
-      >
-        <border-button border-width="md" style="min-width: 110px">发表评论</border-button>
-      </collapse>
+    <teleport to="#header-actions">
+      <transition name="fade-fast">
+        <border-button
+          border-width="md"
+          style="min-width: 110px"
+          text="发表评论"
+          v-if="isShowPostButton"
+        />
+      </transition>
     </teleport>
 
     <!-- banner -->
@@ -154,10 +154,10 @@ something darker for *us*
       // Post button
       // When the post button has been scrolled out of the screen,
       // the button shows in header
-      const postButton = ref(null);
-      const { scrollTop } = useLayoutState();
-      const isShowHeaderPostButton = computed(() => {
-        if (postButton.value && scrollTop.value) {
+      const postButton = ref();
+      const layoutState = useLayoutState();
+      const isShowPostButton = computed(() => {
+        if (postButton.value && layoutState.scrollTop) {
           const rect = postButton.value.$el.getBoundingClientRect();
           return rect.top < (80 - rect.height);
         } else {
@@ -166,13 +166,14 @@ something darker for *us*
       });
 
       return {
+        // Article content
         data,
 
+        // Header post button
         postButton,
-        scrollTop,
-        isShowHeaderPostButton,
+        isShowPostButton,
 
-        // resources
+        // Resources
         detailImage,
         avatarImage,
       };

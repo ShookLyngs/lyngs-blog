@@ -1,9 +1,9 @@
-import { provide, inject } from 'vue';
+import { provide, inject, reactive } from 'vue';
 
 export const layoutStateKey = 'layoutState';
 
 export function createLayoutState(state) {
-  provide(layoutStateKey, state);
+  provide(layoutStateKey, reactive(state));
 }
 
 export function useLayoutState(key = layoutStateKey) {

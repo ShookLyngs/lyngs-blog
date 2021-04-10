@@ -47,7 +47,7 @@
 
       // Watch route changes
       // When route updated, scroll content to the top
-      const scroll = ref(null);
+      const scroll = ref();
       const route = useRoute();
       const lastFullPath = ref(route.fullPath);
       watchEffect(() => {
