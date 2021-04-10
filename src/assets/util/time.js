@@ -30,6 +30,8 @@ export function localeDateTime(targetTime) {
       nextDay: '[明天] HH:mm',
       lastDay: '[昨天] HH:mm',
       sameElse: 'YYYY年 M月DD日',
+      lastWeek: '[周]dd HH:mm',
+      nextWeek: '[本周]dd HH:mm',
     });
   } else if (years < 1) {
     return target.format('M月D日 HH:mm');

@@ -26,22 +26,28 @@
 
 <script>
   // Functions
-  import { reactive } from 'vue';
+  import {defineAsyncComponent, reactive} from 'vue';
   // Components
   import Field from '@/components/field.vue';
+  /*import Field from '@/components/field.vue';
   import FormInput from '@/components/form-input.vue';
   import FormTagInput from '@/components/form-tag-input.vue';
   import MarkdownEditor from '@/components/markdown-editor.vue';
-  import UploadBackground from './upload-background.vue';
+  import UploadBackground from './upload-background.vue';*/
 
   export default {
     name: 'article-post',
     components: {
       Field,
+      FormInput: defineAsyncComponent(() => import('@/components/form-input.vue')),
+      FormTagInput: defineAsyncComponent(() => import('@/components/form-tag-input.vue')),
+      MarkdownEditor: defineAsyncComponent(() => import('@/components/markdown-editor.vue')),
+      UploadBackground: defineAsyncComponent(() => import('./upload-background.vue')),
+      /*Field,
       FormInput,
       FormTagInput,
       MarkdownEditor,
-      UploadBackground,
+      UploadBackground,*/
     },
     setup() {
       const form = reactive({
