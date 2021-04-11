@@ -1,6 +1,6 @@
 <template>
-  <div class="relative flex justify-center items-center" v-loading="loading">
-    <!-- Real shown image -->
+  <div class="relative flex justify-center items-center" v-loading="true">
+    <!-- Image shown -->
     <img
       class="w-full object-fit"
       :src="src"
@@ -8,28 +8,18 @@
       v-if="!loading && !error"
     >
 
-    <!-- Load Failed -->
+    <!-- Load image failed -->
     <div v-if="!loading && error" @click="retry">
       <slot>
         X
         <!-- TODO: Load fail content -->
       </slot>
     </div>
-
-    <!-- Image load Tester -->
-    <img
-      class="hidden"
-      alt=""
-      :src="src"
-      @load="onLoaded"
-      @error="onLoadError"
-      v-if="request"
-    >
   </div>
 </template>
 
 <script>
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
 
   export default {
     name: 'imager',
@@ -39,34 +29,35 @@
         default: '',
       },
     },
-    setup() {
-      const request = ref(true);
+    setup(props) {
       const loading = ref(true);
       const error = ref(false);
 
+      function finish(isSuccess) {
+        loading.value = false;
+        error.value = !isSuccess;
+      }
       function retry() {
-        request.value = true;
         loading.value = true;
       }
-      function finish(isError) {
-        request.value = false;
-        loading.value = false;
-        error.value = isError;
-      }
-      function onLoaded() {
-        finish(false);
-      }
-      function onLoadError() {
-        finish(true);
+      function createImageElement() {
+        const element = new Image();
+        element.onload = () => setTimeout(() => finish(true), 10000);
+        element.onerror = () => finish(false);
+        if (props.src) {
+          element.src = props.src;
+        }
+
+        return element;
       }
 
+      const image = ref(createImageElement());
+      watch(() => props.src, () => image.value = createImageElement());
+
       return {
-        request,
         loading,
         error,
         retry,
-        onLoaded,
-        onLoadError,
       };
     },
   };

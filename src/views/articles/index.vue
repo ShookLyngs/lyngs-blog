@@ -15,7 +15,7 @@
 
     <!-- Banner -->
     <div
-      class="h-36 rounded-lg bg-center bg-cover bg-negative-600"
+      class="transition h-36 rounded-lg cursor-pointer bg-center bg-cover bg-negative-600 active:opacity-80"
       :style="{ backgroundImage: `url(${articlesImage})` }"
     />
 

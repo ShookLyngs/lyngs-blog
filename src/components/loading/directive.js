@@ -49,6 +49,7 @@ const updateStore = (root, binding) => {
 };
 
 const install = (vue) => {
+  console.log('install v-loading');
   vue.directive('loading', {
     mounted(root, binding) {
       console.log(root);

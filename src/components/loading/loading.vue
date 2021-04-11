@@ -32,7 +32,10 @@
     components: {
       LoadingCircle,
     },
-    emits: ['after-leave', 'click-wrap'],
+    emits: [
+      'after-leave',
+      'click-wrap',
+    ],
     setup(props, { emit }) {
       // refs
       const text = ref('');
