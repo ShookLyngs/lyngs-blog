@@ -1,6 +1,6 @@
 <template>
   <container>
-    <!-- post article button, teleport to the header layout -->
+    <!-- Header post-button -->
     <teleport to="#header-actions">
       <transition name="fade-fast">
         <border-button
@@ -13,11 +13,18 @@
       </transition>
     </teleport>
 
+    <!-- Banner -->
     <div
-      class="h-36 mb-16 rounded-lg bg-center bg-cover bg-negative-600"
+      class="h-36 rounded-lg bg-center bg-cover bg-negative-600"
       :style="{ backgroundImage: `url(${articlesImage})` }"
     />
 
+    <!-- Divider -->
+    <div class="h-12 pt-2.5 flex justify-center items-center">
+      <div class="gap w-1/3 bg-negative-700" />
+    </div>
+
+    <!-- List -->
     <empty key="empty" v-if="!list.length" />
     <transition-group name="list">
       <ArticleListItem
@@ -28,6 +35,7 @@
       />
     </transition-group>
 
+    <!-- Pager -->
     <pager class="mt-5" v-if="list.length" />
   </container>
 </template>
@@ -186,5 +194,7 @@
 </script>
 
 <style lang="less" scoped>
-
+  .gap {
+    height: 2px;
+  }
 </style>
