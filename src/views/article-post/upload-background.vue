@@ -99,10 +99,9 @@
 
 <style lang="less" scoped>
   .background {
-    @apply w-full absolute top-0 overflow-hidden rounded-2xl cursor-pointer md:breaker-content;
+    @apply w-full h-64 absolute top-0 overflow-hidden rounded-2xl cursor-pointer md:breaker-content;
     @apply transition duration-300 bg-cover bg-center bg-negative-700;
     left: 50%;
-    height: 260px;
     transform: translate3d(-50%, 0, 0);
 
     .upload-button {
