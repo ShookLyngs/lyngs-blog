@@ -183,9 +183,8 @@ something darker for *us*
 
 <style lang="less" scoped>
   .background {
-    @apply absolute top-0 overflow-hidden rounded-2xl;
+    @apply absolute top-0 h-64 overflow-hidden rounded-2xl;
     left: 50%;
-    height: 260px;
     transform: translate3d(-50%, 0, 0);
   }
 
