@@ -55,9 +55,7 @@
     setup(props, { emit }) {
       const {
         data: row,
-        isFirst,
-        isLast,
-        isExist
+        isFirst, isLast, isExist,
       } = useListItem({
         row: () => props.data,
       });

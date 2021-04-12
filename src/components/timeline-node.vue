@@ -79,11 +79,11 @@
 
       const lineWrapperStyle = computed(() => {
         const top = props.isFirst
-          ? `${props.nodeHeight + props.symbolSize / 2}rem`
+          ? `${props.nodeTop + (props.nodeHeight/ 2)}rem`
           : '0';
         const bottom = props.isLast ? 'initial' : '0';
         const height = props.isLast
-          ? `${props.nodeTop + props.nodeHeight / 2}rem`
+          ? props.isFirst ? '0' : `${props.nodeTop + props.nodeHeight / 2}rem`
           : 'auto';
 
         return {
