@@ -39,6 +39,7 @@
         />
         <plain-button
           icon="icon-no-fill"
+          class="ml-2"
           normal-class="text-positive-400 bg-negative-700"
           active-class="text-negative-700 bg-error-500"
           text="9"

@@ -25,7 +25,7 @@
     </div>
 
     <!-- List -->
-    <empty key="empty" v-if="!list.length" />
+    <empty v-if="!list.length" />
     <transition-group name="list">
       <ArticleListItem
         v-for="item in list"
