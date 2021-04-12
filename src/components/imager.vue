@@ -10,7 +10,6 @@
         v-if="!loading && !error"
       >
     </transition>
-
     <!-- Load image failed -->
     <transition :name="transition ? transitionName : ''">
       <div v-if="!loading && error" @click="retry">
