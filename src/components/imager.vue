@@ -1,20 +1,24 @@
 <template>
-  <div class="relative flex justify-center items-center" v-loading="true">
+  <div class="relative flex justify-center items-center">
     <!-- Image shown -->
-    <img
-      class="w-full object-fit"
-      :src="src"
-      alt=""
-      v-if="!loading && !error"
-    >
+    <transition :name="transition ? transitionName : ''">
+      <img
+        class="w-full object-fit"
+        :src="src"
+        alt=""
+        v-loading="true"
+        v-if="!loading && !error"
+      >
+    </transition>
 
     <!-- Load image failed -->
-    <div v-if="!loading && error" @click="retry">
-      <slot>
-        X
-        <!-- TODO: Load fail content -->
-      </slot>
-    </div>
+    <transition :name="transition ? transitionName : ''">
+      <div v-if="!loading && error" @click="retry">
+        <slot>
+          <icon name="icon-image" />
+        </slot>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -28,6 +32,14 @@
         type: [Object, String],
         default: '',
       },
+      transition: {
+        type: Boolean,
+        default: false,
+      },
+      transitionName: {
+        type: String,
+        default: 'fade-fast',
+      },
     },
     setup(props) {
       const loading = ref(true);
@@ -39,10 +51,11 @@
       }
       function retry() {
         loading.value = true;
+        image.value = createImageElement();
       }
       function createImageElement() {
         const element = new Image();
-        element.onload = () => setTimeout(() => finish(true), 10000);
+        element.onload = () => finish(true);
         element.onerror = () => finish(false);
         if (props.src) {
           element.src = props.src;

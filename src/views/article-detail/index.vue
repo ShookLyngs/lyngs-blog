@@ -47,7 +47,7 @@
       <div class="mt-20 body-y flex justify-between bg-negative-900">
         <div class="flex items-center">
           <imager
-            class="flex-static w-10 h-10 rounded-full overflow-hidden select-none"
+            class="flex-static w-10 h-10 rounded-full overflow-hidden select-none bg-negative-700"
             :src="avatarImage"
           />
           <div class="ml-3 select-none">
