@@ -30,7 +30,7 @@
           </div>
 
           <div class="flex mt-8">
-            <plain-button icon="icon-reply" text="16" class="bg-negative-700" />
+            <plain-button icon="icon-reply" text="16" class="text-positive-500 bg-negative-700" />
           </div>
         </div>
       </div>
@@ -87,23 +87,31 @@
   }
 
   .image {
-    @apply mx-1;
-    &--1,
+    @apply mr-1 mb-1;
+
+    &--1 {
+      width: 100%;
+    }
     &--2,
+    &--4 {
+      width: calc(50% - theme('spacing[1]'));
+    }
     &--3,
     &--5,
     &--6,
     &--9 {
-      width: calc(33.33% - theme('spacing[2]'));
+      width: calc(33.33% - theme('spacing[1]'));
     }
-    &--4,
     &--7,
     &--8 {
-      width: 25%;
+      width: calc(25% - theme('spacing[1]'));
     }
 
+    &:last-child {
+      @apply mr-0;
+    }
     .image__content {
-      @apply relative rounded overflow-hidden bg-negative-700;
+      @apply relative rounded overflow-hidden text-xl md:text-2xl text-positive-200 bg-negative-600;
       padding-top: 100%;
 
       .imager {
