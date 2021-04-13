@@ -44,7 +44,7 @@
       <empty class="mt-20" />
 
       <!-- userinfo, and actions -->
-      <div class="mt-20 body-y flex justify-between bg-negative-900">
+      <div class="mt-20 mb-6 body-y px-4 flex justify-between rounded-md bg-negative-800">
         <div class="flex items-center">
           <imager
             transition

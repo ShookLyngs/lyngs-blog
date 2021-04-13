@@ -1,26 +1,22 @@
 <template>
-  <div class="py-2.5 relative">
-    <div class="absolute top-0 w-8 md:w-10 h-2.5" v-if="!isFirst">
+  <div class="py-3 relative">
+    <div class="absolute top-0 w-8 md:w-10 h-3" v-if="!isFirst">
       <div class="line w-full h-full" />
     </div>
     <div class="line absolute top-0 w-8 md:w-10 top-5 bottom-0" v-if="!isLast">
       <div class="line w-full h-full" />
     </div>
 
-    <div class="md:flex">
-      <div class="flex items-center md:items-start">
+    <div class="flex">
+      <div class="flex items-start">
         <div class="flex-static w-8 h-8 md:w-10 md:h-10 select-none rounded-full overflow-hidden">
           <imager class="object-fit" :src="row.avatar" />
         </div>
-        <div class="md:hidden">
-          <div class="ml-2 md:ml-2 text-sm font-semibold">ShookLyngs</div>
-          <div class="ml-2 text-xs text-positive-400">发表于 {{ localeDateTime(row.createTime) }}</div>
-        </div>
       </div>
 
-      <div class="flex-auto pt-2 md:pt-0 md:pl-4">
-        <div class="text-sm font-semibold hidden md:block">ShookLyngs</div>
-        <div class="mt-1 mb-2 text-xs text-positive-400 hidden md:block">发表于 {{ localeDateTime(row.createTime) }}</div>
+      <div class="flex-auto pl-2 md:pl-4">
+        <!--<div class="mb-1 text-sm font-semibold">ShookLyngs</div>-->
+        <div class="mb-2 text-xs text-positive-400">发表于 {{ localeDateTime(row.createTime) }}</div>
         <div class="flex-auto body box-border rounded-tr-xl rounded-b-xl border border-negative-700 bg-negative-900">
           <div v-html="row.content" v-if="row.content" />
           <empty v-else />
