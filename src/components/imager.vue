@@ -1,13 +1,18 @@
 <template>
-  <div class="relative flex justify-center items-center">
+  <div class="imager relative flex justify-center items-center">
     <!-- Image shown -->
-    <transition :name="transition ? transitionName : ''">
+    <transition mode="out-in" :name="transition ? transitionName : ''">
+      <span
+        class="imager__background w-full h-full bg-cover bg-center"
+        :style="{ backgroundImage: `url(${src})` }"
+        v-if="background && !loading && !error"
+      />
       <img
         class="w-full object-fit"
         :src="src"
         alt=""
         v-loading="true"
-        v-if="!loading && !error"
+        v-else-if="!loading && !error"
       >
     </transition>
     <!-- Load image failed -->
@@ -30,6 +35,10 @@
       src: {
         type: [Object, String],
         default: '',
+      },
+      background: {
+        type: Boolean,
+        default: false,
       },
       transition: {
         type: Boolean,
@@ -75,4 +84,10 @@
   };
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+  .imager {
+    &__background {
+      padding-top: 100%;
+    }
+  }
+</style>

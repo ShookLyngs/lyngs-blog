@@ -21,6 +21,14 @@
           <div v-html="row.content" v-if="row.content" />
           <empty v-else />
 
+          <div class="mt-5 flex flex-wrap">
+            <div class="image" :class="`image--${row.images.length}`" v-for="image in row.images" :key="image">
+              <div class="image__content">
+                <imager background :src="image" />
+              </div>
+            </div>
+          </div>
+
           <div class="flex mt-8">
             <plain-button icon="icon-reply" text="16" class="bg-negative-700" />
           </div>
@@ -75,6 +83,32 @@
     &::before {
       @apply absolute w-px h-full bg-negative-600;
       content: '';
+    }
+  }
+
+  .image {
+    @apply mx-1;
+    &--1,
+    &--2,
+    &--3,
+    &--5,
+    &--6,
+    &--9 {
+      width: calc(33.33% - theme('spacing[2]'));
+    }
+    &--4,
+    &--7,
+    &--8 {
+      width: 25%;
+    }
+
+    .image__content {
+      @apply relative rounded overflow-hidden bg-negative-700;
+      padding-top: 100%;
+
+      .imager {
+        @apply absolute left-0 top-0 w-full h-full;
+      }
     }
   }
 </style>
