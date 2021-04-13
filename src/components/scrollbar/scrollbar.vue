@@ -186,14 +186,14 @@
         };
       },
       getBarVerticalSize() {
-        const { clientHeight, scrollHeight } = this.getWrapSizes(),
-          percentage = (clientHeight * 100) / scrollHeight;
+        const { clientHeight, scrollHeight } = this.getWrapSizes();
+        const percentage = (clientHeight * 100) / scrollHeight;
 
         return percentage < 100 ? `${percentage}%` : '';
       },
       getBarHorizontalSize() {
-        const { clientWidth, scrollWidth } = this.getWrapSizes(),
-          percentage = (clientWidth * 100) / scrollWidth;
+        const { clientWidth, scrollWidth } = this.getWrapSizes();
+        const percentage = (clientWidth * 100) / scrollWidth;
 
         return percentage < 100 ? `${percentage}%` : '';
       },
@@ -291,6 +291,8 @@
       }
     }
     > .ls-scrollbar__bar {
+      @apply hidden md:block;
+
       > .ls-scrollbar__thumb {
         &:hover {
           opacity: 0.4;
