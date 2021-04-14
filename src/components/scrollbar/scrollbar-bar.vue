@@ -15,6 +15,7 @@
 
 <script>
   import { on, off } from '@/assets/util/dom';
+  import { scrollStateKey } from './shared';
 
   const map = {
     vertical: {
@@ -37,8 +38,11 @@
 
   export default {
     name: 'scrollbar-bar',
-    inject: ['scrollbar'],
-    emits: ['drag-start', 'drag-end'],
+    inject: [scrollStateKey],
+    emits: [
+      'drag-start',
+      'drag-end'
+    ],
     props: {
       direction: {
         type: String,
@@ -67,7 +71,7 @@
         return map[this.direction];
       },
       wrap() {
-        return this?.scrollbar ? this.scrollbar.$refs.wrap : null;
+        return this?.scrollbar ? this.scrollbar.wrap : null;
       },
       barClasses() {
         const classes = [];

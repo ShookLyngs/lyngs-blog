@@ -1,23 +1,25 @@
 <template>
-  <div class="imager relative flex justify-center items-center">
-    <!-- Image shown -->
+  <div ref="imager" class="imager relative flex justify-center items-center">
     <transition mode="out-in" :name="transition ? transitionName : ''">
-      <span
-        class="imager__background w-full h-full bg-cover bg-center"
-        :style="{ backgroundImage: `url(${src})` }"
-        v-if="background && !loading && !error"
-      />
-      <img
-        class="w-full object-fit"
-        :src="src"
-        alt=""
-        v-loading="true"
-        v-else-if="!loading && !error"
-      >
+      <!-- Image shown -->
+      <template v-if="imageVisible && !loading && !error">
+        <span
+          class="imager__background w-full h-full bg-cover bg-center"
+          :style="{ backgroundImage: `url(${src})` }"
+          v-if="background"
+        />
+        <img
+          class="w-full object-fit"
+          :src="src"
+          alt=""
+          v-else
+        >
+      </template>
     </transition>
-    <!-- Load image failed -->
-    <transition :name="transition ? transitionName : ''">
-      <div v-if="!loading && error" @click="retry">
+
+    <transition mode="out-in" :name="transition ? transitionName : ''">
+      <!-- Load image failed -->
+      <div class="absolute left-0 top-0 w-full h-full flex justify-center items-center" v-if="!loading && error" @click="retry">
         <slot>
           <icon name="icon-image" />
         </slot>
@@ -27,10 +29,17 @@
 </template>
 
 <script>
-  import { ref, watch } from 'vue';
+  // Functions
+  import { computed, ref, watch, watchEffect } from 'vue';
+  import { useScrollbar } from '@/components/scrollbar';
+  // Components
+  import Icon from '@/components/icon';
 
   export default {
     name: 'imager',
+    components: {
+      Icon,
+    },
     props: {
       src: {
         type: [Object, String],
@@ -42,11 +51,15 @@
       },
       transition: {
         type: Boolean,
-        default: false,
+        default: true,
       },
       transitionName: {
         type: String,
         default: 'fade-fast',
+      },
+      lazy: {
+        type: Boolean,
+        default: true,
       },
     },
     setup(props) {
@@ -65,20 +78,33 @@
         const element = new Image();
         element.onload = () => finish(true);
         element.onerror = () => finish(false);
-        if (props.src) {
-          element.src = props.src;
-        }
-
+        if (props.src) element.src = props.src;
         return element;
       }
 
       const image = ref(createImageElement());
       watch(() => props.src, () => image.value = createImageElement());
 
+      const imager = ref();
+      const scrollbar = useScrollbar();
+      const isIntersecting = ref(false);
+      const imageVisible = computed(() => !props.lazy || (props.lazy && isIntersecting.value));
+      function onIntersection(entry) {
+        isIntersecting.value = entry.intersectionRatio > 0;
+      }
+      watchEffect(() => {
+        if (props.lazy && scrollbar?.wrap && imager.value && !loading.value && !error.value) {
+          scrollbar.observe(imager.value, onIntersection);
+        }
+      });
+
       return {
         loading,
         error,
         retry,
+
+        imager,
+        imageVisible,
       };
     },
   };

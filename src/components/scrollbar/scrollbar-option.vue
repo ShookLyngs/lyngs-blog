@@ -1,5 +1,5 @@
 <template>
-  <div class="ls-scrollbar" ref="scrollbar" :class="scrollbarClass">
+  <div class="ls-scrollbar" :class="scrollbarClass">
     <div
       ref="wrap"
       class="ls-scrollbar__wrap"
@@ -7,7 +7,7 @@
       :style="mergedWrapStyle"
       @scroll="onScroll"
     >
-      <resize-observer @resize="update">
+      <resize-observer @resize="onResize">
         <div
           ref="view"
           class="ls-scrollbar__view"
@@ -37,21 +37,23 @@
 </template>
 
 <script>
-  // Functions
-  import {ref, reactive, computed, onMounted, onUpdated, watchEffect} from 'vue';
+  import { defineAsyncComponent } from 'vue';
   import { getScrollBarWidth } from '@/assets/util/dom';
   import { mergeStyle } from '@/assets/util/style';
-  import { useIntersection } from '@/hooks/use-intersection';
-  import { createScrollbar } from './shared';
-  // Components
-  import ResizeObserver from '@/components/resize-observer.vue';
-  import ScrollbarBar from './scrollbar-bar.vue';
 
   export default {
     name: 'scrollbar',
     components: {
-      ResizeObserver,
-      ScrollbarBar,
+      ResizeObserver: defineAsyncComponent(() =>
+        import('@/components/resize-observer.vue')
+      ),
+      ScrollbarBar: defineAsyncComponent(() => import('./scrollbar-bar.vue')),
+    },
+    emits: ['scroll'],
+    provide() {
+      return {
+        scrollbar: this,
+      };
     },
     props: {
       disabledVertical: {
@@ -87,27 +89,83 @@
         default: void 0,
       },
     },
-    emits: ['scroll'],
-    setup(props, { emit }) {
-      const scrollbar = ref();
-      const scrollbarClass = computed(() => {
+    data: () => ({
+      store: {
+        dragging: false,
+        gutter: null,
+        wrapSize: {},
+        wrapStyle: {},
+      },
+      size: {
+        width: '',
+        height: '',
+      },
+      move: {
+        x: 0,
+        y: 0,
+      },
+    }),
+    computed: {
+      wrap() {
+        return this.$refs.wrap;
+      },
+      gutterWithUnit() {
+        return this.store.gutter ? `-${this.store.gutter}px` : null;
+      },
+      scrollbarClass() {
         const classes = [];
-        if (store.dragging) classes.push('is-dragging');
+
+        if (this.store.dragging) {
+          classes.push('is-dragging');
+        }
+
         return classes;
-      });
+      },
+      mergedWrapStyle() {
+        if (!this.gutterWithUnit) return this.wrapStyle;
 
-      const wrap = ref();
-      const mergedWrapStyle = computed(() => {
-        if (!gutterWithUnit.value) return props.wrapStyle;
-        const gutterStyle = {
-          marginBottom: gutterWithUnit.value,
-          marginRight: gutterWithUnit.value,
-        };
+        const gutterWithUnit = this.gutterWithUnit,
+          gutterStyle = {
+            marginBottom: gutterWithUnit,
+            marginRight: gutterWithUnit,
+          };
 
-        return mergeStyle(props.wrapStyle, gutterStyle);
-      });
-      function getWrapSizes() {
-        if (!wrap.value) return null;
+        return mergeStyle(this.wrapStyle, gutterStyle);
+      },
+      mergedViewStyle() {
+        const viewStyle = this.viewStyle,
+          viewMaxHeight = this.viewMaxHeight,
+          viewMaxWidth = this.viewMaxWidth;
+
+        return mergeStyle(
+          {
+            maxHeight:
+              typeof viewMaxHeight === 'number'
+                ? `${viewMaxHeight}px`
+                : viewMaxHeight,
+            maxWidth:
+              typeof viewMaxWidth === 'number'
+                ? `${viewMaxWidth}px`
+                : viewMaxWidth,
+          },
+          viewStyle
+        );
+      },
+    },
+    methods: {
+      // proactive
+      update() {
+        this.store.gutter = getScrollBarWidth();
+        this.size.height = this.getBarVerticalSize();
+        this.size.width = this.getBarHorizontalSize();
+      },
+      scrollTo(x, y) {
+        if (this.$refs.wrap) {
+          this.$refs.wrap.scrollTo(x, y);
+        }
+      },
+      getWrapSizes() {
+        if (!this.wrap) return null;
 
         const {
           scrollTop,
@@ -116,7 +174,7 @@
           scrollLeft,
           scrollWidth,
           clientWidth,
-        } = wrap.value;
+        } = this.wrap;
 
         return {
           scrollTop,
@@ -126,124 +184,52 @@
           scrollWidth,
           clientWidth,
         };
-      }
-      function scrollTo(x, y) {
-        if (wrap.value) {
-          wrap.value.scrollTo(x, y);
-        }
-      }
-
-      const view = ref();
-      const mergedViewStyle = computed(() => {
-        const viewStyle     = props.viewStyle;
-        const viewMaxHeight = props.viewMaxHeight;
-        const viewMaxWidth  = props.viewMaxWidth;
-
-        const maxSizes = {
-          maxHeight: typeof viewMaxHeight === 'number' ? `${viewMaxHeight}px` : viewMaxHeight,
-          maxWidth: typeof viewMaxWidth === 'number' ? `${viewMaxWidth}px` : viewMaxWidth,
-        };
-
-        return mergeStyle(maxSizes, viewStyle);
-      });
-
-      const {
-        observe,
-        unobserve,
-        disconnect,
-      } = useIntersection(wrap);
-
-      const store = reactive({
-        dragging: false,
-        gutter: null,
-        wrapSize: {},
-        wrapStyle: {},
-      });
-      const gutterWithUnit = computed(() => {
-        return store.gutter ? `-${store.gutter}px` : null;
-      });
-      function onDragStart() {
-        store.dragging = true;
-      }
-      function onDragEnd() {
-        store.dragging = false;
-      }
-
-      const size = reactive({
-        width: '',
-        height: '',
-      });
-      function getBarVerticalSize() {
-        const { clientHeight, scrollHeight } = getWrapSizes();
+      },
+      getBarVerticalSize() {
+        const { clientHeight, scrollHeight } = this.getWrapSizes();
         const percentage = (clientHeight * 100) / scrollHeight;
-        return percentage < 100 ? `${percentage}%` : '';
-      }
-      function getBarHorizontalSize() {
-        const { clientWidth, scrollWidth } = getWrapSizes();
-        const percentage = (clientWidth * 100) / scrollWidth;
-        return percentage < 100 ? `${percentage}%` : '';
-      }
 
-      const move = reactive({
-        x: 0,
-        y: 0,
-      });
-      function onScroll() {
+        return percentage < 100 ? `${percentage}%` : '';
+      },
+      getBarHorizontalSize() {
+        const { clientWidth, scrollWidth } = this.getWrapSizes();
+        const percentage = (clientWidth * 100) / scrollWidth;
+
+        return percentage < 100 ? `${percentage}%` : '';
+      },
+
+      // passive
+      onScroll() {
         const {
-          scrollTop, scrollLeft,
-          clientHeight, clientWidth,
-        } = getWrapSizes();
+          scrollTop,
+          scrollLeft,
+          clientHeight,
+          clientWidth,
+        } = this.getWrapSizes();
 
         this.move.x = (scrollLeft * 100) / clientWidth;
         this.move.y = (scrollTop * 100) / clientHeight;
 
-        emit('scroll', {
+        this.$emit('scroll', {
           scrollLeft,
           scrollTop,
         });
-      }
-
-      function update() {
-        store.gutter = getScrollBarWidth();
-        size.height = getBarVerticalSize();
-        size.width = getBarHorizontalSize();
-      }
-      onMounted(update);
-      onUpdated(update);
-
-      const scrollState = {
-        scrollbar,
-        scrollbarClass,
-
-        wrap,
-        mergedWrapStyle,
-        getWrapSizes,
-        scrollTo,
-
-        observe,
-        unobserve,
-        disconnect,
-
-        view,
-        mergedViewStyle,
-
-        store,
-        gutterWithUnit,
-        onDragStart,
-        onDragEnd,
-
-        size,
-        getBarVerticalSize,
-        getBarHorizontalSize,
-
-        move,
-        onScroll,
-
-        update,
-      };
-      createScrollbar(scrollState);
-
-      return scrollState;
+      },
+      onResize() {
+        this.update();
+      },
+      onDragStart() {
+        this.store.dragging = true;
+      },
+      onDragEnd() {
+        this.store.dragging = false;
+      },
+    },
+    mounted() {
+      this.update();
+    },
+    updated() {
+      this.update();
     },
   };
 </script>
