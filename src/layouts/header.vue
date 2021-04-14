@@ -45,15 +45,13 @@
               <div class="w-max" id="header-actions" />
             </collapse>
           </div>
-          <div
-            class="rounded-full overflow-hidden flex-static ml-2.5 w-10 h-10 bg-gray-100"
-          >
-            <img
-              class="w-full object-fit"
-              src="@/assets/images/avatar.jpg"
-              alt="avatar"
-            >
-          </div>
+          <imager
+            background
+            :lazy="false"
+            :transition="false"
+            class="rounded-full overflow-hidden flex-static ml-2.5 w-10 h-10 text-positive-500 bg-negative-500"
+            :src="avatarImage"
+          />
         </div>
       </div>
     </div>
@@ -69,6 +67,8 @@
   import Tabs from '@/components/tabs.vue';
   import Tab from '@/components/tab.vue';
   import Collapse from '@/components/collapse';
+  // Resources
+  import avatarImage from '@/assets/images/avatar.jpg';
 
   export default {
     name: 'layout-header',
@@ -100,6 +100,8 @@
         currentTab,
         onTabUpdate,
         isShowHeaderActions,
+
+        avatarImage,
       };
     },
   };

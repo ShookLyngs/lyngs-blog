@@ -1,5 +1,9 @@
 <template>
-  <div ref="imager" class="imager relative flex justify-center items-center">
+  <div
+    ref="imager"
+    class="imager relative flex justify-center items-center"
+    @click="openPopper"
+  >
     <transition mode="out-in" :name="transition ? transitionName : ''">
       <!-- Image shown -->
       <template v-if="imageVisible && !loading && !error">
@@ -25,6 +29,8 @@
         </slot>
       </div>
     </transition>
+
+    <modal ref="popper" />
   </div>
 </template>
 
@@ -34,11 +40,13 @@
   import { useScrollbar } from '@/components/scrollbar';
   // Components
   import Icon from '@/components/icon';
+  import Modal from '@/components/modal.vue';
 
   export default {
     name: 'imager',
     components: {
       Icon,
+      Modal,
     },
     props: {
       src: {
@@ -98,6 +106,13 @@
         }
       });
 
+      const popper = ref();
+      function openPopper() {
+        if (popper.value) {
+          popper.value.open();
+        }
+      }
+
       return {
         loading,
         error,
@@ -105,6 +120,9 @@
 
         imager,
         imageVisible,
+
+        popper,
+        openPopper,
       };
     },
   };

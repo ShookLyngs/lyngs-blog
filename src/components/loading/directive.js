@@ -52,7 +52,6 @@ const install = (vue) => {
   console.log('install v-loading');
   vue.directive('loading', {
     mounted(root, binding) {
-      console.log(root);
       if (store.has(root)) {
         unmountStore(root);
       }
