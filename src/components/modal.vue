@@ -13,9 +13,7 @@
         v-if="actualShow"
         @click.prevent.stop="close"
       >
-        <div class="body w-full md:content rounded-xl border border-negative-700 bg-negative-900 shadow-lg">
-          <border-button>1</border-button>
-        </div>
+        <slot />
       </div>
     </transition>
   </div>
