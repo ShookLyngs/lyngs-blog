@@ -14,9 +14,10 @@
     </teleport>
 
     <!-- Banner -->
-    <div
-      class="transition h-36 rounded-lg cursor-pointer bg-center bg-cover bg-negative-600 active:opacity-80"
-      :style="{ backgroundImage: `url(${articlesImage})` }"
+    <imager
+      backgound
+      class="transition h-36 rounded-lg overflow-hidden cursor-pointer bg-center bg-cover bg-negative-600 active:opacity-80"
+      :src="articlesImage"
     />
 
     <!-- Divider -->

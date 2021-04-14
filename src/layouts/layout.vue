@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex-auto flex flex-col" ref="content">
+  <div class="h-full flex-auto flex flex-col" ref="layout">
     <scrollbar
       disabled-horizontal
       ref="scroll"
@@ -41,12 +41,12 @@
       LayoutFooter,
     },
     setup() {
-      // Create ResizeObserver on content scroller
-      const content = ref(null);
-      createResizeObserver(content);
+      // Create ResizeObserver on layout scroller
+      const layout = ref(null);
+      createResizeObserver(layout);
 
       // Watch route changes
-      // When route updated, scroll content to the top
+      // When route updated, scroll layout to the top
       const scroll = ref();
       const route = useRoute();
       const lastFullPath = ref(route.fullPath);
@@ -65,11 +65,13 @@
 
       // Create layout state store
       createLayoutState({
+        layout,
+        scroll,
         scrollTop,
       });
 
       return {
-        content,
+        layout,
         scroll,
 
         scrollTop,

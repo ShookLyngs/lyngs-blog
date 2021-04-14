@@ -9,9 +9,7 @@
 
     <div class="flex">
       <div class="flex items-start">
-        <div class="flex-static w-8 h-8 md:w-10 md:h-10 select-none rounded-full overflow-hidden">
-          <imager class="object-fit" :src="row.avatar" />
-        </div>
+        <imager class="flex-static w-8 h-8 md:w-10 md:h-10 select-none rounded-full overflow-hidden bg-negative-500" :src="row.avatar" />
       </div>
 
       <div class="flex-auto pl-2 md:pl-4">
@@ -21,7 +19,7 @@
           <div v-html="row.content" v-if="row.content" />
           <empty v-else />
 
-          <div class="mt-5 flex flex-wrap">
+          <div class="mt-5 -mx-0.5 flex flex-wrap">
             <div class="image" :class="`image--${row.images.length}`" v-for="image in row.images" :key="image">
               <div class="image__content">
                 <imager background :src="image" />
@@ -87,10 +85,15 @@
   }
 
   .image {
-    @apply mr-1 mb-1;
+    @apply mb-1;
+    margin-left: theme('spacing[0.5]');
+    margin-right: theme('spacing[0.5]');
 
     &--1 {
-      width: 100%;
+      width: calc(100% - theme('spacing[1]'));
+      @media (min-width: theme('screens.sm')) {
+        width: calc(50% - theme('spacing[1]'));
+      }
     }
     &--2,
     &--4 {
@@ -107,9 +110,6 @@
       width: calc(25% - theme('spacing[1]'));
     }
 
-    &:last-child {
-      @apply mr-0;
-    }
     .image__content {
       @apply relative rounded overflow-hidden text-xl md:text-2xl text-positive-200 bg-negative-600;
       padding-top: 100%;

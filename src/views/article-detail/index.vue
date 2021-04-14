@@ -14,9 +14,10 @@
 
     <!-- banner -->
     <div class="relative">
-      <div
+      <imager
+        background
+        :src="detailImage"
         class="background bg-cover bg-center bg-negative-700 w-full md:breaker-content"
-        :style="{ backgroundImage: `url(${detailImage})` }"
       />
     </div>
 
@@ -184,7 +185,7 @@ something darker for *us*
 
 <style lang="less" scoped>
   .background {
-    @apply absolute top-0 h-64 overflow-hidden rounded-2xl;
+    @apply absolute top-0 h-64 overflow-hidden rounded-2xl bg-negative-600;
     left: 50%;
     transform: translate3d(-50%, 0, 0);
   }
