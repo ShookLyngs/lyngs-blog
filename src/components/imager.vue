@@ -4,7 +4,7 @@
     class="imager relative flex justify-center items-center"
     @click="openPopper"
   >
-    <transition mode="out-in" :name="transition ? transitionName : ''">
+    <transition :name="transition ? transitionName : ''">
       <!-- Image shown -->
       <template v-if="imageVisible && !loading && !error">
         <span
