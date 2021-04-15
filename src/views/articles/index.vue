@@ -15,7 +15,7 @@
 
     <!-- Banner -->
     <imager
-      backgound
+      background
       class="transition h-36 rounded-lg overflow-hidden cursor-pointer bg-center bg-cover bg-negative-600 active:opacity-80"
       :src="articlesImage"
     />

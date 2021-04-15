@@ -22,7 +22,7 @@
           <div class="mt-5 -mx-0.5 flex flex-wrap">
             <div class="image" :class="`image--${row.images.length}`" v-for="image in row.images" :key="image">
               <div class="image__content">
-                <imager background :src="image" />
+                <imager background view :src="image" />
               </div>
             </div>
           </div>

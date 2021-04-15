@@ -2,13 +2,15 @@
   <div
     ref="imager"
     class="imager relative flex justify-center items-center"
+    :class="view && !loading && !error ? 'cursor-pointer' : ''"
     @click="openPopper"
   >
     <transition :name="transition ? transitionName : ''">
       <!-- Image shown -->
       <template v-if="imageVisible && !loading && !error">
         <span
-          class="imager__background w-full h-full bg-cover bg-center"
+          class="w-full h-full bg-cover bg-no-repeat bg-center"
+          :class="fixedSize ? 'imager__background' : ''"
           :style="{ backgroundImage: `url(${src})` }"
           v-if="background"
         />
@@ -30,7 +32,9 @@
       </div>
     </transition>
 
-    <modal ref="popper" />
+    <teleport to="#app">
+      <image-swiper ref="popper" />
+    </teleport>
   </div>
 </template>
 
@@ -40,13 +44,15 @@
   import { useScrollbar } from '@/components/scrollbar';
   // Components
   import Icon from '@/components/icon';
-  import Modal from '@/components/modal.vue';
+  import ImageSwiper from '@/components/image-swiper.vue';
+  // import Modal from '@/components/modal.vue';
 
   export default {
     name: 'imager',
     components: {
       Icon,
-      Modal,
+      ImageSwiper,
+      // Modal,
     },
     props: {
       src: {
@@ -54,6 +60,10 @@
         default: '',
       },
       background: {
+        type: Boolean,
+        default: false,
+      },
+      fixedSize: {
         type: Boolean,
         default: false,
       },
@@ -68,6 +78,10 @@
       lazy: {
         type: Boolean,
         default: true,
+      },
+      view: {
+        type: Boolean,
+        default: false,
       },
     },
     setup(props) {
@@ -108,8 +122,30 @@
 
       const popper = ref();
       function openPopper() {
-        if (popper.value) {
-          popper.value.open();
+        if (props.view && !loading.value && !error.value && popper.value) {
+          const { src, width, height } = image.value;
+          popper.value.open([{
+            // Full image
+            src: src,
+            w: width,
+            h: height,
+            // Thumbnail data
+            thumbRect: imager.value.getBoundingClientRect(),
+          },{
+            // Full image
+            src: src,
+            w: width,
+            h: height,
+            // Thumbnail data
+            thumbRect: imager.value.getBoundingClientRect(),
+          },{
+            // Full image
+            src: src,
+            w: width,
+            h: height,
+            // Thumbnail data
+            thumbRect: imager.value.getBoundingClientRect(),
+          }]);
         }
       }
 
