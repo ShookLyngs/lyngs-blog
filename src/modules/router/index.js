@@ -27,6 +27,12 @@ const routes = [
     name: 'memos',
     component: () => import('@/views/memos/index.vue'),
   },
+
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('@/views/not-found/index.vue')
+  },
 ];
 
 export default createRouter({

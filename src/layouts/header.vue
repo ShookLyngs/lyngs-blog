@@ -32,6 +32,9 @@
             <router-link to="/memos">
               <tab value="memos">想法</tab>
             </router-link>
+            <router-link to="/tools">
+              <tab value="tools">工具</tab>
+            </router-link>
           </tabs>
         </div>
         <div class="flex">
