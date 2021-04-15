@@ -44,13 +44,11 @@ const updateStore = (root, binding) => {
   instance.setText(text);
   instance.setTheme(theme);
   instance.setFullscreen(fullscreen);
-
   instance.setVisible(visible);
 };
 
-const install = (vue) => {
-  console.log('install v-loading');
-  vue.directive('loading', {
+const createLoadingDirective = () => {
+  return {
     mounted(root, binding) {
       if (store.has(root)) {
         unmountStore(root);
@@ -65,7 +63,11 @@ const install = (vue) => {
     beforeUnmount(root) {
       unmountStore(root);
     },
-  });
+  };
+};
+
+const install = (vue) => {
+  vue.directive('loading', createLoadingDirective());
 };
 
 const append = (root, element, app) => {
@@ -81,4 +83,8 @@ const getAttributes = (root) => ({
 
 export default {
   install,
+};
+export {
+  install,
+  createLoadingDirective,
 };

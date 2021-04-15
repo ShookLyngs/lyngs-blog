@@ -1,6 +1,9 @@
 <template>
-  <div ref="element" class="relative" v-loading="true">
-    <empty />
+  <div ref="element" class="relative" v-loading="loading">
+    <empty
+      class="transition duration-300"
+      :class="loading ? 'opacity-0' : ''"
+    />
   </div>
 </template>
 
@@ -10,7 +13,6 @@
   import { useScrollbar } from '@/components/scrollbar';
   // Components
   import Empty from '@/components/empty.vue';
-  import {useModel} from '@/hooks/use-model';
 
   export default {
     name: 'reach-bottom',
@@ -39,13 +41,15 @@
 
       const loading = ref(false);
       function start() {
-        emit('start', setResult);
+        loading.value = true;
+        emit('start', finish);
       }
-      function setResult() {
-        
+      function finish() {
+        console.log('end');
+        loading.value = false;
       }
       watchEffect(() => {
-        if (isIntersecting.value && !props.end) {
+        if (isIntersecting.value && !loading.value && !props.end) {
           start();
         }
       });

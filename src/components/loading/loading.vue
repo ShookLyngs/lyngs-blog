@@ -13,7 +13,7 @@
         @click.stop="onClickWrap"
       >
         <div class="ls-loading-inner">
-          <loading-circle :size="size" />
+          <loading-circle class="text-theme-500" />
         </div>
       </div>
     </transition>
@@ -65,11 +65,12 @@
         theme.value = value;
       };
       const setVisible = (value) => {
-        if (value) {
+        /*if (value) {
           visible.value = value;
         } else {
           setVisibleAsync(value);
-        }
+        }*/
+        setVisibleAsync(value);
       };
       const setVisibleAsync = delayThrottle((value) => {
         visible.value = value;
@@ -106,7 +107,7 @@
     @apply absolute w-full h-full left-0 top-0 overflow-hidden select-none;
     //background-color: rgba(255, 255, 255, .7);
     backface-visibility: hidden;
-    z-index: 100;
+    z-index: 10;
   }
   .ls-loading-edge {
     @apply overflow-hidden;
