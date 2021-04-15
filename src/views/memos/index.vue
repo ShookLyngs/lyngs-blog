@@ -20,7 +20,8 @@
         :data="item"
       />
     </transition-group>
-    <empty />
+    <reach-bottom />
+
   </container>
 </template>
 
@@ -30,6 +31,7 @@
   import { useList } from '@/hooks/use-list';
   // Components
   import MemoListItem from './memo-list-item.vue';
+  import ReachBottom from '@/components/reach-bottom.vue';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
 
@@ -37,6 +39,7 @@
     name: 'memos',
     components: {
       MemoListItem,
+      ReachBottom,
     },
     setup() {
       const { list } = useList();
