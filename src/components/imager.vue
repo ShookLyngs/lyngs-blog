@@ -131,20 +131,6 @@
             h: height,
             // Thumbnail data
             thumbRect: imager.value.getBoundingClientRect(),
-          },{
-            // Full image
-            src: src,
-            w: width,
-            h: height,
-            // Thumbnail data
-            thumbRect: imager.value.getBoundingClientRect(),
-          },{
-            // Full image
-            src: src,
-            w: width,
-            h: height,
-            // Thumbnail data
-            thumbRect: imager.value.getBoundingClientRect(),
           }]);
         }
       }

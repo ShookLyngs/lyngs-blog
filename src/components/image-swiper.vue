@@ -1,4 +1,5 @@
 <template>
+  <!-- ImageSwiper, view images in big screen -->
   <!-- Root element of PhotoSwipe. Must have class pswp. -->
   <div
     ref="dialog"
@@ -11,7 +12,7 @@
 
     <!-- Background of PhotoSwipe. 
          It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg !bg-negative-900" />
+    <div class="pswp__bg !bg-negative-600" />
 
     <!-- Slides wrapper with overflow:hidden. -->
     <div class="pswp__scroll-wrap">
@@ -34,7 +35,9 @@
 
           <div class="pswp__counter" />
 
-          <button class="pswp__button pswp__button--close" title="Close (Esc)" />
+          <button class="pswp__button pswp__button--close" @click="close">
+            <icon name="icon-no" />
+          </button>
 
           <button class="pswp__button pswp__button--share" title="Share" />
 
@@ -74,7 +77,9 @@
 
 <script>
   // Functions
-  import { ref, /*watchEffect*/ } from 'vue';
+  import { ref } from 'vue';
+  // Components
+  import Icon from '@/components/icon';
   // PhotoSwipe
   import PhotoSwipe from 'photoswipe';
   import PhotoSwipeDefaultUi from 'photoswipe/dist/photoswipe-ui-default';
@@ -83,20 +88,26 @@
 
   export default {
     name: 'image-swiper',
-    setup() {
+    components: {
+      Icon,
+    },
+    emits: [
+      'close',
+      'destroy',
+    ],
+    setup(props, { emit }) {
       const dialog = ref();
       const swiper = ref();
       function createSwiper() {
         swiper.value = new PhotoSwipe(dialog.value, PhotoSwipeDefaultUi, list.value, {
           closeEl:true,
           captionEl: true,
-          zoomEl: true,
           counterEl: true,
           arrowEl: true,
+          zoomEl: false,
           fullscreenEl: false,
           shareEl: false,
           preloaderEl: false,
-
           bgOpacity: 0.8,
           showHideOpacity: true,
           loop: false,
@@ -117,10 +128,10 @@
         swiper.value.listen('destroy', onDestroy);
       }
       function onClose() {
-        console.log('close');
+        emit('close');
       }
       function onDestroy() {
-        console.log('destroy');
+        emit('destroy');
       }
 
       const list = ref([]);
@@ -142,6 +153,17 @@
   };
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+  .pswp {
+    &__top-bar {
+      @apply body;
+      height: auto;
+      background: none;
+    }
+    &__button--close {
+      @apply scale-card flex justify-center items-center rounded-md bg-negative-900 shadow-xl;
+      @apply opacity-100 border-2 border-solid border-negative-900 active:border-theme-500 active:shadow-2xl;
+      background-image: none;
+    }
+  }
 </style>
