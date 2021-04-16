@@ -9,7 +9,7 @@
 
 <script>
   // Functions
-  import { ref, watchEffect } from 'vue';
+  import { ref, watch, watchEffect } from 'vue';
   import { useScrollbar } from '@/components/scrollbar';
   // Components
   import Empty from '@/components/empty.vue';
@@ -48,7 +48,7 @@
         console.log('end');
         loading.value = false;
       }
-      watchEffect(() => {
+      watch(isIntersecting, () => {
         if (isIntersecting.value && !loading.value && !props.end) {
           start();
         }

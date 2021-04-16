@@ -1,23 +1,25 @@
 <template>
   <div class="ls-scrollbar" ref="scrollbar" :class="scrollbarClass">
-    <div
-      ref="wrap"
-      class="ls-scrollbar__wrap"
-      :class="wrapClass"
-      :style="mergedWrapStyle"
-      @scroll="onScroll"
-    >
-      <resize-observer @resize="update">
-        <div
-          ref="view"
-          class="ls-scrollbar__view"
-          :class="viewClass"
-          :style="mergedViewStyle"
-        >
-          <slot />
-        </div>
-      </resize-observer>
-    </div>
+    <resize-observer @resize="updateWrapSize">
+      <div
+        ref="wrap"
+        class="ls-scrollbar__wrap"
+        :class="wrapClass"
+        :style="mergedWrapStyle"
+        @scroll="onWrapScroll"
+      >
+        <resize-observer @resize="update">
+          <div
+            ref="view"
+            class="ls-scrollbar__view"
+            :class="viewClass"
+            :style="mergedViewStyle"
+          >
+            <slot />
+          </div>
+        </resize-observer>
+      </div>
+    </resize-observer>
     <scrollbar-bar
       :size="size.height"
       :move="move.y"
@@ -38,7 +40,7 @@
 
 <script>
   // Functions
-  import {ref, reactive, computed, onMounted, onUpdated, watchEffect} from 'vue';
+  import { ref, reactive, computed, onMounted, onUpdated } from 'vue';
   import { getScrollBarWidth } from '@/assets/util/dom';
   import { mergeStyle } from '@/assets/util/style';
   import { useIntersection } from '@/hooks/use-intersection';
@@ -133,6 +135,18 @@
         }
       }
 
+      const wrapSizes = ref({
+        scrollTop: null,
+        scrollHeight: null,
+        clientHeight: null,
+        scrollLeft: null,
+        scrollWidth: null,
+        clientWidth: null,
+      });
+      function updateWrapSize() {
+        wrapSizes.value = getWrapSizes();
+      }
+
       const view = ref();
       const mergedViewStyle = computed(() => {
         const viewStyle     = props.viewStyle;
@@ -188,19 +202,37 @@
         x: 0,
         y: 0,
       });
-      function onScroll() {
+      function onWrapScroll() {
         const {
           scrollTop, scrollLeft,
           clientHeight, clientWidth,
         } = getWrapSizes();
 
-        this.move.x = (scrollLeft * 100) / clientWidth;
-        this.move.y = (scrollTop * 100) / clientHeight;
+        move.x = (scrollLeft * 100) / clientWidth;
+        move.y = (scrollTop * 100) / clientHeight;
 
+        triggerOnScroll({
+          scrollLeft,
+          scrollTop,
+        });
         emit('scroll', {
           scrollLeft,
           scrollTop,
         });
+      }
+
+      const scrollListeners = ref([]);
+      function onScroll(callback) {
+        scrollListeners.value.push(callback);
+      }
+      function removeOnScroll(callback) {
+        const index = scrollListeners.value.findIndex(row => row === callback);
+        if (index > -1) {
+          scrollListeners.value.splice(index, 1);
+        }
+      }
+      function triggerOnScroll(...args) {
+        scrollListeners.value.forEach(callback => callback(...args));
       }
 
       function update() {
@@ -220,6 +252,9 @@
         getWrapSizes,
         scrollTo,
 
+        wrapSizes,
+        updateWrapSize,
+
         observe,
         unobserve,
         disconnect,
@@ -237,7 +272,9 @@
         getBarHorizontalSize,
 
         move,
+        onWrapScroll,
         onScroll,
+        removeOnScroll,
 
         update,
       };

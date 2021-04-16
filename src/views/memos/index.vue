@@ -14,13 +14,15 @@
     </teleport>
 
     <!-- Main list -->
-    <transition-group name="list">
+    <lazy-group>
       <memo-list-item
         v-for="item in list"
         :key="item.id"
         :data="item"
       />
-    </transition-group>
+    </lazy-group>
+
+    <!--<transition-group name="list"></transition-group>-->
 
     <!-- Reach bottom refresh -->
     <reach-bottom
@@ -38,6 +40,7 @@
   // Components
   import MemoListItem from './memo-list-item.vue';
   import ReachBottom from '@/components/reach-bottom.vue';
+  import LazyGroup from '@/components/lazy-group.vue';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
 
@@ -46,6 +49,7 @@
     components: {
       MemoListItem,
       ReachBottom,
+      LazyGroup,
     },
     setup() {
       const { list } = useList();

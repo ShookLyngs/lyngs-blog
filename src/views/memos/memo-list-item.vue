@@ -1,39 +1,41 @@
 <template>
-  <div class="py-3 relative">
-    <div class="absolute top-0 w-8 md:w-10 h-3" v-if="!isFirst">
-      <div class="line w-full h-full" />
-    </div>
-    <div class="line absolute top-0 w-8 md:w-10 top-5 bottom-0" v-if="!isLast">
-      <div class="line w-full h-full" />
-    </div>
-
-    <div class="flex">
-      <div class="flex items-start">
-        <imager class="flex-static w-8 h-8 md:w-10 md:h-10 select-none rounded-full overflow-hidden bg-negative-500" :src="row.avatar" />
+  <lazy>
+    <div class="py-3 relative">
+      <div class="absolute top-0 w-8 md:w-10 h-3" v-if="!isFirst">
+        <div class="line w-full h-full" />
+      </div>
+      <div class="line absolute top-0 w-8 md:w-10 top-5 bottom-0" v-if="!isLast">
+        <div class="line w-full h-full" />
       </div>
 
-      <div class="flex-auto pl-2 md:pl-4">
-        <!--<div class="mb-1 text-sm font-semibold">ShookLyngs</div>-->
-        <div class="mb-2 text-xs text-positive-400">发表于 {{ localeDateTime(row.createTime) }}</div>
-        <div class="flex-auto body box-border rounded-tr-xl rounded-b-xl border border-negative-700 bg-negative-900">
-          <div v-html="row.content" v-if="row.content" />
-          <empty v-else />
+      <div class="flex">
+        <div class="flex items-start">
+          <imager class="flex-static w-8 h-8 md:w-10 md:h-10 select-none rounded-full overflow-hidden bg-negative-500" :src="row.avatar" />
+        </div>
 
-          <div class="mt-5 -mx-0.5 flex flex-wrap">
-            <div class="image" :class="`image--${row.images.length}`" v-for="image in row.images" :key="image">
-              <div class="image__content">
-                <imager background view :src="image" />
+        <div class="flex-auto pl-2 md:pl-4">
+          <!--<div class="mb-1 text-sm font-semibold">ShookLyngs</div>-->
+          <div class="mb-2 text-xs text-positive-400">发表于 {{ localeDateTime(row.createTime) }}</div>
+          <div class="flex-auto body box-border rounded-tr-xl rounded-b-xl border border-negative-700 bg-negative-900">
+            <div v-html="row.content" v-if="row.content" />
+            <empty v-else />
+
+            <div class="mt-5 -mx-0.5 flex flex-wrap">
+              <div class="image" :class="`image--${row.images.length}`" v-for="image in row.images" :key="image">
+                <div class="image__content">
+                  <imager background view :src="image" />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="flex mt-8">
-            <plain-button icon="icon-reply" text="16" class="text-positive-500 bg-negative-700" />
+            <div class="flex mt-8">
+              <plain-button icon="icon-reply" text="16" class="text-positive-500 bg-negative-700" />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </lazy>
 </template>
 
 <script>
@@ -42,11 +44,13 @@
   import { useListItem } from '@/hooks/use-list';
   // Components
   import PlainButton from '@/components/plain-button.vue';
+  import Lazy from '@/components/lazy.vue';
 
   export default {
     name: 'memo-list-item',
     components: {
       PlainButton,
+      Lazy,
     },
     props: {
       data: {
