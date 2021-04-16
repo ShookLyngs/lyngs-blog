@@ -9,34 +9,46 @@
 <script>
   import { computed, provide, ref } from 'vue';
   import { useScrollbar } from '@/components/scrollbar';
-  // import { delayThrottle } from '@/assets/util/event';
   export default {
     name: 'lazy-group',
     setup() {
-      const children = ref([]);
+      const children = [];
       function add(uid, element, callback) {
+        const rect = element.getBoundingClientRect();
+        const recordScroll = {
+          scrollLeft: scroll.scrollLeft,
+          scrollTop: scroll.scrollTop,
+        };
+
         if (!has(uid)) {
-          children.value.push({
+          children.push({
             uid,
             element,
             callback,
+            rect,
             show: true,
-            // rect: element.getBoundingClientRect(),
+            scroll: recordScroll,
           });
         } else {
           const index = getIndex(uid);
-          children.value[index].element = element;
-          children.value[index].callback = callback;
+          children[index] = {
+            ...children[index],
+            element,
+            callback,
+            rect,
+            show: true,
+            scroll: recordScroll,
+          };
         }
       }
       function remove(uid) {
         const index = getIndex(uid);
         if (index > -1) {
-          children.value.splice(index, 1);
+          children.splice(index, 1);
         }
       }
       function getIndex(uid) {
-        return children.value.findIndex((row) => row.uid === uid);
+        return children.findIndex((row) => row.uid === uid);
       }
       function has(target) {
         return getIndex(target) > -1;
@@ -55,14 +67,11 @@
 
       function calculate() {
         const { clientWidth, clientHeight } = wrapSizes;
-        console.log('start calculating', children.value);
-
         frontSizes.value = { width: 0, height: 0 };
         backSizes.value = { width: 0, height: 0 };
 
-        children.value.forEach((child, childIndex) => {
-          console.log({ element: child.element });
-          const rect = child.element.getBoundingClientRect();
+        children.forEach((child) => {
+          const rect = fixedRectScroll(child.rect, child.scroll, scroll);
           const minus = rect.bottom < 0 || rect.right < 0;
           const plus = rect.top > clientHeight || rect.left > clientWidth;
 
@@ -81,18 +90,15 @@
           }
 
           child.rect = rect;
+          child.scroll = { ...scroll };
           child.show = !minus && !plus;
           child.callback(child.show);
-
-          console.log(childIndex, rect.bottom, rect.top, child.show);
         });
-
-        console.log('end calculating');
       }
 
-      const { onScroll, wrapSizes } = useScrollbar();
+      const { scroll, onScroll, wrapSizes } = useScrollbar();
       const lastScroll = ref({ scrollTop: 0, scrollLeft: 0 });
-      onScroll(/*delayThrottle(*/({ scrollTop, scrollLeft }) => {
+      onScroll(({ scrollTop, scrollLeft }) => {
         if (lastScroll.value.scrollTop !== scrollTop || lastScroll.value.scrollLeft === scrollLeft) {
           calculate({ scrollTop, scrollLeft });
         }
@@ -100,7 +106,23 @@
           scrollTop,
           scrollLeft,
         };
-      }/*, 50)*/);
+      });
+      function fixedRectScroll(rect, oldScroll, newScroll) {
+        const relativeScroll = {
+          scrollLeft: oldScroll.scrollLeft - newScroll.scrollLeft,
+          scrollTop: oldScroll.scrollTop - newScroll.scrollTop,
+        };
+
+        return {
+          ...rect,
+          height: rect.height,
+          width: rect.width,
+          left: rect.left + relativeScroll.scrollLeft,
+          right: rect.right + relativeScroll.scrollLeft,
+          top: rect.top + relativeScroll.scrollTop,
+          bottom: rect.bottom + relativeScroll.scrollTop,
+        };
+      }
 
       provide('lazyGroup', {
         add,

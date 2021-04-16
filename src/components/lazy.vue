@@ -14,7 +14,7 @@
   export default {
     name: 'lazy',
     setup() {
-      const uid = createUid();
+      const uid     = createUid();
       const element = ref();
       const reduced = ref();
 
@@ -22,13 +22,20 @@
       onBeforeMount(() => remove(element.value));
 
       const show = ref(true);
-      watch(element, () => {
-        const isReduced = !reduced.value || (reduced.value && element.value !== reduced.value);
-        if (add && remove && element.value && isReduced) {
-          reduced.value = element.value;
-          add(uid, element.value, (canShow) => show.value = canShow);
-        }
-      });
+      function setShow(value) {
+        show.value = value;
+      }
+
+      if (add && remove) {
+        watch(element, () => {
+          const isReduced = reduced.value && reduced.value !== element.value;
+
+          if (element.value && (!reduced.value || isReduced)) {
+            reduced.value = element.value;
+            add(uid, element.value, setShow);
+          }
+        });
+      }
 
       return {
         element,

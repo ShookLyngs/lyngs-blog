@@ -56,14 +56,22 @@
       const isPageEnd = ref(false);
       const tempTimes = ref(0);
       function onReachBottom(finish) {
-        console.log('start');
         setTimeout(() => {
           tempTimes.value++;
           /*if (tempTimes.value > 2) {
             isPageEnd.value = true;
           }*/
 
-          [
+          for (let i = 0; i < 1000; i++) {
+            list.value.push({
+              id: `${Date.now()}`,
+              avatar: avatarImage,
+              content: `content: ${i}`,
+              createTime: '2021-04-13 8:26:22',
+              images: [ avatarImage, ],
+            });
+          }
+          /*[
             {
               id: `${Date.now()}`,
               avatar: avatarImage,
@@ -101,7 +109,7 @@
               createTime: '2021-04-13 8:26:22',
               images: [ avatarImage, ],
             },
-          ].forEach(row => list.value.push(row));
+          ].forEach(row => list.value.push(row));*/
           nextTick(finish);
         }, 500);
       }
