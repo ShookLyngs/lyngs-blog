@@ -1,36 +1,35 @@
 <template>
-  <container>
-    <!-- Header post-button -->
-    <teleport to="#header-actions">
-      <transition name="fade-fast">
-        <border-button
-          border-width="md"
-          style="min-width: 110px"
-          text="发表想法"
-          @click="showPost"
-          v-if="isShowPostButton"
+  <collapse :show="true">
+    <container>
+      <!-- Header post-button -->
+      <teleport to="#header-actions">
+        <transition name="fade-fast">
+          <border-button
+            border-width="md"
+            style="min-width: 110px"
+            text="发表想法"
+            @click="showPost"
+            v-if="isShowPostButton"
+          />
+        </transition>
+      </teleport>
+
+      <!-- Main list -->
+      <lazy-group>
+        <memo-list-item
+          v-for="item in list"
+          :key="item.id"
+          :data="item"
         />
-      </transition>
-    </teleport>
+      </lazy-group>
 
-    <!-- Main list -->
-    <lazy-group>
-      <memo-list-item
-        v-for="item in list"
-        :key="item.id"
-        :data="item"
+      <!-- Reach bottom refresh -->
+      <reach-bottom
+        :end="isPageEnd"
+        @start="onReachBottom"
       />
-    </lazy-group>
-
-    <!--<transition-group name="list"></transition-group>-->
-
-    <!-- Reach bottom refresh -->
-    <reach-bottom
-      :end="isPageEnd"
-      @start="onReachBottom"
-    />
-
-  </container>
+    </container>
+  </collapse>
 </template>
 
 <script>
@@ -41,6 +40,7 @@
   import MemoListItem from './memo-list-item.vue';
   import ReachBottom from '@/components/reach-bottom.vue';
   import LazyGroup from '@/components/lazy-group.vue';
+  import Collapse from '@/components/collapse';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
 
@@ -50,6 +50,7 @@
       MemoListItem,
       ReachBottom,
       LazyGroup,
+      Collapse,
     },
     setup() {
       const { list } = useList();
@@ -62,7 +63,7 @@
             isPageEnd.value = true;
           }*/
 
-          for (let i = 0; i < 1000; i++) {
+          /*for (let i = 0; i < 1000; i++) {
             list.value.push({
               id: `${Date.now()}`,
               avatar: avatarImage,
@@ -70,8 +71,8 @@
               createTime: '2021-04-13 8:26:22',
               images: [ avatarImage, ],
             });
-          }
-          /*[
+          }*/
+          [
             {
               id: `${Date.now()}`,
               avatar: avatarImage,
@@ -109,9 +110,9 @@
               createTime: '2021-04-13 8:26:22',
               images: [ avatarImage, ],
             },
-          ].forEach(row => list.value.push(row));*/
+          ].forEach(row => list.value.push(row));
           nextTick(finish);
-        }, 500);
+        }, 2000);
       }
 
       // Header post button
