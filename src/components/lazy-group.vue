@@ -61,6 +61,7 @@
         backSizes.value = { width: 0, height: 0 };
 
         children.value.forEach((child, childIndex) => {
+          console.log({ element: child.element });
           const rect = child.element.getBoundingClientRect();
           const minus = rect.bottom < 0 || rect.right < 0;
           const plus = rect.top > clientHeight || rect.left > clientWidth;
@@ -93,7 +94,7 @@
       const lastScroll = ref({ scrollTop: 0, scrollLeft: 0 });
       onScroll(/*delayThrottle(*/({ scrollTop, scrollLeft }) => {
         if (lastScroll.value.scrollTop !== scrollTop || lastScroll.value.scrollLeft === scrollLeft) {
-          calculate();
+          calculate({ scrollTop, scrollLeft });
         }
         lastScroll.value = {
           scrollTop,

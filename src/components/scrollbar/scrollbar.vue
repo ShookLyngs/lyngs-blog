@@ -202,6 +202,11 @@
         x: 0,
         y: 0,
       });
+
+      const scroll = reactive({
+        scrollTop: 0,
+        scrollLeft: 0,
+      });
       function onWrapScroll() {
         const {
           scrollTop, scrollLeft,
@@ -210,6 +215,8 @@
 
         move.x = (scrollLeft * 100) / clientWidth;
         move.y = (scrollTop * 100) / clientHeight;
+        scroll.scrollTop = scrollTop;
+        scroll.scrollLeft = scrollLeft;
 
         triggerOnScroll({
           scrollLeft,
@@ -272,6 +279,7 @@
         getBarHorizontalSize,
 
         move,
+        scroll,
         onWrapScroll,
         onScroll,
         removeOnScroll,
