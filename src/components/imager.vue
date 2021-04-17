@@ -45,14 +45,12 @@
   // Components
   import Icon from '@/components/icon';
   import ImageSwiper from '@/components/image-swiper.vue';
-  // import Modal from '@/components/modal.vue';
 
   export default {
     name: 'imager',
     components: {
       Icon,
       ImageSwiper,
-      // Modal,
     },
     props: {
       src: {
@@ -69,7 +67,7 @@
       },
       transition: {
         type: Boolean,
-        default: true,
+        default: false,
       },
       transitionName: {
         type: String,
@@ -77,7 +75,7 @@
       },
       lazy: {
         type: Boolean,
-        default: true,
+        default: false,
       },
       view: {
         type: Boolean,
