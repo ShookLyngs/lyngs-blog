@@ -5,13 +5,23 @@
  * @param instance - vue-instance/vue-ref
  * @returns {*}
  */
-export const findDOMNode = (instance) => {
+export function findDOMNode(instance) {
   let node = instance && (instance.$el || instance);
   while (node && !node.tagName) {
     node = node.nextSibling;
   }
   return node;
-};
+}
+
+/**
+ * Get element ClientRect, but converted to Object already
+ * @param element
+ * @returns {{top: number, left: number, bottom: number, width: number, x: number, y: number, right: number, height: number}}
+ */
+export function getRectObject(element) {
+  const { top, right, bottom, left, width, height, x, y } = element.getBoundingClientRect()
+  return { top, right, bottom, left, width, height, x, y };
+}
 
 /**
  * Add event-listener to a target, then returns an object that contains method to remove-listener
@@ -21,7 +31,7 @@ export const findDOMNode = (instance) => {
  * @param options {Object|Boolean} - add listener options
  * @returns {{remove: Function}}
  */
-export const on = (target, type, event, options = false) => {
+export function on(target, type, event, options = false) {
   if (!target?.addEventListener) {
     throw Error('target is not a listenable object');
   }
@@ -35,13 +45,13 @@ export const on = (target, type, event, options = false) => {
       }
     },
   };
-};
+}
 
-export const off = (target, type, event) => {
+export function off(target, type, event) {
   if (target?.removeEventListener) {
     target.removeEventListener(type, event);
   }
-};
+}
 
 /**
  * Set classes for parent, or set to all parents.
@@ -50,13 +60,12 @@ export const off = (target, type, event) => {
  * @param each {boolean} - is set classes on each generation of parents
  * @param element {HTMLElement} - DOM target
  */
-
-export const setParentClass = (
+export function setParentClass(
   type,
   classes = [],
   each = false,
   element = document.body
-) => {
+) {
   if (!Array.isArray(classes)) {
     classes = typeof classes === 'string' ? classes.split(' ') : [classes];
   }
@@ -80,15 +89,21 @@ export const setParentClass = (
   } else {
     process();
   }
-};
+}
 
+// Stored scrollbar native width,
+// only update when resize event triggered.
 let scrollBarWidth = null;
+window.addEventListener('resize', () => {
+  scrollBarWidth = getScrollBarWidth(true);
+});
+
 /**
  * Get width of native scrollbar.
  * @returns {number|null}
  */
-export const getScrollBarWidth = () => {
-  if (scrollBarWidth !== null) {
+export function getScrollBarWidth(force = false) {
+  if (!force && scrollBarWidth !== null) {
     return scrollBarWidth;
   }
 
@@ -112,7 +127,7 @@ export const getScrollBarWidth = () => {
   scrollBarWidth = widthNoScroll - widthWithScroll;
 
   return scrollBarWidth;
-};
+}
 
 /**
  * Set cursor position to the end of element.
