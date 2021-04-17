@@ -1,6 +1,6 @@
 <template>
-  <div class="ls-scrollbar" ref="scrollbar" :class="scrollbarClass">
-    <resize-observer @resize="updateWrapSize">
+  <div class="ls-scrollbar" ref="outer" :class="outerClass">
+    <resize-observer @resize="updateWrapSizes">
       <div
         ref="wrap"
         class="ls-scrollbar__wrap"
@@ -8,7 +8,7 @@
         :style="mergedWrapStyle"
         @scroll="onWrapScroll"
       >
-        <resize-observer @resize="update">
+        <resize-observer @resize="updateViewSizes">
           <div
             ref="view"
             class="ls-scrollbar__view"
@@ -20,20 +20,21 @@
         </resize-observer>
       </div>
     </resize-observer>
+
     <scrollbar-bar
-      :size="size.height"
-      :move="move.y"
+      :size="barSizes.height"
+      :move="barMove.y"
       v-if="!disabledVertical"
-      @drag-start="onDragStart"
-      @drag-end="onDragEnd"
+      @drag-start="onDrag(true)"
+      @drag-end="onDrag(false)"
     />
     <scrollbar-bar
       direction="horizontal"
-      :size="size.width"
-      :move="move.x"
+      :size="barSizes.width"
+      :move="barMove.x"
       v-if="!disabledHorizontal"
-      @drag-start="onDragStart"
-      @drag-end="onDragEnd"
+      @drag-start="onDrag(true)"
+      @drag-end="onDrag(false)"
     />
   </div>
 </template>
@@ -41,7 +42,7 @@
 <script>
   // Functions
   import { ref, reactive, computed, onMounted, onUpdated } from 'vue';
-  import { getScrollBarWidth } from '@/assets/util/dom';
+  import { getRectObject, getScrollBarWidth } from '@/assets/util/dom';
   import { mergeStyle } from '@/assets/util/style';
   import { useIntersection } from '@/hooks/use-intersection';
   import { createScrollbar } from './shared';
@@ -91,13 +92,15 @@
     },
     emits: ['scroll'],
     setup(props, { emit }) {
-      const scrollbar = ref();
-      const scrollbarClass = computed(() => {
+      // Outer layout
+      const outer = ref();
+      const outerClass = computed(() => {
         const classes = [];
         if (store.dragging) classes.push('is-dragging');
         return classes;
       });
 
+      // List wrapper
       const wrap = ref();
       const mergedWrapStyle = computed(() => {
         if (!gutterWithUnit.value) return props.wrapStyle;
@@ -112,21 +115,23 @@
         if (!wrap.value) return null;
 
         const {
-          scrollTop,
-          scrollHeight,
-          clientHeight,
-          scrollLeft,
-          scrollWidth,
-          clientWidth,
+          scrollTop, scrollLeft,
+          scrollHeight, scrollWidth,
+          clientHeight, clientWidth,
         } = wrap.value;
+        const {
+          left, right,
+          top, bottom,
+          height, width,
+        } = getRectObject(wrap.value);
 
         return {
-          scrollTop,
-          scrollHeight,
-          clientHeight,
-          scrollLeft,
-          scrollWidth,
-          clientWidth,
+          scrollTop, scrollLeft,
+          scrollHeight, scrollWidth,
+          clientHeight, clientWidth,
+          left, right,
+          top, bottom,
+          height, width,
         };
       }
       function scrollTo(x, y) {
@@ -135,24 +140,39 @@
         }
       }
 
-      const wrapSizes = ref({
-        scrollTop: null,
-        scrollHeight: null,
-        clientHeight: null,
-        scrollLeft: null,
-        scrollWidth: null,
-        clientWidth: null,
-      });
-      function updateWrapSize() {
+      // List wrapper scroll distance and sizes
+      const wrapSizes = ref(getWrapSizes());
+      function updateWrapSizes() {
         wrapSizes.value = getWrapSizes();
       }
 
+      // Scrollbar barMove percentage,
+      // position relative to the list wrapper
+      const barMove = reactive({
+        x: 0,
+        y: 0,
+      });
+      function onWrapScroll() {
+        updateWrapSizes();
+
+        const {
+          scrollTop, scrollLeft,
+          clientHeight, clientWidth,
+        } = wrapSizes.value;
+
+        barMove.x = (scrollLeft * 100) / clientWidth;
+        barMove.y = (scrollTop * 100) / clientHeight;
+
+        triggerOnScroll({
+          scrollLeft,
+          scrollTop,
+        });
+      }
+
+      // List view layout
       const view = ref();
       const mergedViewStyle = computed(() => {
-        const viewStyle     = props.viewStyle;
-        const viewMaxHeight = props.viewMaxHeight;
-        const viewMaxWidth  = props.viewMaxWidth;
-
+        const { viewStyle, viewMaxHeight, viewMaxWidth } = props;
         const maxSizes = {
           maxHeight: typeof viewMaxHeight === 'number' ? `${viewMaxHeight}px` : viewMaxHeight,
           maxWidth: typeof viewMaxWidth === 'number' ? `${viewMaxWidth}px` : viewMaxWidth,
@@ -161,29 +181,20 @@
         return mergeStyle(maxSizes, viewStyle);
       });
 
-      const {
-        observe,
-        unobserve,
-        disconnect,
-      } = useIntersection(wrap);
-
+      // Scrollbar state store
       const store = reactive({
         dragging: false,
         gutter: null,
-        wrapSize: {},
-        wrapStyle: {},
       });
       const gutterWithUnit = computed(() => {
         return store.gutter ? `-${store.gutter}px` : null;
       });
-      function onDragStart() {
-        store.dragging = true;
-      }
-      function onDragEnd() {
-        store.dragging = false;
+      function onDrag(value) {
+        store.dragging = value;
       }
 
-      const size = reactive({
+      // Scrollbar original bar sizes
+      const barSizes = reactive({
         width: '',
         height: '',
       });
@@ -197,37 +208,16 @@
         const percentage = (clientWidth * 100) / scrollWidth;
         return percentage < 100 ? `${percentage}%` : '';
       }
-
-      const move = reactive({
-        x: 0,
-        y: 0,
-      });
-
-      const scroll = reactive({
-        scrollTop: 0,
-        scrollLeft: 0,
-      });
-      function onWrapScroll() {
-        const {
-          scrollTop, scrollLeft,
-          clientHeight, clientWidth,
-        } = getWrapSizes();
-
-        move.x = (scrollLeft * 100) / clientWidth;
-        move.y = (scrollTop * 100) / clientHeight;
-        scroll.scrollTop = scrollTop;
-        scroll.scrollLeft = scrollLeft;
-
-        triggerOnScroll({
-          scrollLeft,
-          scrollTop,
-        });
-        emit('scroll', {
-          scrollLeft,
-          scrollTop,
-        });
+      function updateViewSizes() {
+        store.gutter = getScrollBarWidth();
+        barSizes.height = getBarVerticalSize();
+        barSizes.width = getBarHorizontalSize();
       }
+      onMounted(updateViewSizes);
+      onUpdated(updateViewSizes);
 
+      // `onScroll` function, for children to call,
+      // same as using `@scroll="xxx"` in template
       const scrollListeners = ref([]);
       function onScroll(callback) {
         scrollListeners.value.push(callback);
@@ -239,20 +229,19 @@
         }
       }
       function triggerOnScroll(...args) {
+        emit('scroll', ...args);
         scrollListeners.value.forEach(callback => callback(...args));
       }
 
-      function update() {
-        store.gutter = getScrollBarWidth();
-        size.height = getBarVerticalSize();
-        size.width = getBarHorizontalSize();
-      }
-      onMounted(update);
-      onUpdated(update);
+      const {
+        observe,
+        unobserve,
+        disconnect,
+      } = useIntersection(wrap);
 
       const scrollState = {
-        scrollbar,
-        scrollbarClass,
+        outer,
+        outerClass,
 
         wrap,
         mergedWrapStyle,
@@ -260,34 +249,32 @@
         scrollTo,
 
         wrapSizes,
-        updateWrapSize,
-
-        observe,
-        unobserve,
-        disconnect,
+        updateWrapSizes,
 
         view,
         mergedViewStyle,
 
         store,
         gutterWithUnit,
-        onDragStart,
-        onDragEnd,
+        onDrag,
 
-        size,
+        barMove,
+        onWrapScroll,
+
+        barSizes,
         getBarVerticalSize,
         getBarHorizontalSize,
 
-        move,
-        scroll,
-        onWrapScroll,
         onScroll,
         removeOnScroll,
 
-        update,
+        updateViewSizes,
+
+        observe,
+        unobserve,
+        disconnect,
       };
       createScrollbar(scrollState);
-
       return scrollState;
     },
   };

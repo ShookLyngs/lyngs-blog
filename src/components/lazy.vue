@@ -14,7 +14,7 @@
   export default {
     name: 'lazy',
     setup() {
-      const uid     = createUid();
+      const uid = createUid();
       const element = ref();
       const reduced = ref();
 

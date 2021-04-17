@@ -7,23 +7,28 @@
 </template>
 
 <script>
-  import { computed, provide, ref } from 'vue';
+  import { computed, provide, ref, onBeforeUnmount } from 'vue';
+  import { getRectObject } from '@/assets/util/dom';
   import { useScrollbar } from '@/components/scrollbar';
+
   export default {
     name: 'lazy-group',
-    setup() {
+    props: {
+      range: {
+        type: Number,
+        default: 2,
+      },
+    },
+    setup(props) {
       const children = [];
       function add(uid, element, callback) {
-        const rect = element.getBoundingClientRect();
-        const recordScroll = {
-          scrollLeft: scroll.scrollLeft,
-          scrollTop: scroll.scrollTop,
-        };
+        const rect = getRectObject(element);
+        const { scrollLeft, scrollTop } = scrollbar.wrapSizes;
+        const recordScroll = { scrollLeft, scrollTop };
 
         if (!has(uid)) {
           children.push({
             uid,
-            element,
             callback,
             rect,
             show: true,
@@ -33,7 +38,6 @@
           const index = getIndex(uid);
           children[index] = {
             ...children[index],
-            element,
             callback,
             rect,
             show: true,
@@ -65,48 +69,70 @@
         height: `${backSizes.value.height}px`,
       }));
 
+      const wrapRanges = computed(() => {
+        const { top, bottom, left, right, clientHeight, clientWidth } = scrollbar.wrapSizes;
+        const mergedHeight = (clientHeight * props.range - clientHeight) / 2;
+        const mergedWidth = (clientWidth * props.range - clientWidth) / 2;
+
+        return {
+          top: top - mergedHeight,
+          bottom: bottom + mergedHeight,
+          left: left - mergedWidth,
+          right: right + mergedWidth,
+        };
+      });
+
       function calculate() {
-        const { clientWidth, clientHeight } = wrapSizes;
+        const { scrollLeft, scrollTop } = scrollbar.wrapSizes;
+        const { top, bottom, left, right } = wrapRanges.value;
+        const newScroll = { scrollLeft, scrollTop };
         frontSizes.value = { width: 0, height: 0 };
         backSizes.value = { width: 0, height: 0 };
 
         children.forEach((child) => {
-          const rect = fixedRectScroll(child.rect, child.scroll, scroll);
-          const minus = rect.bottom < 0 || rect.right < 0;
-          const plus = rect.top > clientHeight || rect.left > clientWidth;
+          const rect = fixedRectScroll(child.rect, child.scroll, newScroll);
+          const minus = rect.bottom < top || rect.right < left;
+          const plus = rect.top > bottom || rect.left > right;
 
-          if (rect.bottom < 0) {
+          if (rect.bottom < top) {
             frontSizes.value.height += rect.height;
           }
-          if (rect.right < 0) {
+          if (rect.right < left) {
             frontSizes.value.width += rect.width;
           }
 
-          if (rect.top > clientHeight) {
+          if (rect.top > bottom) {
             backSizes.value.height += rect.height;
           }
-          if (rect.left > clientWidth) {
+          if (rect.left > right) {
             backSizes.value.width += rect.width;
           }
 
           child.rect = rect;
-          child.scroll = { ...scroll };
           child.show = !minus && !plus;
+          child.scroll = newScroll;
           child.callback(child.show);
         });
       }
 
-      const { scroll, onScroll, wrapSizes } = useScrollbar();
+      const scrollbar = useScrollbar();
       const lastScroll = ref({ scrollTop: 0, scrollLeft: 0 });
-      onScroll(({ scrollTop, scrollLeft }) => {
-        if (lastScroll.value.scrollTop !== scrollTop || lastScroll.value.scrollLeft === scrollLeft) {
-          calculate({ scrollTop, scrollLeft });
-        }
-        lastScroll.value = {
-          scrollTop,
-          scrollLeft,
-        };
-      });
+
+      scrollbar.onScroll(onScroll);
+      onBeforeUnmount(() => scrollbar.removeOnScroll(onScroll));
+
+      function onScroll(newScroll) {
+        if (!isScrollRepeated(newScroll)) calculate(newScroll);
+        lastScroll.value = newScroll;
+      }
+      function isScrollRepeated({ scrollTop, scrollLeft }) {
+        const {
+          scrollLeft: lastScrollLeft,
+          scrollTop: lastScrollTop,
+        } = lastScroll.value;
+
+        return lastScrollLeft === scrollLeft && lastScrollTop === scrollTop;
+      }
       function fixedRectScroll(rect, oldScroll, newScroll) {
         const relativeScroll = {
           scrollLeft: oldScroll.scrollLeft - newScroll.scrollLeft,
@@ -115,8 +141,6 @@
 
         return {
           ...rect,
-          height: rect.height,
-          width: rect.width,
           left: rect.left + relativeScroll.scrollLeft,
           right: rect.right + relativeScroll.scrollLeft,
           top: rect.top + relativeScroll.scrollTop,
