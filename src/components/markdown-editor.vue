@@ -21,7 +21,7 @@
         />
       </div>
       <div class="flex-static flex items-center">
-        <border-button text="发表" />
+        <!--<border-button text="发表" />-->
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@
   import { useModel } from '@/hooks/use-model';
   // Components
   import FormInput from '@/components/form-input.vue';
-  import BorderButton from '@/components/border-button.vue';
+  // import BorderButton from '@/components/border-button.vue';
   import PlainButton from '@/components/plain-button.vue';
   // Markdown
   import MarkdownIt from 'markdown-it';
@@ -59,7 +59,7 @@
     name: 'markdown-editor',
     components: {
       FormInput,
-      BorderButton,
+      // BorderButton,
       PlainButton,
     },
     props: {

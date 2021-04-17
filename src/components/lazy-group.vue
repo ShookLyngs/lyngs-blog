@@ -60,14 +60,20 @@
 
       const frontSizes = ref({ width: 0, height: 0 });
       const backSizes = ref({ width: 0, height: 0 });
-      const frontStyle = computed(() => ({
-        width: '100%',
-        height: `${frontSizes.value.height}px`,
-      }));
-      const backStyle = computed(() => ({
-        width: '100%',
-        height: `${backSizes.value.height}px`,
-      }));
+      const frontStyle = computed(() => {
+        const { width, height } = frontSizes.value;
+        return {
+          width: width ? `${width}px` : 'auto',
+          height: height ? `${height}px` : 'auto',
+        };
+      });
+      const backStyle = computed(() => {
+        const { width, height } = backSizes.value;
+        return {
+          width: width ? `${width}px` : 'auto',
+          height: height ? `${height}px` : 'auto',
+        };
+      });
 
       const wrapRanges = computed(() => {
         const { top, bottom, left, right, clientHeight, clientWidth } = scrollbar.wrapSizes;

@@ -33,12 +33,14 @@
   // Components
   import LayoutHeader from './header.vue';
   import LayoutFooter from './footer.vue';
+  import Scrollbar from '@/components/scrollbar';
 
   export default {
     name: 'layout',
     components: {
       LayoutHeader,
       LayoutFooter,
+      Scrollbar,
     },
     setup() {
       // Create ResizeObserver on layout scroller

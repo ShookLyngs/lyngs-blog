@@ -2,16 +2,16 @@
   <div class="absolute z-auto">
     <transition name="fade-fast">
       <div
-        class="fixed left-0 top-0 w-full h-full z-30 bg-mask-800"
+        class="fixed left-0 top-0 w-full h-full z-50 bg-modal-800"
         v-if="actualShow"
-        @click.prevent.stop="close"
+        @click.stop.prevent
       />
     </transition>
     <transition name="scale-sm">
       <div
-        class="fixed left-0 top-0 w-full h-full z-30 flex justify-center items-center"
+        class="fixed left-0 top-0 w-full h-full z-50 flex justify-center items-center"
         v-if="actualShow"
-        @click.prevent.stop="close"
+        @click.stop.prevent="onClickModal"
       >
         <slot />
       </div>
@@ -30,6 +30,10 @@
         type: Boolean,
         default: false,
       },
+      closeOnClickModal: {
+        type: Boolean,
+        default: false,
+      },
     },
     emits: [ 'update:show' ],
     setup(props, { emit }) {
@@ -43,11 +47,17 @@
       function close() {
         actualShow.value = false;
       }
+      function onClickModal() {
+        if (props.closeOnClickModal) {
+          close();
+        }
+      }
 
       return {
         actualShow,
         open,
         close,
+        onClickModal,
       };
     },
   };

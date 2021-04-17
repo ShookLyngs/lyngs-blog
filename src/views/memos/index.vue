@@ -28,6 +28,8 @@
         :end="isPageEnd"
         @start="onReachBottom"
       />
+
+      <memo-post ref="memoPost" />
     </container>
   </collapse>
 </template>
@@ -37,6 +39,7 @@
   import { ref, nextTick, onMounted } from 'vue';
   import { useList } from '@/hooks/use-list';
   // Components
+  import MemoPost from './memo-post.vue';
   import MemoListItem from './memo-list-item.vue';
   import ReachBottom from '@/components/reach-bottom.vue';
   import LazyGroup from '@/components/lazy-group.vue';
@@ -47,6 +50,7 @@
   export default {
     name: 'memos',
     components: {
+      MemoPost,
       MemoListItem,
       ReachBottom,
       LazyGroup,
@@ -121,7 +125,12 @@
         setTimeout(() => isShowPostButton.value = true, 500);
       });
 
-      function showPost() {}
+      const memoPost = ref();
+      function showPost() {
+        if (memoPost.value) {
+          memoPost.value.open();
+        }
+      }
 
       return {
         list,
@@ -129,6 +138,7 @@
         onReachBottom,
 
         isShowPostButton,
+        memoPost,
         showPost,
       };
     },

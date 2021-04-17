@@ -47,6 +47,18 @@ export default createTheme({
         800: alpha('#f9f9f9', 0.9),
         900: '#f9f9f9',
       },
+      modal: {
+        50: alpha('#ececec', 0.1),
+        100: alpha('#ececec', 0.2),
+        200: alpha('#ececec', 0.3),
+        300: alpha('#ececec', 0.4),
+        400: alpha('#ececec', 0.5),
+        500: alpha('#ececec', 0.6),
+        600: alpha('#ececec', 0.7),
+        700: alpha('#ececec', 0.8),
+        800: alpha('#ececec', 0.9),
+        900: '#ececec',
+      },
     },
   },
 });
