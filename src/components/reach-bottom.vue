@@ -9,7 +9,7 @@
 
 <script>
   // Functions
-  import { ref, watch, watchEffect } from 'vue';
+  import { ref, watch, watchEffect, onBeforeUnmount } from 'vue';
   import { useScrollbar } from '@/components/scrollbar';
   // Components
   import Empty from '@/components/empty.vue';
@@ -28,14 +28,21 @@
     emits: ['start'],
     setup(props, { emit }) {
       const element = ref();
+
       const scrollbar = useScrollbar();
+      const { observe, unobserve } = scrollbar;
       const isIntersecting = ref(false);
       function onIntersection(entry) {
         isIntersecting.value = entry.intersectionRatio > 0;
       }
       watchEffect(() => {
-        if (scrollbar?.wrap && element.value) {
-          scrollbar.observe(element.value, onIntersection);
+        if (scrollbar?.wrap && element.value && observe) {
+          observe(element.value, onIntersection);
+        }
+      });
+      onBeforeUnmount(() => {
+        if (unobserve) {
+          unobserve(element.value);
         }
       });
 
@@ -45,7 +52,6 @@
         emit('start', finish);
       }
       function finish() {
-        console.log('end');
         loading.value = false;
       }
       watch(isIntersecting, () => {
@@ -57,6 +63,8 @@
       return {
         element,
         loading,
+        start,
+        finish,
       };
     },
   };
