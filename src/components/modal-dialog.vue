@@ -1,29 +1,27 @@
 <template>
   <modal v-model:show="actualShow" v-on="$attrs">
-    <div class="body w-full md:px-0 md:content flex max-h-full">
-      <div class="dialog flex-1 flex flex-col rounded-lg border border-negative-600 bg-negative-900" @click.prevent.stop>
+    <div class="dialog w-full md:px-0 md:content flex max-h-full self-center" :class="outerClass">
+      <div
+        class="dialog__inner flex-auto flex flex-col overflow-hidden md:rounded-lg border border-negative-600 bg-negative-900"
+        :class="innerClass"
+        @click.prevent.stop
+      >
         <!-- Header -->
         <div class="dialog__header body flex justify-between items-center">
-          <div class="dialog__title text-xl font-semibold">
+          <plain-button
+            class="dialog__title text-xl font-semibold !px-0"
+            icon-class="text-xl"
+            icon="icon-left"
+            @click="close"
+          >
             <slot name="title">
-              {{ title }}
+              <span class="ml-2">{{ title }}</span>
             </slot>
-          </div>
-          <div>
-            <slot name="header-actions">
-              <plain-button icon="icon-no" @click="close" />
-            </slot>
-          </div>
+          </plain-button>
         </div>
 
         <!-- Content -->
-        <scrollbar
-          disabled-horizontal
-          class="flex-auto flex flex-col"
-          wrap-class="flex-auto flex flex-col"
-        >
-          <slot />
-        </scrollbar>
+        <slot />
       </div>
     </div>
   </modal>
@@ -34,14 +32,13 @@
   import { useModel } from '@/hooks/use-model';
   // Components
   import Modal from '@/components/modal.vue';
-  import Scrollbar from '@/components/scrollbar';
   import PlainButton from '@/components/plain-button.vue';
+  import {computed} from 'vue';
 
   export default {
     name: 'modal-dialog',
     components: {
       Modal,
-      Scrollbar,
       PlainButton,
     },
     props: {
@@ -52,6 +49,16 @@
       title: {
         type: String,
         default: '',
+      },
+      position: {
+        type: String,
+        default: '',
+        validator: value => ['', 'center', 'start', 'end'].includes(value),
+      },
+      mobilePosition: {
+        type: String,
+        default: 'center',
+        validator: value => ['', 'center', 'start', 'end'].includes(value),
       },
     },
     emits: ['update:show'],
@@ -67,10 +74,58 @@
         actualShow.value = false;
       }
 
+      const outerClass = computed(() => {
+        const classes = [];
+
+        const { position, mobilePosition } = props;
+
+        if (mobilePosition === 'start') {
+          classes.push('body-bottom self-start');
+        }
+        if (mobilePosition === 'center') {
+          classes.push('body self-center');
+        }
+        if (mobilePosition === 'end') {
+          classes.push('body-top self-end');
+        }
+
+        if (position === 'start') {
+          classes.push('md:body-y md:self-start');
+        }
+        if (position === 'center') {
+          classes.push('md:body-y md:self-center');
+        }
+        if (position === 'end') {
+          classes.push('md:body-y md:self-end');
+        }
+
+        return classes;
+      });
+      const innerClass = computed(() => {
+        const classes = [];
+
+        const { position, mobilePosition } = props;
+
+        if (mobilePosition === 'center' || !position) {
+          classes.push('rounded-xl');
+        }
+        if (mobilePosition === 'start') {
+          classes.push('rounded-b-xl');
+        }
+        if (mobilePosition === 'end') {
+          classes.push('rounded-t-xl');
+        }
+
+        return classes;
+      });
+
       return {
         actualShow,
         open,
         close,
+
+        outerClass,
+        innerClass,
       };
     }
   };

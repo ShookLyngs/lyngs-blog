@@ -1,27 +1,58 @@
 <template>
   <modal-dialog
-    close-on-click-modal
     ref="modal"
-    title="新的想法"
+    title="新想法"
+    position="end"
+    mobile-position="start"
   >
-    <field class="flex-auto flex flex-col">
-      <markdown-editor placeholder="说点什么吧" v-model="form.content" />
-    </field>
+    <div class="body-x flex-auto flex flex-col overflow-hidden">
+      <field class="px-0 flex-auto flex flex-col overflow-hidden">
+        <scrollbar
+          disabled-horizontal
+          class="flex-auto flex flex-col"
+          wrap-class="flex-auto flex flex-col"
+          view-class="px-3.5 flex-auto flex flex-col"
+        >
+          <markdown-editor
+            placeholder="有什么新想法"
+            :preview="preview"
+            v-model="form.content"
+          />
+          <div class="body-top pb-1" @click.stop>
+            <div class="h-24 w-24 rounded bg-negative-700" />
+          </div>
+        </scrollbar>
+      </field>
 
-    <div class="body-y flex justify-end sticky bottom-0 bg-negative-900">
-      <border-button text="发表" />
+      <div class="sticky bottom-0 bg-negative-900">
+        <div class="body-y flex justify-between items-center">
+          <div>
+            <plain-button
+              icon="icon-yes-fill"
+              text="预览"
+              class="mr-3"
+              normal-class="text-positive-600"
+              active-class="text-theme-500"
+              :active="preview"
+              @click="togglePreview"
+            />
+          </div>
+          <div>
+            <border-button text="发表" />
+          </div>
+        </div>
+      </div>
     </div>
-
-    <!--<li v-for="item in 50" :key="item">content</li>-->
   </modal-dialog>
 </template>
 
 <script>
   // Functions
-  import {reactive, ref} from 'vue';
+  import { reactive, ref } from 'vue';
   // Components
   import ModalDialog from '@/components/modal-dialog.vue';
   import BorderButton from '@/components/border-button.vue';
+  import PlainButton from '@/components/plain-button.vue';
   import Field from '@/components/field.vue';
   import MarkdownEditor from '@/components/markdown-editor.vue';
 
@@ -30,6 +61,7 @@
     components: {
       ModalDialog,
       BorderButton,
+      PlainButton,
       Field,
       MarkdownEditor,
     },
@@ -46,12 +78,19 @@
         content: '',
       });
 
+      const preview = ref(false);
+      function togglePreview() {
+        preview.value = !preview.value;
+      }
+
       return {
         modal,
         open,
         close,
 
         form,
+        preview,
+        togglePreview,
       };
     },
   };

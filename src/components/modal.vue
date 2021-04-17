@@ -9,7 +9,7 @@
     </transition>
     <transition name="scale-sm">
       <div
-        class="fixed left-0 top-0 w-full h-full z-50 flex justify-center items-center"
+        class="fixed left-0 top-0 w-full h-full z-50 flex justify-center"
         v-if="actualShow"
         @click.stop.prevent="onClickModal"
       >

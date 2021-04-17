@@ -18,7 +18,7 @@
       padding: {
         type: String,
         default: 'md',
-        validator: (value) => ['sm', 'md'].includes(value),
+        validator: (value) => ['xs', 'sm', 'md'].includes(value),
       },
       disabled: {
         type: Boolean,
@@ -64,6 +64,9 @@
     }
 
     // padding x
+    &.w-xs {
+      @apply px-0;
+    }
     &.w-sm {
       @apply px-2;
     }

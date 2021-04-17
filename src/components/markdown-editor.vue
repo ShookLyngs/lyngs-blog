@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col flex-auto">
-    <div class="flex-auto editor-min-height" v-if="!preview">
+  <div class="flex-auto flex flex-col">
+    <div class="flex-auto flex flex-col editor-min-height" v-if="!preview">
       <form-input
         textarea
         v-bind="$attrs"
@@ -8,22 +8,6 @@
       />
     </div>
     <div class="py-1 flex-auto editor-min-height" v-html="converted" v-else />
-    <div class="py-2 sticky bottom-0 flex-static flex justify-between items-center bg-white">
-      <div>
-        <plain-button
-          icon="icon-yes-fill"
-          text="预览"
-          class="mr-3"
-          normal-class="text-positive-600"
-          active-class="text-theme-500"
-          :active="preview"
-          @click="togglePreview"
-        />
-      </div>
-      <div class="flex-static flex items-center">
-        <!--<border-button text="发表" />-->
-      </div>
-    </div>
   </div>
 </template>
 
@@ -33,8 +17,6 @@
   import { useModel } from '@/hooks/use-model';
   // Components
   import FormInput from '@/components/form-input.vue';
-  // import BorderButton from '@/components/border-button.vue';
-  import PlainButton from '@/components/plain-button.vue';
   // Markdown
   import MarkdownIt from 'markdown-it';
   import highlight from 'highlight.js';
@@ -59,13 +41,15 @@
     name: 'markdown-editor',
     components: {
       FormInput,
-      // BorderButton,
-      PlainButton,
     },
     props: {
       value: {
         type: String,
         default: '',
+      },
+      preview: {
+        type: Boolean,
+        default: false,
       },
     },
     emits: [ 'update:modelValue' ],
@@ -79,16 +63,9 @@
         converted.value = markdown.render(content.value);
       });
 
-      const preview = ref(false);
-      function togglePreview() {
-        preview.value = !preview.value;
-      }
-
       return {
         content,
         converted,
-        preview,
-        togglePreview,
       };
     },
   };

@@ -3,7 +3,7 @@
     <!-- Content Input, not a regular input -->
     <div
       ref="input"
-      class="form-input__content flex-auto focus:outline-none"
+      class="form-input__content flex-auto w-full focus:outline-none"
       v-bind="$attrs"
       :contenteditable="!disabled"
       @click.stop
