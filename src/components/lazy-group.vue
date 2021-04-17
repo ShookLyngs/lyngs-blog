@@ -16,7 +16,7 @@
     props: {
       range: {
         type: Number,
-        default: 2,
+        default: 4,
       },
     },
     setup(props) {
@@ -71,45 +71,54 @@
 
       const wrapRanges = computed(() => {
         const { top, bottom, left, right, clientHeight, clientWidth } = scrollbar.wrapSizes;
-        const mergedHeight = (clientHeight * props.range - clientHeight) / 2;
-        const mergedWidth = (clientWidth * props.range - clientWidth) / 2;
+        const rangedHeight = clientHeight * props.range;
+        const rangedWidth = clientWidth * props.range;
+        const mergedHeight = (rangedHeight - clientHeight) / 2;
+        const mergedWidth = (rangedWidth - clientWidth) / 2;
 
         return {
           top: top - mergedHeight,
           bottom: bottom + mergedHeight,
           left: left - mergedWidth,
           right: right + mergedWidth,
+          height: rangedHeight,
+          width: rangedWidth,
         };
       });
 
       function calculate() {
         const { scrollLeft, scrollTop } = scrollbar.wrapSizes;
-        const { top, bottom, left, right } = wrapRanges.value;
+        const { top, bottom, left, right, width, height } = wrapRanges.value;
         const newScroll = { scrollLeft, scrollTop };
         frontSizes.value = { width: 0, height: 0 };
         backSizes.value = { width: 0, height: 0 };
 
         children.forEach((child) => {
           const rect = fixedRectScroll(child.rect, child.scroll, newScroll);
-          const minus = rect.bottom < top || rect.right < left;
-          const plus = rect.top > bottom || rect.left > right;
+          const widthOverflow = rect.width >= width;
+          const heightOverflow = rect.height >= height;
+          const xOverflow = rect.bottom < top || rect.right < left;
+          const yOverflow = rect.top > bottom || rect.left > right;
 
-          if (rect.bottom < top) {
-            frontSizes.value.height += rect.height;
+          if (!widthOverflow) {
+            if (rect.right < left) {
+              frontSizes.value.width += rect.width;
+            }
+            if (rect.left > right) {
+              backSizes.value.width += rect.width;
+            }
           }
-          if (rect.right < left) {
-            frontSizes.value.width += rect.width;
-          }
-
-          if (rect.top > bottom) {
-            backSizes.value.height += rect.height;
-          }
-          if (rect.left > right) {
-            backSizes.value.width += rect.width;
+          if (!heightOverflow) {
+            if (rect.bottom < top) {
+              frontSizes.value.height += rect.height;
+            }
+            if (rect.top > bottom) {
+              backSizes.value.height += rect.height;
+            }
           }
 
           child.rect = rect;
-          child.show = !minus && !plus;
+          child.show = (widthOverflow || !xOverflow) && (heightOverflow || !yOverflow);
           child.scroll = newScroll;
           child.callback(child.show);
         });
