@@ -31,10 +31,6 @@
         </slot>
       </div>
     </transition>
-
-    <teleport to="#app">
-      <image-swiper ref="popper" />
-    </teleport>
   </div>
 </template>
 
@@ -44,13 +40,12 @@
   import { useScrollbar } from '@/components/scrollbar';
   // Components
   import Icon from '@/components/icon';
-  import ImageSwiper from '@/components/image-swiper.vue';
+  import { openImageViewer } from '@/components/image-viewer';
 
   export default {
     name: 'imager',
     components: {
       Icon,
-      ImageSwiper,
     },
     props: {
       src: {
@@ -118,11 +113,10 @@
         }
       });
 
-      const popper = ref();
       function openPopper() {
-        if (props.view && !loading.value && !error.value && popper.value) {
+        if (props.view && !loading.value && !error.value) {
           const { src, width, height } = image.value;
-          popper.value.open([{
+          openImageViewer([{
             // Full image
             src: src,
             w: width,
@@ -141,7 +135,6 @@
         imager,
         imageVisible,
 
-        popper,
         openPopper,
       };
     },

@@ -12,8 +12,9 @@ import Icon from '@/components/icon';
 import Loading from '@/components/loading';
 import Scrollbar from '@/components/scrollbar';
 import Collapse from '@/components/collapse';
+import ImageViewer from '@/components/image-viewer';
 
-const uses = [Icon, Loading, Scrollbar, Collapse];
+const uses = [Icon, Loading, Scrollbar, Collapse, ImageViewer];
 
 export default {
   install(app) {
