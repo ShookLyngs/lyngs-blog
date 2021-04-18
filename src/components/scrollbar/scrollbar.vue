@@ -186,10 +186,6 @@
       // Scrollbar state store
       const store = reactive({
         dragging: false,
-        gutter: null,
-      });
-      const gutterWithUnit = computed(() => {
-        return store.gutter ? `-${store.gutter}px` : null;
       });
       function onDrag(value) {
         store.dragging = value;
@@ -210,8 +206,14 @@
         const percentage = (clientWidth * 100) / scrollWidth;
         return percentage < 100 ? `${percentage}%` : '';
       }
+
+      const gutterWidth = ref(getScrollBarWidth());
+      const gutterWithUnit = computed(() => {
+        console.log(gutterWidth.value);
+        return gutterWidth.value ? `-${gutterWidth.value}px` : null;
+      });
       function updateViewSizes() {
-        store.gutter = getScrollBarWidth();
+        gutterWidth.value = getScrollBarWidth();
         barSizes.height = getBarVerticalSize();
         barSizes.width = getBarHorizontalSize();
       }
@@ -257,8 +259,10 @@
         mergedViewStyle,
 
         store,
-        gutterWithUnit,
         onDrag,
+
+        gutterWidth,
+        gutterWithUnit,
 
         barMove,
         onWrapScroll,
@@ -266,6 +270,7 @@
         barSizes,
         getBarVerticalSize,
         getBarHorizontalSize,
+
 
         onScroll,
         removeOnScroll,
