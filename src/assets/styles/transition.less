@@ -55,3 +55,18 @@
   opacity: 1;
   transform: scale3d(1, 1, 1);
 }
+
+.slide-from-bottom-enter-active,
+.slide-from-bottom-leave-active {
+  transition: all .4s ease;
+}
+.slide-from-bottom-enter-from,
+.slide-from-bottom-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
+}
+.slide-from-bottom-enter-to,
+.slide-from-bottom-leave-from {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
