@@ -30,7 +30,7 @@ const stringToObject = (string) => {
 };
 
 export const mergeClass = (...params) => {
-  const classes = [];
+  let classes = [];
 
   params.forEach((param) => {
     if (isObject(param)) {
@@ -39,9 +39,9 @@ export const mergeClass = (...params) => {
         if (param[key]) classes.push(key);
       }
     } else if (Array.isArray(param)) {
-      classes.concat(param);
+      classes = classes.concat(param);
     } else if (typeof param === 'string') {
-      classes.concat(param.replace(/\s+/g, ' ').split(' '));
+      classes = classes.concat(param.replace(/\s+/g, ' ').split(' '));
     }
   });
 
