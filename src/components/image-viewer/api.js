@@ -14,8 +14,6 @@ export function install(app) {
 
   app.config.globalProperties.openImageViewer = openImageViewer;
   app.config.globalProperties.closeImageViewer = closeImageViewer;
-  app.provide('openImageViewer', openImageViewer);
-  app.provide('closeImageViewer', closeImageViewer);
 }
 
 function createViewer() {
