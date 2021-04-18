@@ -41,7 +41,7 @@
 
 <script>
   // Functions
-  import { ref, reactive, computed, onMounted, onUpdated } from 'vue';
+  import {ref, reactive, computed, onMounted, onUpdated, watch} from 'vue';
   import { getRectObject, getScrollBarWidth } from '@/assets/util/dom';
   import { mergeStyle } from '@/assets/util/style';
   import { useIntersection } from '@/hooks/use-intersection';
@@ -103,7 +103,9 @@
       // List wrapper
       const wrap = ref();
       const mergedWrapStyle = computed(() => {
-        if (!gutterWithUnit.value) return props.wrapStyle;
+        if (!gutterWithUnit.value) {
+          return mergeStyle(props.wrapStyle);
+        }
         const gutterStyle = {
           marginBottom: gutterWithUnit.value,
           marginRight: gutterWithUnit.value,

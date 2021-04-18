@@ -38,3 +38,4 @@ You can take a look at the designs of the project below.
   - Vite did not pass env variable to postcss in development mode.
     This can be solved by using `cross-env` to ensure `NODE_ENV=development` in package.json -> scripts.
     Follow: https://github.com/vitejs/vite/commit/fa8574921195dd03b539c150a2ae5f97121a0aea
+  - Component/scrollbar, mergedWrapStyle is not update normally.

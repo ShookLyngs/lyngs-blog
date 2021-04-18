@@ -13,15 +13,24 @@
           disabled-horizontal
           class="flex-auto flex flex-col"
           wrap-class="flex-auto flex flex-col"
-          view-class="px-3.5 flex-auto flex flex-col"
+          view-class="box-border px-3.5 flex-auto flex flex-col"
         >
           <markdown-editor
             placeholder="有什么新想法"
             :preview="preview"
             v-model="form.content"
           />
-          <div class="body-top pb-1" @click.stop>
-            <div class="h-24 w-24 rounded bg-negative-700" />
+          <div class="body-top -mx-0.5 flex flex-wrap">
+            <div
+              class="image"
+              v-for="image in form.images"
+              :key="image"
+              :class="`image--${form.images.length}`"
+            >
+              <div class="image__content">
+                <imager background view :src="image" />
+              </div>
+            </div>
           </div>
         </scrollbar>
       </field>
@@ -57,6 +66,8 @@
   import PlainButton from '@/components/plain-button.vue';
   import Field from '@/components/field.vue';
   import MarkdownEditor from '@/components/markdown-editor.vue';
+  // Resources
+  import avatarImage from '@/assets/images/avatar.jpg';
 
   export default {
     name: 'memo-post',
@@ -78,6 +89,7 @@
 
       const form = reactive({
         content: '',
+        images: [ avatarImage ],
       });
 
       const preview = ref(false);
@@ -98,6 +110,23 @@
   };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+  .image {
+    @apply mb-1;
+    margin-left: theme('spacing[0.5]');
+    margin-right: theme('spacing[0.5]');
+    width: calc(33.33% - theme('spacing[1]'));
 
+    @media (min-width: theme('screens.md')) {
+      width: calc(25% - theme('spacing[1]'));
+    }
+    .image__content {
+      @apply relative rounded overflow-hidden text-xl md:text-2xl text-positive-200 bg-negative-600;
+      padding-top: 100%;
+
+      .imager {
+        @apply absolute left-0 top-0 w-full h-full;
+      }
+    }
+  }
 </style>
