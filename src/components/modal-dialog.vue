@@ -1,6 +1,6 @@
 <template>
   <modal v-model:show="actualShow" v-on="$attrs">
-    <div class="dialog w-full md:px-0 md:content flex max-h-full self-center" :class="outerClass">
+    <div class="dialog w-full md:px-0 md:body-y md:content flex max-h-full self-center" :class="outerMergedClass">
       <div
         class="dialog__inner flex-auto flex flex-col overflow-hidden md:rounded-lg border border-negative-600 bg-negative-900"
         :class="innerClass"
@@ -14,9 +14,9 @@
             icon="icon-left"
             @click="close"
           >
-            <slot name="title">
-              <span class="ml-2">{{ title }}</span>
-            </slot>
+            <div class="ml-4">
+              <slot name="title">{{ title }}</slot>
+            </div>
           </plain-button>
         </div>
 
@@ -29,11 +29,12 @@
 
 <script>
   // Functions
+  import { computed } from 'vue';
+  import { mergeClass } from '@/assets/util/style';
   import { useModel } from '@/hooks/use-model';
   // Components
   import Modal from '@/components/modal.vue';
   import PlainButton from '@/components/plain-button.vue';
-  import {computed} from 'vue';
 
   export default {
     name: 'modal-dialog',
@@ -60,6 +61,10 @@
         default: 'center',
         validator: value => ['', 'center', 'start', 'end'].includes(value),
       },
+      outerClass: {
+        type: [String, Array, Object],
+        default: 'body',
+      },
     },
     emits: ['update:show'],
     setup(props, { emit }) {
@@ -74,32 +79,33 @@
         actualShow.value = false;
       }
 
-      const outerClass = computed(() => {
+      const outerMergedClass = computed(() => {
         const classes = [];
 
         const { position, mobilePosition } = props;
-
+        // Mobile position
         if (mobilePosition === 'start') {
-          classes.push('body-bottom self-start');
+          classes.push('self-start');
         }
         if (mobilePosition === 'center') {
-          classes.push('body self-center');
+          classes.push('self-center');
         }
         if (mobilePosition === 'end') {
-          classes.push('body-top self-end');
+          classes.push('self-end');
         }
-
+        // Position
         if (position === 'start') {
-          classes.push('md:body-y md:self-start');
+          classes.push('md:self-start');
         }
         if (position === 'center') {
-          classes.push('md:body-y md:self-center');
+          classes.push('md:self-center');
         }
         if (position === 'end') {
-          classes.push('md:body-y md:self-end');
+          classes.push('md:self-end');
         }
 
-        return classes;
+        console.log(mergeClass(classes, props.outerClass));
+        return mergeClass(classes, props.outerClass);
       });
       const innerClass = computed(() => {
         const classes = [];
@@ -124,7 +130,7 @@
         open,
         close,
 
-        outerClass,
+        outerMergedClass,
         innerClass,
       };
     }

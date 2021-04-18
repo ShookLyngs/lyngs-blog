@@ -7,7 +7,7 @@
         @click.stop.prevent
       />
     </transition>
-    <transition name="scale-sm">
+    <transition :name="transitionName">
       <div
         class="fixed left-0 top-0 w-full h-full z-50 flex justify-center"
         v-if="actualShow"
@@ -34,6 +34,11 @@
         type: Boolean,
         default: false,
       },
+      transitionName: {
+        type: String,
+        default: 'scale-sm',
+      },
+
     },
     emits: [ 'update:show' ],
     setup(props, { emit }) {

@@ -2,8 +2,10 @@
   <modal-dialog
     ref="modal"
     title="新想法"
-    position="end"
-    mobile-position="start"
+    position="center"
+    mobile-position="end"
+    outer-class="body-top"
+    transition-name="slide-from-bottom"
   >
     <div class="body-x flex-auto flex flex-col overflow-hidden">
       <field class="px-0 flex-auto flex flex-col overflow-hidden">
@@ -38,7 +40,7 @@
             />
           </div>
           <div>
-            <border-button text="发表" />
+            <border-button text="确认" />
           </div>
         </div>
       </div>
