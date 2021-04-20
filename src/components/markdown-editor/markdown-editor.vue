@@ -15,27 +15,9 @@
   // Functions
   import { ref, watchEffect } from 'vue';
   import { useModel } from '@/hooks/use-model';
+  import { render } from '../markdown-renderer';
   // Components
   import FormInput from '@/components/form-input.vue';
-  // Markdown
-  import MarkdownIt from 'markdown-it';
-  import highlight from 'highlight.js';
-  import 'highlight.js/styles/tomorrow-night-eighties.css';
-
-  const markdown = new MarkdownIt({
-    highlight: function (string, language) {
-      if (language && highlight.getLanguage(language)) {
-        try {
-          const transformed = highlight.highlight(string, { language });
-          return `<pre class="code hljs"><code>${transformed.value}</code></pre>`;
-        } catch {
-          /**/
-        }
-      }
-
-      return `<pre class="code hljs"><code>${markdown.utils.escapeHtml(string)}</code></pre>`;
-    }
-  });
 
   export default {
     name: 'markdown-editor',
@@ -60,7 +42,7 @@
       );
       const converted = ref(content.value);
       watchEffect(() => {
-        converted.value = markdown.render(content.value);
+        converted.value = render(content.value);
       });
 
       return {

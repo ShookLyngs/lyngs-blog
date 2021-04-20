@@ -31,7 +31,7 @@
   import Field from '@/components/field.vue';
   import FormInput from '@/components/form-input.vue';
   import FormTagInput from '@/components/form-tag-input.vue';
-  import MarkdownEditor from '@/components/markdown-editor.vue';
+  import MarkdownEditor from '@/components/markdown-editor';
   import UploadBackground from './upload-background.vue';
 
   export default {

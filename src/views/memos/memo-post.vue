@@ -65,7 +65,7 @@
   import BorderButton from '@/components/border-button.vue';
   import PlainButton from '@/components/plain-button.vue';
   import Field from '@/components/field.vue';
-  import MarkdownEditor from '@/components/markdown-editor.vue';
+  import MarkdownEditor from '@/components/markdown-editor';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
 
