@@ -20,17 +20,33 @@ You can take a look at the designs of the project below.
 - [ ] Articles
   - [x] ListItem
   - [x] Pager
-  - [ ] Locale time string 
+  - [x] Locale time 
+  - [ ] Fetch data
 - [ ] Article detail
   - [x] Markdown to HTML
-  - [ ] Detail basics
+  - [x] Detail basics
+  - [ ] Markdown renderer
+  - [ ] Like and dislike
+  - [ ] Manage article dialog
+  - [ ] Donation dialog
+  - [ ] Fetch data
 - [ ] Post Article
+  - [ ] Upload banner
+  - [ ] Markdown editor
 - [ ] Memos
+  - [x] List item
+  - [x] Reach bottom load more
+  - [ ] Manage memo dialog
 - [ ] Memo detail
-- [ ] Post Memo
+  - [ ] Memo detail dialog
+- [ ] Post Memo dialog
+  - [ ] Upload images
+  - [ ] Topic edit?
 - [ ] Comments
-  - [ ] ListItem
-- [ ] Submit Comment
+  - [ ] List item
+  - [ ] Reply
+  - [ ] Manage Comment dialog
+- [ ] Submit Comment dialog
 
 # Bugs
 
