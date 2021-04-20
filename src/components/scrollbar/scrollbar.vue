@@ -271,7 +271,6 @@
         getBarVerticalSize,
         getBarHorizontalSize,
 
-
         onScroll,
         removeOnScroll,
 

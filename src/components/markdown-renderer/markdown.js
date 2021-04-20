@@ -21,8 +21,20 @@ export const markdown = new MarkdownIt({
   },
 });
 
-// Export main properties of markdown-it
-export const { render } = markdown;
+/**
+ * MarkdownIt.render(src [, env]) -> String
+ * - src (String): source string
+ * - env (Object): environment sandbox
+ *
+ * Render markdown string into html. It does all magic for you :).
+ *
+ * `env` can be used to inject additional metadata (`{}` by default).
+ * But you will not need it with high probability. See also comment
+ * in [[MarkdownIt.parse]].
+ **/
+export function render(src, env) {
+  return markdown.render(src, env);
+}
 
 // Create a <pre> block
 function createPreBlock(value) {

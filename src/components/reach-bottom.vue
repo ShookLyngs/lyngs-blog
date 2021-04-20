@@ -2,7 +2,7 @@
   <div ref="element" class="relative" v-loading="loading">
     <empty
       class="transition duration-300"
-      :class="loading ? 'opacity-0' : ''"
+      :class="loading || !end ? 'opacity-0' : ''"
     />
   </div>
 </template>
@@ -31,19 +31,17 @@
 
       const scrollbar = useScrollbar();
       const { observe, unobserve } = scrollbar;
+
       const isIntersecting = ref(false);
-      function onIntersection(entry) {
-        isIntersecting.value = entry.intersectionRatio > 0;
-      }
       watchEffect(() => {
         if (scrollbar?.wrap && element.value && observe) {
-          observe(element.value, onIntersection);
+          observe(element.value, (entry) => {
+            isIntersecting.value = entry.intersectionRatio > 0;
+          });
         }
       });
       onBeforeUnmount(() => {
-        if (unobserve) {
-          unobserve(element.value);
-        }
+        if (unobserve) unobserve(element.value);
       });
 
       const loading = ref(false);
