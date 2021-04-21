@@ -1,4 +1,4 @@
-import component from './markdown-renderer.vue';
+import component from './markdown-renderer.js';
 import { createInstallableComponent } from '@/assets/util/component';
 
 export default createInstallableComponent(component);

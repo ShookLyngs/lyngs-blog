@@ -36,10 +36,11 @@
       </div>
 
       <!-- content -->
-      <div
+      <!--<div
         class="body-y text-base text-positive-600 font-medium"
         v-html="data.content"
-      />
+      />-->
+      <markdown-renderer :content="data.content" />
 
       <!-- taken block, donate -->
       <empty class="mt-20" />
@@ -78,9 +79,12 @@
           <tag no-gap padding="sm" class="ml-1.5">23</tag>
         </div>
 
-        <border-button ref="postButton" padding="sm" height="sm">
-          发表评论
-        </border-button>
+        <border-button
+          ref="postButton"
+          padding="sm"
+          height="sm"
+          text="发表评论"
+        />
       </div>
 
       <!--<div class="body sticky top-0">
@@ -105,6 +109,7 @@
   // Components
   import Tag from '@/components/tag.vue';
   import Comment from '@/components/comment.vue';
+  import MarkdownRenderer from '@/components/markdown-renderer';
   // Resources
   import detailImage from '@/assets/images/article/detail.jpg';
   import avatarImage from '@/assets/images/avatar.jpg';
@@ -114,6 +119,7 @@
     components: {
       Tag,
       Comment,
+      MarkdownRenderer,
     },
     setup() {
       const data = ref({
@@ -124,6 +130,8 @@
 ### third text
 #### 4th text
 ##### 5th text
+
+![GitHub Logo](https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg)
 
 something darker for *us*
 

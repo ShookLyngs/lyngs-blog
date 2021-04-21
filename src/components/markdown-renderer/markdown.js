@@ -36,6 +36,25 @@ export function render(src, env) {
   return markdown.render(src, env);
 }
 
+/** internal
+ * MarkdownIt.parse(src, env) -> Array
+ * - src (String): source string
+ * - env (Object): environment sandbox
+ *
+ * Parse input string and return list of block tokens (special token type
+ * "inline" will contain list of inline tokens). You should not call this
+ * method directly, until you write custom renderer (for example, to produce
+ * AST).
+ *
+ * `env` is used to pass data between "distributed" rules and return additional
+ * metadata like reference info, needed for the renderer. It also can be used to
+ * inject data in specific cases. Usually, you will be ok to pass `{}`,
+ * and then pass updated object to renderer.
+ **/
+export function parse(src, env) {
+  return markdown.parse(src, env);
+}
+
 // Create a <pre> block
 function createPreBlock(value) {
   return `<pre class="code hljs"><code>${value}</code></pre>`;
