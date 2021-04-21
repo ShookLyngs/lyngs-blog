@@ -25,7 +25,7 @@ export default defineConfig({
     preprocessorOptions: {
       less: {
         modifyVars: {
-          hack: `true; @import "@/assets/styles/global.less";`,
+          hack: 'true; @import "@/assets/styles/global.less";',
         },
       },
     },
