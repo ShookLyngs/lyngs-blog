@@ -115,12 +115,12 @@
 
       function openPopper() {
         if (props.view && !loading.value && !error.value) {
-          const { src, width, height } = image.value;
+          const { src, naturalWidth, naturalHeight } = image.value;
           openImageViewer([{
             // Full image
             src: src,
-            w: width,
-            h: height,
+            w: naturalWidth,
+            h: naturalHeight,
             // Thumbnail data
             thumbRect: imager.value.getBoundingClientRect(),
           }]);

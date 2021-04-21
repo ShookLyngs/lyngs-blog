@@ -1,5 +1,6 @@
-import { createVNode, ref, watch, watchEffect} from 'vue';
+import { h, ref, watch } from 'vue';
 import { render } from './markdown';
+import { openImageViewer } from '@/components/image-viewer';
 
 export default {
   name: 'markdown-renderer',
@@ -18,23 +19,28 @@ export default {
       transferred.value = updateContent();
     });
 
-    const element = ref();
-    watchEffect(() =>{
-      if (element.value) {
-        console.log(element.value.children);
+    function onClickRenderer(event) {
+      if (event.target.tagName === 'IMG') {
+        onClickImage(event.target);
       }
-    });
+    }
+    function onClickImage(image) {
+      openImageViewer([{
+        // Full image
+        src: image.src,
+        w: image.naturalWidth,
+        h: image.naturalHeight,
+        // Thumbnail data
+        thumbRect: image.getBoundingClientRect(),
+      }]);
+    }
 
     return () => {
-      console.log(transferred.value.replace);
-      const page = createVNode('div', {
-        ref: element,
+      return h('div', {
         class: 'markdown-renderer',
         innerHTML: transferred.value,
+        onClick: onClickRenderer,
       });
-
-      // console.log(page);
-      return page;
     };
   }
 };

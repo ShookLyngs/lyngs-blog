@@ -21,6 +21,10 @@ export const markdown = new MarkdownIt({
   },
 });
 
+// Markdown-it container plugin
+import MarkdownItImage from './markdown-it-image';
+markdown.use(MarkdownItImage);
+
 /**
  * MarkdownIt.render(src [, env]) -> String
  * - src (String): source string
