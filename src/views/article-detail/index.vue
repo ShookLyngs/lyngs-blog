@@ -27,7 +27,7 @@
     >
       <!-- title -->
       <div class="pt-7 text-xl text-positive-800 font-bold md:text-2xl">
-        你可以说我嫉妒清华大学博士，我自己是井底之蛙，我被阴谋论洗脑，我自己不行不代表别人不行
+        赵文昊和我，我和今天，明天和未来
       </div>
 
       <!-- tags -->
@@ -40,7 +40,7 @@
         class="body-y text-base text-positive-600 font-medium"
         v-html="data.content"
       />-->
-      <markdown-renderer :content="data.content" />
+      <markdown-renderer class="body-y" :content="data.content" />
 
       <!-- taken block, donate -->
       <empty class="mt-20" />
@@ -125,39 +125,17 @@
       const data = ref({
         tags: ['前端开发', 'Vue3'],
         content: `
-# Hello world
-## secondary text
-### third text
-#### 4th text
-##### 5th text
+# 起源
 
 ![GitHub Logo](https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg)
 
-something darker for *us*
+起初，我们只是因为一些小事而聚到一起，大家都只是孩子，我们一起用一款叫做 \`RPG Maker XP\` 的软件来制作游戏。
 
-something darker for *us*
+赵文昊的出现，打破了僵局。
 
-something darker for *us*
+- [ ] Something
+- [ ] Someting else
 
-something darker for *us*
-
-something darker for *us*
-
-something darker for *us*
-
-something darker for *us*
-
-something darker for *us*
-
-something darker for *us*
-
-something darker for *us*
-
-something darker for *us*
-
-something darker for *us*
-
-something darker for *us*
         `,
       });
 

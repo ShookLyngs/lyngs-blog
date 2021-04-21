@@ -1,6 +1,9 @@
+// Functions
 import { h, ref, watch } from 'vue';
 import { render } from './markdown';
 import { openImageViewer } from '@/components/image-viewer';
+// Resources
+import 'github-markdown-css';
 
 export default {
   name: 'markdown-renderer',
@@ -37,7 +40,7 @@ export default {
 
     return () => {
       return h('div', {
-        class: 'markdown-renderer',
+        class: 'markdown-renderer markdown-body',
         innerHTML: transferred.value,
         onClick: onClickRenderer,
       });
