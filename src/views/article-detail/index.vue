@@ -36,11 +36,10 @@
       </div>
 
       <!-- content -->
-      <!--<div
-        class="body-y text-base text-positive-600 font-medium"
-        v-html="data.content"
-      />-->
-      <markdown-renderer class="body-y" :content="data.content" />
+      <markdown-renderer
+        class="body-y"
+        :content="data.content"
+      />
 
       <!-- taken block, donate -->
       <empty class="mt-20" />
@@ -135,6 +134,17 @@
 
 - [ ] Something
 - [ ] Someting else
+  - [x] eee
+
+\`\`\`javascript
+const element = ref(false);
+watchEffect(() => {
+  if (element.value) {
+    update();
+  }
+});
+\`\`\`
+
 
         `,
       });

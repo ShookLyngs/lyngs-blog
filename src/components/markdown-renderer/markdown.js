@@ -1,3 +1,6 @@
+// Github markdown styles
+import 'github-markdown-css';
+
 // Code Highlight
 import Highlight from 'highlight.js';
 // Highlight styles
@@ -21,9 +24,12 @@ export const markdown = new MarkdownIt({
   },
 });
 
-// Markdown-it container plugin
 import MarkdownItImage from './markdown-it-image';
 markdown.use(MarkdownItImage);
+import MarkdownItTaskLists from 'markdown-it-task-lists';
+markdown.use(MarkdownItTaskLists);
+import MarkdownItEmoji from 'markdown-it-emoji';
+markdown.use(MarkdownItEmoji);
 
 /**
  * MarkdownIt.render(src [, env]) -> String

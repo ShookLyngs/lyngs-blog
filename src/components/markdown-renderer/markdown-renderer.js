@@ -2,8 +2,6 @@
 import { h, ref, watch } from 'vue';
 import { render } from './markdown';
 import { openImageViewer } from '@/components/image-viewer';
-// Resources
-import 'github-markdown-css';
 
 export default {
   name: 'markdown-renderer',

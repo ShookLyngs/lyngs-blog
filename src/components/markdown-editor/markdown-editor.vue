@@ -54,10 +54,6 @@
 </script>
 
 <style lang="less">
-  .code {
-    @apply rounded-md;
-    white-space: pre;
-  }
   .editor-min-height {
     min-height: 200px;
   }
