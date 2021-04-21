@@ -19,9 +19,7 @@
       <div class="text-xl text-positive-800 font-bold truncate md:text-2xl">
         {{ row.title }}
       </div>
-      <div
-        class="mt-3 text-base text-positive-600 font-medium overflow-hidden line-clamp"
-      >
+      <div class="mt-3 text-base text-positive-600 font-medium overflow-hidden line-clamp">
         {{ row.content }}
       </div>
       <div class="flex flex-wrap pt-2">

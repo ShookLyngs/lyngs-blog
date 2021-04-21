@@ -50,10 +50,15 @@
 
 <style lang="less">
   .markdown-renderer {
+    @apply text-sm md:text-base;
 
     img {
       @apply rounded-md;
     }
+    h1, h2, h3, h4, h5, h6 {
+      border-bottom: none;
+    }
+
     .code {
       @apply rounded-md;
       white-space: pre;

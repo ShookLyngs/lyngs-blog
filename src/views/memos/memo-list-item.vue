@@ -1,6 +1,6 @@
 <template>
   <lazy>
-    <div class="py-3 relative">
+    <div class="py-5 relative">
       <div class="absolute top-0 w-8 md:w-10 h-3" v-if="!isFirst">
         <div class="line w-full h-full" />
       </div>
@@ -14,10 +14,13 @@
         </div>
 
         <div class="flex-auto pl-2 md:pl-4">
-          <!--<div class="mb-1 text-sm font-semibold">ShookLyngs</div>-->
-          <div class="mb-2 text-xs text-positive-400">发表于 {{ localeDateTime(row.createTime) }}</div>
-          <div class="flex-auto body box-border rounded-tr-xl rounded-b-xl border border-negative-700 bg-negative-900">
-            <div v-html="row.content" v-if="row.content" />
+          <div class="md:mb-1 text-sm font-semibold">ShookLyngs</div>
+          <div class="mb-2 text-xs text-positive-400">{{ localeDateTime(row.createTime) }}</div>
+          <div class="flex-auto body-x py-8 md:p-8 box-border rounded-tr-xl rounded-b-xl border border-negative-700 bg-negative-900">
+            <markdown-renderer
+              :content="row.content"
+              v-if="row.content"
+            />
             <empty v-else />
 
             <div class="mt-5 -mx-0.5 flex flex-wrap">
@@ -48,14 +51,16 @@
   import { localeDateTime } from '@/assets/util/time';
   import { useListItem } from '@/hooks/use-list';
   // Components
-  import PlainButton from '@/components/plain-button.vue';
   import Lazy from '@/components/lazy.vue';
+  import PlainButton from '@/components/plain-button.vue';
+  import MarkdownRenderer from '@/components/markdown-renderer';
 
   export default {
     name: 'memo-list-item',
     components: {
-      PlainButton,
       Lazy,
+      PlainButton,
+      MarkdownRenderer
     },
     props: {
       data: {
