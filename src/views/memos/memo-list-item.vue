@@ -10,7 +10,10 @@
 
       <div class="flex">
         <div class="flex items-start">
-          <imager class="flex-static w-8 h-8 md:w-10 md:h-10 select-none rounded-full overflow-hidden bg-negative-500" :src="row.avatar" />
+          <imager
+            class="flex-static w-8 h-8 md:w-10 md:h-10 select-none rounded-full overflow-hidden bg-negative-500"
+            :src="row.avatar"
+          />
         </div>
 
         <div class="flex-auto pl-2 md:pl-4">

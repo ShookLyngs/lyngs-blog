@@ -86,10 +86,8 @@
         />
       </div>
 
-      <!--<div class="body sticky top-0">
-        <textarea class="w-full p-4 rounded-lg outline-none box-border border-3 border-negative-500" name="reply" cols="20" ></textarea>
-      </div>-->
 
+      <!-- Comment list -->
       <comment
         v-for="(item, index) in 10"
         :key="item"

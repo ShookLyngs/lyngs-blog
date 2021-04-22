@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="mt-1">
-        随着资讯越来越多，心路历程：从“庵野老子捅死你个王八蛋，再放飞一万个你的复制体老母亲”到“老子先揍你到半死，再给你个抱抱”近20年的eva粉，当年也是疯狂查设定，找真相，想拼凑完整的剧情。
+        <markdown-renderer :content="data.content" />
       </div>
       <div class="flex mt-2">
         <plain-button
@@ -62,6 +62,7 @@
   import { ref } from 'vue';
   // Components
   import PlainButton from '@/components/plain-button.vue';
+  import MarkdownRenderer from '@/components/markdown-renderer';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
 
@@ -69,6 +70,7 @@
     name: 'comment',
     components: {
       PlainButton,
+      MarkdownRenderer,
     },
     props: {
       isFirst: {
@@ -81,10 +83,16 @@
       },
     },
     setup() {
+      const data = ref({
+        content: '随着资讯越来越多，心路历程：从“庵野老子捅死你个王八蛋，再放飞一万个你的复制体老母亲”到“老子先揍你到半死，再给你个抱抱”近20年的eva粉，当年也是疯狂查设定，找真相，想拼凑完整的剧情。',
+      });
+
       const like = ref(false);
       const dislike = ref(false);
 
       return {
+        data,
+
         like,
         dislike,
         avatarImage,
