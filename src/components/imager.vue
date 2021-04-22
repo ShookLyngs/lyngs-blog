@@ -3,10 +3,10 @@
     ref="imager"
     class="imager relative flex justify-center items-center"
     :class="view && !loading && !error ? 'cursor-pointer' : ''"
-    @click="openPopper"
+    @click="openViewer"
   >
+    <!-- Image shown -->
     <transition :name="transition ? transitionName : ''">
-      <!-- Image shown -->
       <template v-if="imageVisible && !loading && !error">
         <span
           class="w-full h-full bg-cover bg-no-repeat bg-center"
@@ -23,9 +23,13 @@
       </template>
     </transition>
 
+    <!-- Load image failed -->
     <transition mode="out-in" :name="transition ? transitionName : ''">
-      <!-- Load image failed -->
-      <div class="absolute left-0 top-0 w-full h-full flex justify-center items-center" v-if="!loading && error" @click="retry">
+      <div
+        class="absolute left-0 top-0 w-full h-full flex justify-center items-center"
+        v-if="!loading && error"
+        @click="retry"
+      >
         <slot>
           <icon name="icon-image" />
         </slot>
@@ -113,7 +117,7 @@
         }
       });
 
-      function openPopper() {
+      function openViewer() {
         if (props.view && !loading.value && !error.value) {
           const { src, naturalWidth, naturalHeight } = image.value;
           openImageViewer([{
@@ -135,7 +139,7 @@
         imager,
         imageVisible,
 
-        openPopper,
+        openViewer,
       };
     },
   };

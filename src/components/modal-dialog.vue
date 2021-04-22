@@ -104,7 +104,6 @@
           classes.push('md:self-end');
         }
 
-        console.log(mergeClass(classes, props.outerClass));
         return mergeClass(classes, props.outerClass);
       });
       const innerClass = computed(() => {

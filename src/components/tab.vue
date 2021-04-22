@@ -37,7 +37,7 @@
       },
     },
     setup(props) {
-      const tab = ref(null);
+      const tab = ref();
       const { list, state, remove } = useListItem({
         key: 'tabs',
         row: tab,
@@ -46,9 +46,7 @@
       onBeforeUnmount(remove);
 
       const isCurrent = computed(() => {
-        return (
-          state.current === props.value || props.values.includes(state.current)
-        );
+        return state.current === props.value || props.values.includes(state.current);
       });
 
       const { width, height } = useResizeObserver();
