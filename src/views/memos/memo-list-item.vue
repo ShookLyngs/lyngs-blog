@@ -1,7 +1,7 @@
 <template>
   <lazy>
     <div class="py-5 relative">
-      <div class="absolute top-0 w-8 md:w-10 h-3" v-if="!isFirst">
+      <div class="absolute top-0 w-8 md:w-10 h-5" v-if="!isFirst">
         <div class="line w-full h-full" />
       </div>
       <div class="line absolute top-0 w-8 md:w-10 top-5 bottom-0" v-if="!isLast">
@@ -14,14 +14,13 @@
         </div>
 
         <div class="flex-auto pl-2 md:pl-4">
-          <div class="md:mb-1 text-sm font-semibold">ShookLyngs</div>
-          <div class="mb-2 text-xs text-positive-400">{{ localeDateTime(row.createTime) }}</div>
-          <div class="flex-auto body-x py-8 md:p-8 box-border rounded-tr-xl rounded-b-xl border border-negative-700 bg-negative-900">
-            <markdown-renderer
-              :content="row.content"
-              v-if="row.content"
-            />
-            <empty v-else />
+          <div class="h-8 md:h-auto mb-4">
+            <div class="md:mb-1 text-sm font-semibold">ShookLyngs</div>
+            <div class="text-xs text-positive-400">{{ localeDateTime(row.createTime) }}</div>
+          </div>
+
+          <div class="flex-auto body-x py-6 md:body-y box-border rounded-tr-xl rounded-b-xl border border-negative-700 bg-negative-900">
+            <markdown-renderer :content="row.content" />
 
             <div class="mt-5 -mx-0.5 flex flex-wrap">
               <div

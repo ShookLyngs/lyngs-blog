@@ -6,7 +6,7 @@
     </router-link>
   </div>
   <header class="header z-30 sticky top-0 left-0 right-0">
-    <div class="body-x flex w-full md:px-0 md:content">
+    <div class="px-3.5 flex w-full md:px-0 md:content">
       <!-- LOGO -->
       <div
         class="hidden flex-auto md:flex flex justify-center md:justify-start md:md-0"

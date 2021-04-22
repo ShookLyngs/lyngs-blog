@@ -50,7 +50,7 @@
 
 <style lang="less">
   .markdown-renderer {
-    @apply text-sm md:text-base;
+    @apply text-sm md:text-base leading-5;
 
     img {
       @apply rounded-md;
