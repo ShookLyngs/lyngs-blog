@@ -15,7 +15,7 @@
 
         <div class="flex-auto pl-2 md:pl-4">
           <div class="h-8 md:h-auto mb-4">
-            <div class="md:mb-1 text-sm font-semibold">ShookLyngs</div>
+            <div class="md:mb-1 text-sm font-medium">ShookLyngs</div>
             <div class="text-xs text-positive-400">{{ localeDateTime(row.createTime) }}</div>
           </div>
 
