@@ -26,7 +26,7 @@
       class="relative body-x mt-36 rounded-lg border border-negative-700 bg-negative-900"
     >
       <!-- title -->
-      <div class="pt-7 text-xl text-positive-800 font-bold md:text-2xl">
+      <div class="pt-7 text-positive-800 font-bold text-2xl">
         赵文昊和我，我和今天，明天和未来
       </div>
 
