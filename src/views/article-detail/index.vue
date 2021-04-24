@@ -88,12 +88,15 @@
 
 
       <!-- Comment list -->
-      <comment
-        v-for="(item, index) in 10"
-        :key="item"
-        :is-first="index === 0"
-        :is-last="index === 9"
-      />
+      <lazy-group>
+        <lazy v-for="(item, index) in 10" :key="item">
+          <comment
+            :is-first="index === 0"
+            :is-last="index === 9"
+          />
+        </lazy>
+      </lazy-group>
+
       <empty class="my-20" />
     </div>
   </container>
@@ -107,6 +110,8 @@
   import Tag from '@/components/tag.vue';
   import Comment from '@/components/comment.vue';
   import MarkdownRenderer from '@/components/markdown-renderer';
+  import LazyGroup from '@/components/lazy-group.vue';
+  import Lazy from '@/components/lazy.vue';
   // Resources
   import detailImage from '@/assets/images/article/detail.jpg';
   import avatarImage from '@/assets/images/avatar.jpg';
@@ -117,6 +122,8 @@
       Tag,
       Comment,
       MarkdownRenderer,
+      LazyGroup,
+      Lazy,
     },
     setup() {
       const data = ref({

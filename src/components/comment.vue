@@ -29,23 +29,11 @@
         <markdown-renderer :content="data.content" />
       </div>
       <div class="flex mt-2">
-        <plain-button
-          icon="icon-yes-fill"
-          normal-class="text-positive-400 bg-negative-700"
-          active-class="text-negative-700 bg-theme-500"
-          text="12"
-          :active="like"
-          @click="like = !like"
+        <like-actions
+          :mode="data.myAttitude"
+          @click="onClickLikeActions"
         />
-        <plain-button
-          icon="icon-no-fill"
-          class="ml-2"
-          normal-class="text-positive-400 bg-negative-700"
-          active-class="text-negative-700 bg-error-500"
-          text="9"
-          :active="dislike"
-          @click="dislike = !dislike"
-        />
+
         <plain-button
           icon="icon-reply"
           class="action-button ml-6"
@@ -63,6 +51,7 @@
   // Components
   import PlainButton from '@/components/plain-button.vue';
   import MarkdownRenderer from '@/components/markdown-renderer';
+  import LikeActions from '@/components/like-actions.vue';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
 
@@ -71,6 +60,7 @@
     components: {
       PlainButton,
       MarkdownRenderer,
+      LikeActions,
     },
     props: {
       isFirst: {
@@ -84,18 +74,24 @@
     },
     setup() {
       const data = ref({
+        userId: '1',
+        username: 'Shook',
+        replyUserId: '2',
+        replyUsername: 'Oral',
+        myAttitude: '',
+        createTime: '2021-04-24 12:03',
         content: '随着资讯越来越多，心路历程：从“庵野老子捅死你个王八蛋，再放飞一万个你的复制体老母亲”到“老子先揍你到半死，再给你个抱抱”近20年的eva粉，当年也是疯狂查设定，找真相，想拼凑完整的剧情。',
       });
 
-      const like = ref(false);
-      const dislike = ref(false);
+      function onClickLikeActions(attitude) {
+        data.value.myAttitude = attitude;
+      }
 
       return {
         data,
-
-        like,
-        dislike,
         avatarImage,
+
+        onClickLikeActions,
       };
     },
   };
