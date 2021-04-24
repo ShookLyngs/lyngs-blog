@@ -43,7 +43,7 @@
           class="action-button"
           normal-class="text-positive-500 bg-negative-700"
         />
-        <popper trigger="focus">
+        <popper placement="bottom-end" trigger="focus">
           <plain-button
             icon="icon-arrow-down"
             class="action-button ml-2"
@@ -52,8 +52,8 @@
           <template #content>
             <div class="w-28">
               <ul>
-                <li class="py-2">selection 1</li>
-                <li class="py-2">selection 2</li>
+                <li class="body">删除评论</li>
+                <li class="body">selection 2</li>
               </ul>
             </div>
           </template>

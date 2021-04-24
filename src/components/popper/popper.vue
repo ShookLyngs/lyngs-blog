@@ -115,8 +115,8 @@
       });
 
       // Set popper <visibility>, changes will be execute after 300ms.
-      // In 300ms, new changes will always cover the old one.
-      // And every new change reset the timer.
+      // In 300ms, new changes will always cover the older one.
+      // And every new change will reset the timer.
       const setPopperVisible = delayThrottle((value) => {
         isShowPopper.value = value;
         updatePopper();
