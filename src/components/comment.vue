@@ -34,7 +34,7 @@
           @click="onClickLikeActions"
         />
 
-        <div class="px-3 mr-2 relative flex justify-center items-center">
+        <div class="action-button transition duration-300 px-3 mr-2 relative flex justify-center items-center">
           <div class="w-px h-1/2 bg-negative-500" />
         </div>
 
@@ -43,11 +43,21 @@
           class="action-button"
           normal-class="text-positive-500 bg-negative-700"
         />
-        <plain-button
-          icon="icon-setting-fill"
-          class="action-button ml-2"
-          normal-class="text-positive-500 bg-negative-700"
-        />
+        <popper trigger="focus">
+          <plain-button
+            icon="icon-arrow-down"
+            class="action-button ml-2"
+            normal-class="text-positive-500 bg-negative-700"
+          />
+          <template #content>
+            <div class="w-28">
+              <ul>
+                <li class="py-2">selection 1</li>
+                <li class="py-2">selection 2</li>
+              </ul>
+            </div>
+          </template>
+        </popper>
       </div>
     </div>
   </div>

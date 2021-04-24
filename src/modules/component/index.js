@@ -12,9 +12,10 @@ import Icon from '@/components/icon';
 import Loading from '@/components/loading';
 import Scrollbar from '@/components/scrollbar';
 import Collapse from '@/components/collapse';
+import Popper from '@/components/popper';
 import ImageViewer from '@/components/image-viewer';
 
-const uses = [Icon, Loading, Scrollbar, Collapse, ImageViewer];
+const uses = [Icon, Loading, Scrollbar, Collapse, Popper, ImageViewer];
 
 export default {
   install(app) {
