@@ -1,25 +1,22 @@
 <template>
-  <collapse direction="horizontal" show>
+  <collapse class="flex" direction="horizontal" show>
     <div class="inline-flex">
       <plain-button
-        icon="icon-yes-fill"
-        class="!rounded-none"
+        icon="icon-up-fill"
+        class="!py-1.5"
         normal-class="text-positive-400 bg-negative-700"
         active-class="text-negative-700 bg-theme-500"
         text="12"
         :active="isMode(modes.like)"
         @click="switchMode(modes.like)"
-        v-if="!isMode(modes.dislike)"
       />
       <plain-button
-        icon="icon-no-fill"
-        class="!rounded-none"
+        icon="icon-down-fill"
+        class="ml-2 !py-1.5"
         normal-class="text-positive-400 bg-negative-700"
         active-class="text-negative-700 bg-error-500"
-        text="9"
         :active="isMode(modes.dislike)"
         @click="switchMode(modes.dislike)"
-        v-if="!isMode(modes.like)"
       />
     </div>
   </collapse>

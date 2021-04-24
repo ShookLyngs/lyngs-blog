@@ -28,17 +28,25 @@
       <div class="mt-1">
         <markdown-renderer :content="data.content" />
       </div>
-      <div class="flex mt-2">
+      <div class="flex mt-3">
         <like-actions
           :mode="data.myAttitude"
           @click="onClickLikeActions"
         />
 
+        <div class="px-3 mr-2 relative flex justify-center items-center">
+          <div class="w-px h-1/2 bg-negative-500" />
+        </div>
+
         <plain-button
           icon="icon-reply"
-          class="action-button ml-6"
+          class="action-button"
           normal-class="text-positive-500 bg-negative-700"
-          text="回复"
+        />
+        <plain-button
+          icon="icon-setting-fill"
+          class="action-button ml-2"
+          normal-class="text-positive-500 bg-negative-700"
         />
       </div>
     </div>
