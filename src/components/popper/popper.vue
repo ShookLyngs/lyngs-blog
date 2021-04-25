@@ -14,16 +14,18 @@
 
   <!-- teleport the popper to body -->
   <teleport :disabled="!teleport" :to="teleportTo">
-    <div
-      class="ls-popper"
-      ref="popper"
-      role="tooltip"
-      :class="{ 'is-show': isShowPopper, 'is-transform': transformTransition }"
-    >
-      <div class="ls-popper__inner">
-        <slot name="content">{{ text }}</slot>
+    <div class="ls-popper__wrapper">
+      <div
+        class="ls-popper"
+        ref="popper"
+        role="tooltip"
+        :class="{ 'is-show': isShowPopper, 'is-transform': transformTransition }"
+      >
+        <div class="ls-popper__inner">
+          <div class="ls-popper__arrow" data-popper-arrow />
+          <slot name="content">{{ text }}</slot>
+        </div>
       </div>
-      <div class="ls-popper__arrow" data-popper-arrow />
     </div>
   </teleport>
 </template>
@@ -153,20 +155,13 @@
   @popper-arrow-size: 10px;
 
   .ls-popper {
-    @apply transition rounded border border-negative-700 bg-negative-900 text-positive-700;
-    position: absolute;
-    padding: 8px 0;
-    font-weight: bold;
-    font-size: 13px;
-    visibility: hidden;
-    opacity: 0;
+    @apply absolute transition invisible opacity-0;
     z-index: 100;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+    outline-width: 0;
     transition-property: padding, visibility, opacity, z-index;
 
     &.is-show {
-      visibility: visible;
-      opacity: 1;
+      @apply visible opacity-100;
       z-index: 100;
     }
     &.is-virtual {
@@ -177,43 +172,84 @@
       transition-property: padding, visibility, opacity, z-index, transform;
     }
 
-    /*&__wrapper {
+    &__wrapper {
       position: relative;
+      padding: 8px;
     }
+
     &__inner {
-      position: absolute;
-      padding: 4px 8px;
-      min-width: 0;
-      white-space: nowrap;
-    }*/
+      @apply py-2 relative transition rounded-md;
+      @apply border border-negative-600 bg-negative-900 text-positive-700 shadow-lg;
+    }
 
     &__arrow,
     &__arrow::before {
       position: absolute;
       width: @popper-arrow-size;
       height: @popper-arrow-size;
+      border-radius: 2px;
       background: inherit;
     }
     &__arrow {
       visibility: hidden;
 
       &::before {
-        visibility: visible;
+        @apply border border-solid border-negative-600;
         content: '';
+        visibility: visible;
         transform: rotate(45deg);
       }
+      &::after {
+        position: absolute;
+        content: '';
+        width: @popper-arrow-size + 4;
+        height: (@popper-arrow-size * .5) + 2;
+        left: -2px;
+        visibility: visible;
+        background: inherit;
+      }
+    }
+
+    &[data-popper-placement^='top'],
+    &[data-popper-placement^='bottom'] {
+      padding: @popper-arrow-size 0;
+    }
+    &[data-popper-placement^='left'],
+    &[data-popper-placement^='right'] {
+      padding: 0 @popper-arrow-size;
     }
     &[data-popper-placement^='top'] .ls-popper__arrow {
       bottom: -(@popper-arrow-size * 0.5);
+      &::after {
+        top: -(@popper-arrow-size * 0.2);
+      }
     }
     &[data-popper-placement^='bottom'] .ls-popper__arrow {
       top: -(@popper-arrow-size * 0.5);
+      &::after {
+        bottom: -(@popper-arrow-size * 0.2);
+      }
     }
     &[data-popper-placement^='left'] .ls-popper__arrow {
       right: -(@popper-arrow-size * 0.5);
+
+      &::after {
+        height: @popper-arrow-size + 4;
+        width: (@popper-arrow-size * .5) + 2;
+        bottom: -2px;
+        left: -(@popper-arrow-size * 0.2);
+      }
     }
     &[data-popper-placement^='right'] .ls-popper__arrow {
       left: -(@popper-arrow-size * 0.5);
+
+      &::after {
+        height: @popper-arrow-size + 4;
+        width: (@popper-arrow-size * .5) + 2;
+        bottom: -2px;
+        left: unset;
+        right: -(@popper-arrow-size * 0.2);
+      }
     }
   }
 </style>

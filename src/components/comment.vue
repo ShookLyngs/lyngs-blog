@@ -46,8 +46,9 @@
         <div class="flex" @mouseleave="onLeaveMoreAction">
           <popper
             ref="moreAction"
-            placement="bottom-end"
+            placement="bottom"
             trigger="manual"
+            :offset="0"
           >
             <plain-button
               icon="icon-arrow-down"
@@ -56,10 +57,16 @@
               @click="onEnterMoreAction"
             />
             <template #content>
-              <div class="w-28">
+              <div class="relative w-36 z-10">
                 <ul>
-                  <li class="py-3 px-3 cursor-pointer transition hover:bg-negative-800">回复</li>
-                  <li class="py-3 px-3 cursor-pointer transition hover:bg-negative-800">删除</li>
+                  <li class="flex items-center py-3 px-4 cursor-pointer transition hover:bg-negative-800">
+                    <icon name="icon-no" />
+                    <span class="ml-2">禁言</span>
+                  </li>
+                  <li class="flex items-center py-3 px-4 cursor-pointer transition hover:bg-negative-800">
+                    <icon name="icon-delete" />
+                    <span class="ml-2">删除</span>
+                  </li>
                 </ul>
               </div>
             </template>
@@ -114,13 +121,11 @@
 
       const moreAction = ref();
       function onEnterMoreAction() {
-        console.log('enter');
         if (moreAction.value) {
           moreAction.value.setPopperVisible(true);
         }
       }
       function onLeaveMoreAction() {
-        console.log('leave');
         if (moreAction.value) {
           moreAction.value.setPopperVisible(false);
         }
