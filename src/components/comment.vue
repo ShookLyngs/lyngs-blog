@@ -43,21 +43,28 @@
           class="action-button"
           normal-class="text-positive-500 bg-negative-700"
         />
-        <popper placement="bottom-end" trigger="focus">
-          <plain-button
-            icon="icon-arrow-down"
-            class="action-button ml-2"
-            normal-class="text-positive-500 bg-negative-700"
-          />
-          <template #content>
-            <div class="w-28">
-              <ul>
-                <li class="body">删除评论</li>
-                <li class="body">selection 2</li>
-              </ul>
-            </div>
-          </template>
-        </popper>
+        <div class="flex" @mouseleave="onLeaveMoreAction">
+          <popper
+            ref="moreAction"
+            placement="bottom-end"
+            trigger="manual"
+          >
+            <plain-button
+              icon="icon-arrow-down"
+              class="action-button ml-2"
+              normal-class="text-positive-500 bg-negative-700"
+              @click="onEnterMoreAction"
+            />
+            <template #content>
+              <div class="w-28">
+                <ul>
+                  <li class="py-3 px-3 cursor-pointer transition hover:bg-negative-800">回复</li>
+                  <li class="py-3 px-3 cursor-pointer transition hover:bg-negative-800">删除</li>
+                </ul>
+              </div>
+            </template>
+          </popper>
+        </div>
       </div>
     </div>
   </div>
@@ -105,10 +112,28 @@
         data.value.myAttitude = attitude;
       }
 
+      const moreAction = ref();
+      function onEnterMoreAction() {
+        console.log('enter');
+        if (moreAction.value) {
+          moreAction.value.setPopperVisible(true);
+        }
+      }
+      function onLeaveMoreAction() {
+        console.log('leave');
+        if (moreAction.value) {
+          moreAction.value.setPopperVisible(false);
+        }
+      }
+
+
       return {
         data,
         avatarImage,
 
+        moreAction,
+        onEnterMoreAction,
+        onLeaveMoreAction,
         onClickLikeActions,
       };
     },

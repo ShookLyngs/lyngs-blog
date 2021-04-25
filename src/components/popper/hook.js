@@ -17,7 +17,8 @@ const usePopper = ({ target, popper, props }) => {
 
   let instance;
 
-  const rebindPopper = ({ offset, placement }) => {
+  const rebindPopper = () => {
+    const { offset, placement } = props;
     if (instance) {
       instance.destroy();
       instance = null;
@@ -30,6 +31,12 @@ const usePopper = ({ target, popper, props }) => {
           name: 'offset',
           options: {
             offset: (context) => handleOffset(offset, context),
+          },
+        },
+        {
+          name: 'arrow',
+          options: {
+            padding: 5, // 5px from the edges of the popper
           },
         },
       ],

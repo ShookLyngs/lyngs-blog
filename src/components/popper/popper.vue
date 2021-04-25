@@ -4,27 +4,28 @@
     tabindex="0"
     ref="target"
     :is="defaultSlot"
+    v-bind="$attrs"
     @click="$emit('click')"
     @focus="conditionAction('focus', true, 'focus')"
     @blur="conditionAction('focus', false, 'blur')"
     @mouseenter="conditionAction('hover', true, 'mouse-enter')"
     @mouseleave="conditionAction('hover', false, 'mouse-leave')"
-  >
-    <!-- teleport the popper to body -->
-    <teleport :disabled="!teleport" :to="teleportTo">
-      <div
-        class="ls-popper"
-        ref="popper"
-        role="tooltip"
-        :class="{ 'is-show': isShowPopper, 'is-transform': transformTransition }"
-      >
-        <div class="ls-popper-inner">
-          <slot name="content">{{ text }}</slot>
-        </div>
-        <div class="ls-popper-arrow" data-popper-arrow />
+  />
+
+  <!-- teleport the popper to body -->
+  <teleport :disabled="!teleport" :to="teleportTo">
+    <div
+      class="ls-popper"
+      ref="popper"
+      role="tooltip"
+      :class="{ 'is-show': isShowPopper, 'is-transform': transformTransition }"
+    >
+      <div class="ls-popper__inner">
+        <slot name="content">{{ text }}</slot>
       </div>
-    </teleport>
-  </component>
+      <div class="ls-popper__arrow" data-popper-arrow />
+    </div>
+  </teleport>
 </template>
 
 <script>
@@ -94,8 +95,8 @@
       const [ defaultSlot ] = slots.default();
 
       // Binding element refs.
-      const target = ref(null);
-      const popper = ref(null);
+      const target = ref();
+      const popper = ref();
 
       // Using popper hook, To Generate instance of popper.
       const {
@@ -134,8 +135,12 @@
         defaultSlot,
         target,
         popper,
+
         instance,
+
         isShowPopper,
+        setPopperVisible,
+
         rebindPopper,
         updatePopper,
         conditionAction,
@@ -145,16 +150,17 @@
 </script>
 
 <style lang="less">
+  @popper-arrow-size: 10px;
+
   .ls-popper {
-    @apply transition rounded text-negative-900 bg-positive-800;
+    @apply transition rounded border border-negative-700 bg-negative-900 text-positive-700;
     position: absolute;
-    padding: 4px 8px;
+    padding: 8px 0;
     font-weight: bold;
     font-size: 13px;
     visibility: hidden;
     opacity: 0;
     z-index: 100;
-    overflow: hidden;
     box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
     transition-property: padding, visibility, opacity, z-index;
 
@@ -171,14 +177,43 @@
       transition-property: padding, visibility, opacity, z-index, transform;
     }
 
-    & &__wrapper {
+    /*&__wrapper {
       position: relative;
     }
-    & &__inner {
+    &__inner {
       position: absolute;
       padding: 4px 8px;
       min-width: 0;
       white-space: nowrap;
+    }*/
+
+    &__arrow,
+    &__arrow::before {
+      position: absolute;
+      width: @popper-arrow-size;
+      height: @popper-arrow-size;
+      background: inherit;
+    }
+    &__arrow {
+      visibility: hidden;
+
+      &::before {
+        visibility: visible;
+        content: '';
+        transform: rotate(45deg);
+      }
+    }
+    &[data-popper-placement^='top'] .ls-popper__arrow {
+      bottom: -(@popper-arrow-size * 0.5);
+    }
+    &[data-popper-placement^='bottom'] .ls-popper__arrow {
+      top: -(@popper-arrow-size * 0.5);
+    }
+    &[data-popper-placement^='left'] .ls-popper__arrow {
+      right: -(@popper-arrow-size * 0.5);
+    }
+    &[data-popper-placement^='right'] .ls-popper__arrow {
+      left: -(@popper-arrow-size * 0.5);
     }
   }
 </style>
