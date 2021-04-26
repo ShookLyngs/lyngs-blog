@@ -41,7 +41,7 @@
 
 <script>
   // Functions
-  import {ref, reactive, computed, onMounted, onUpdated, watch} from 'vue';
+  import { ref, reactive, computed, onMounted, onUpdated } from 'vue';
   import { getRectObject, getScrollBarWidth } from '@/assets/util/dom';
   import { mergeStyle } from '@/assets/util/style';
   import { useIntersection } from '@/hooks/use-intersection';

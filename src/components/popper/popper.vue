@@ -124,7 +124,7 @@
         isShowPopper.value = value;
         updatePopper();
         nextTick(updatePopper);
-      });
+      }, 150);
 
       // Set popper visibility, and emit event.
       // Used it on @on events.
@@ -155,7 +155,7 @@
   @popper-arrow-size: 10px;
 
   .ls-popper {
-    @apply absolute transition invisible opacity-0;
+    @apply absolute transition duration-300 invisible opacity-0;
     z-index: 100;
     outline-width: 0;
     transition-property: padding, visibility, opacity, z-index;

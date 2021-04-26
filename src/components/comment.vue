@@ -51,20 +51,20 @@
             :offset="0"
           >
             <plain-button
-              icon="icon-arrow-down"
+              icon="icon-more"
               class="action-button ml-2"
               normal-class="text-positive-500 bg-negative-700"
               @click="onEnterMoreAction"
             />
             <template #content>
-              <div class="relative w-36 z-10">
+              <div class="relative w-36 z-10 px-2">
                 <ul>
-                  <li class="flex items-center py-3 px-4 cursor-pointer transition hover:bg-negative-800">
-                    <icon name="icon-no" />
+                  <li class="rounded flex items-center px-2 py-2.5 cursor-pointer transition select-none font-medium hover:text-theme-600 hover:bg-negative-700">
+                    <icon class="text-sm" name="icon-no" />
                     <span class="ml-2">禁言</span>
                   </li>
-                  <li class="flex items-center py-3 px-4 cursor-pointer transition hover:bg-negative-800">
-                    <icon name="icon-delete" />
+                  <li class="rounded flex items-center px-2 py-2.5 cursor-pointer transition select-none font-medium hover:text-theme-600 hover:bg-negative-700">
+                    <icon class="text-sm" name="icon-delete" />
                     <span class="ml-2">删除</span>
                   </li>
                 </ul>
