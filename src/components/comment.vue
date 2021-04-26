@@ -59,14 +59,18 @@
             <template #content>
               <div class="relative w-36 z-10 px-2">
                 <ul>
-                  <li class="rounded flex items-center px-2 py-2.5 cursor-pointer transition select-none font-medium hover:text-theme-600 hover:bg-negative-700">
-                    <icon class="text-sm" name="icon-no" />
-                    <span class="ml-2">禁言</span>
-                  </li>
-                  <li class="rounded flex items-center px-2 py-2.5 cursor-pointer transition select-none font-medium hover:text-theme-600 hover:bg-negative-700">
-                    <icon class="text-sm" name="icon-delete" />
-                    <span class="ml-2">删除</span>
-                  </li>
+                  <plain-button
+                    class="flex !px-2 !py-2.5 hover:text-theme-600 hover:bg-negative-700"
+                    icon-class="!text-sm"
+                    icon="icon-no"
+                    text="禁言"
+                  />
+                  <plain-button
+                    class="flex !px-2 !py-2.5 hover:text-theme-600 hover:bg-negative-700"
+                    icon-class="!text-sm"
+                    icon="icon-delete"
+                    text="删除"
+                  />
                 </ul>
               </div>
             </template>
