@@ -25,9 +25,10 @@ You can take a look at the designs of the project below.
 - [ ] Article detail
   - [x] Markdown to HTML
   - [x] Detail basics
-  - [ ] Markdown renderer
-  - [ ] Like and dislike
-  - [ ] Manage article dialog
+  - [x] Markdown renderer
+  - [x] Like and dislike
+  - [x] Manage article dialog
+  - [ ] Confirm dialog
   - [ ] Donation dialog
   - [ ] Fetch data
 - [ ] Post Article
