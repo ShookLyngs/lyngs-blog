@@ -3,7 +3,7 @@
   <component
     tabindex="0"
     ref="target"
-    :is="defaultSlot"
+    :is="$slots.default"
     v-bind="$attrs"
     @click="$emit('click')"
     @focus="conditionAction('focus', true, 'focus')"

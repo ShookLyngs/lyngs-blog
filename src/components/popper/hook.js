@@ -1,6 +1,6 @@
 import { createPopper } from '@popperjs/core';
 import { findDOMNode } from '@/assets/util/dom';
-import { watchEffect, nextTick, onBeforeUnmount } from 'vue';
+import { watch, nextTick, onBeforeUnmount } from 'vue';
 
 const handleOffset = (offset, ...params) => {
   if (typeof offset === 'number') {
@@ -53,24 +53,30 @@ const usePopper = ({ target, popper, props }) => {
     target: null,
     popper: null,
   };
-  watchEffect(() => {
+  function onElementsUpdate() {
     if (target.value && popper.value) {
       if (target.value !== record.target || popper.value !== record.target) {
         record.target = target.value;
         record.popper = popper.value;
 
         // Only rebind popper when target and popper both exists
-        nextTick().then(() => {
+        nextTick(() => {
           if (findDOMNode(target.value) && findDOMNode(popper.value)) {
             rebindPopper(props);
           }
         });
       }
     }
-  });
+  }
+  watch([target, popper], onElementsUpdate);
 
   const updatePopper = () => {
-    return instance ? instance.update() : void 0;
+    try {
+      return instance ? instance.update() : void 0;
+    } catch(error) {
+      console.error(error);
+    }
+
   };
 
   onBeforeUnmount(() => {
