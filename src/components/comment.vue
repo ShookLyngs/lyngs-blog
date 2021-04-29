@@ -1,5 +1,5 @@
 <template>
-  <div class="article-comment flex body relative">
+  <div class="article-comment flex body relative" @mouseenter="setEntry(true)">
     <div class="absolute top-0 w-7 h-5" v-if="!isFirst">
       <div class="line w-full h-full" />
     </div>
@@ -43,18 +43,19 @@
           class="action-button"
           normal-class="text-positive-500 bg-negative-700"
         />
-        <div class="flex" @mouseleave="onLeaveMoreAction">
+        <div class="flex">
           <popper
             ref="moreAction"
             placement="bottom"
-            trigger="manual"
+            trigger="focus"
             :offset="0"
+            @focus="onMoreActionFocus"
+            @blur="onMoreActionBlur"
           >
             <plain-button
               icon="icon-more"
               class="action-button ml-2"
               normal-class="text-positive-500 bg-negative-700"
-              @click="onEnterMoreAction"
             />
             <template #content>
               <div class="relative w-36 z-10 px-2">
@@ -83,7 +84,7 @@
 
 <script>
   // Functions
-  import { ref } from 'vue';
+  import {ref, watch} from 'vue';
   // Components
   import PlainButton from '@/components/plain-button.vue';
   import MarkdownRenderer from '@/components/markdown-renderer';
@@ -123,26 +124,40 @@
         data.value.myAttitude = attitude;
       }
 
+      const enteredElement = ref(false);
+      function setEntry(value) {
+        enteredElement.value = !!value;
+      }
+
       const moreAction = ref();
-      function onEnterMoreAction() {
-        if (moreAction.value) {
-          moreAction.value.setPopperVisible(true);
-        }
+      const isShowMoreAction = ref(false);
+      function onMoreActionFocus() {
+        console.log('focus');
+        isShowMoreAction.value = true;
       }
-      function onLeaveMoreAction() {
-        if (moreAction.value) {
-          moreAction.value.setPopperVisible(false);
-        }
+      function onMoreActionBlur() {
+        console.log('blur');
+        isShowMoreAction.value = false;
       }
+      watch(isShowMoreAction, () => {
+        if (moreAction.value) {
+          moreAction.value.setPopperVisible(
+            isShowMoreAction.value
+          );
+        }
+      });
 
 
       return {
         data,
         avatarImage,
 
+        enteredElement,
+        setEntry,
+
         moreAction,
-        onEnterMoreAction,
-        onLeaveMoreAction,
+        onMoreActionFocus,
+        onMoreActionBlur,
         onClickLikeActions,
       };
     },

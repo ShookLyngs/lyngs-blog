@@ -85,11 +85,10 @@
       },
     },
     emits: [
-      'mouse-enter',
-      'mouse-leave',
-      'focus',
-      'blur',
       'click',
+      'focus', 'blur',
+      'mouse-enter', 'mouse-leave',
+      'open', 'close',
     ],
     setup(props, { slots, emit }) {
       // Default slot, only accept single element.
@@ -113,7 +112,10 @@
       // If visibility changes, update popper
       watch(() => isShowPopper.value, (value) => {
         if (value && instance) {
-          nextTick(updatePopper);
+          nextTick(() => {
+            updatePopper();
+            emitVisibility();
+          });
         }
       });
 
@@ -122,16 +124,23 @@
       // And every new change will reset the timer.
       const setPopperVisible = delayThrottle((value) => {
         isShowPopper.value = value;
-        updatePopper();
-        nextTick(updatePopper);
+        nextTick(() => {
+          updatePopper();
+          emitVisibility();
+        });
       }, 150);
+
+      // Emit open or close event based on popper visibility
+      function emitVisibility() {
+        emit(isShowPopper.value ? 'open' : 'close');
+      }
 
       // Set popper visibility, and emit event.
       // Used it on @on events.
-      const conditionAction  = (trigger, visible, eventType, ...params) => {
+      function conditionAction(trigger, visible, eventType, ...params) {
         if (props.trigger === trigger) setPopperVisible(visible);
         if (eventType) emit(eventType, ...params);
-      };
+      }
 
       return {
         defaultSlot,
