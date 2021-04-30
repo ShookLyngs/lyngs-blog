@@ -13,17 +13,15 @@
     </teleport>
 
     <!-- banner -->
-    <div class="relative">
-      <imager
-        background
-        :src="detailImage"
-        class="background bg-cover bg-center bg-negative-700 w-full md:breaker-content"
-      />
-    </div>
+    <imager
+      background
+      :src="detailImage"
+      class="background bg-cover bg-center bg-negative-700 w-full md:breaker-content"
+    />
 
     <!-- content -->
     <div
-      class="relative body-x mt-36 rounded-lg border border-negative-700 bg-negative-900"
+      class="relative body-x mt-48 rounded-lg border border-negative-700 bg-negative-900"
     >
       <!-- title -->
       <div class="pt-7 text-positive-800 font-bold text-2xl">
@@ -191,7 +189,7 @@ watchEffect(() => {
 
 <style lang="less" scoped>
   .background {
-    @apply absolute top-0 h-64 overflow-hidden rounded-2xl bg-negative-600;
+    @apply absolute top-5 h-64 overflow-hidden md:rounded-2xl bg-negative-600;
     left: 50%;
     transform: translate3d(-50%, 0, 0);
   }
