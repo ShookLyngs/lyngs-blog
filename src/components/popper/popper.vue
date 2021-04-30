@@ -3,7 +3,7 @@
   <component
     tabindex="0"
     ref="target"
-    :is="$slots.default"
+    :is="defaultSlot"
     v-bind="$attrs"
     @click="$emit('click')"
     @focus="conditionAction('focus', true, 'focus')"
@@ -91,8 +91,7 @@
       'open', 'close',
     ],
     setup(props, { slots, emit }) {
-      // Default slot, only accept single element.
-      // Or won't be able to get ref: <target>.
+      // Only takes the first element in the default slot.
       const [ defaultSlot ] = slots.default();
 
       // Binding element refs.

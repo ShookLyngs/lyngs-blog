@@ -1,5 +1,10 @@
 <template>
-  <div class="article-comment flex body relative" @mouseenter="setEntry(true)">
+  <div
+    class="article-comment flex body relative"
+    :class="commentClass"
+    @mouseenter="onEnteredChange(true)"
+    @mouseleave="onEnteredChange(false)"
+  >
     <div class="absolute top-0 w-7 h-5" v-if="!isFirst">
       <div class="line w-full h-full" />
     </div>
@@ -47,10 +52,10 @@
           <popper
             ref="moreAction"
             placement="bottom"
-            trigger="focus"
+            trigger="manual"
             :offset="0"
-            @focus="onMoreActionFocus"
-            @blur="onMoreActionBlur"
+            @focus="onMoreActionFocusChange(true)"
+            @blur="onMoreActionFocusChange(false)"
           >
             <plain-button
               icon="icon-more"
@@ -84,8 +89,9 @@
 
 <script>
   // Functions
-  import {ref, watch} from 'vue';
+  import { ref, watch, computed } from 'vue';
   // Components
+  import Popper from '@/components/popper';
   import PlainButton from '@/components/plain-button.vue';
   import MarkdownRenderer from '@/components/markdown-renderer';
   import LikeActions from '@/components/like-actions.vue';
@@ -98,6 +104,7 @@
       PlainButton,
       MarkdownRenderer,
       LikeActions,
+      Popper,
     },
     props: {
       isFirst: {
@@ -124,27 +131,31 @@
         data.value.myAttitude = attitude;
       }
 
-      const enteredElement = ref(false);
-      function setEntry(value) {
-        enteredElement.value = !!value;
+      const isEnteredElement = ref(false);
+      function onEnteredChange(value) {
+        isEnteredElement.value = !!value;
       }
 
       const moreAction = ref();
-      const isShowMoreAction = ref(false);
-      function onMoreActionFocus() {
-        console.log('focus');
-        isShowMoreAction.value = true;
+      const isFocusMoreAction = ref(false);
+      function onMoreActionFocusChange(value) {
+        isFocusMoreAction.value = !!value;
       }
-      function onMoreActionBlur() {
-        console.log('blur');
-        isShowMoreAction.value = false;
-      }
-      watch(isShowMoreAction, () => {
+      watch(isFocusMoreAction, () => {
         if (moreAction.value) {
           moreAction.value.setPopperVisible(
-            isShowMoreAction.value
+            isFocusMoreAction.value
           );
         }
+      });
+
+      const commentClass = computed(() => {
+        const classes = [];
+        if (isEnteredElement.value || isFocusMoreAction.value) {
+          classes.push('is-keep');
+        }
+
+        return classes;
       });
 
 
@@ -152,13 +163,14 @@
         data,
         avatarImage,
 
-        enteredElement,
-        setEntry,
+        isEnteredElement,
+        onEnteredChange,
 
         moreAction,
-        onMoreActionFocus,
-        onMoreActionBlur,
+        onMoreActionFocusChange,
         onClickLikeActions,
+
+        commentClass,
       };
     },
   };
@@ -172,7 +184,7 @@
       .action-button {
         @apply transition duration-300;
       }
-      &:not(:hover) {
+      &:not(.is-keep) {
         .action-button {
           opacity: 0;
         }
