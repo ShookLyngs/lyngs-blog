@@ -92,6 +92,7 @@
   import { ref, watch, computed } from 'vue';
   // Components
   import Popper from '@/components/popper';
+  import Imager from '@/components/imager.vue';
   import PlainButton from '@/components/plain-button.vue';
   import MarkdownRenderer from '@/components/markdown-renderer';
   import LikeActions from '@/components/like-actions.vue';
@@ -101,10 +102,11 @@
   export default {
     name: 'comment',
     components: {
+      Popper,
+      Imager,
       PlainButton,
       MarkdownRenderer,
       LikeActions,
-      Popper,
     },
     props: {
       isFirst: {
