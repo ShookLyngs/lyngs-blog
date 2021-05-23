@@ -2,7 +2,7 @@
   "name": "lyngs-blog",
   "version": "0.0.0",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development vite",
+    "dev": "cross-env NODE_ENV=development vite --host",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .vue,.js src/ --fix"
