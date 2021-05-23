@@ -15,7 +15,7 @@
           v-if="background"
         />
         <img
-          class="w-full object-fit"
+          class="w-full object-cover"
           :src="src"
           alt=""
           v-else
