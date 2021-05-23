@@ -26,7 +26,7 @@
         细谈 Resize Observer / Intersection API 与他们所带来的 Bugs
       </div>
 
-      <!-- tags -->
+      <!-- Tags -->
       <div class="body-x body-bottom flex flex-wrap pt-2 select-none">
         <tag v-for="tag in data.tags" :key="tag">{{ tag }}</tag>
       </div>
@@ -71,23 +71,25 @@
       <empty class="mt-20" />
 
       <!-- Userinfo, and actions -->
-      <div class="mt-20 mb-6 body-y px-4 flex justify-between rounded-md bg-negative-800">
-        <div class="flex items-center">
-          <imager
-            transition
-            class="flex-static w-10 h-10 rounded-full overflow-hidden select-none bg-negative-700"
-            :src="avatarImage"
-          />
-          <div class="ml-3 select-none">
-            <div class="text-sm font-semibold">Shook</div>
-            <div class="text-xs text-positive-100">发布于 昨天 xx:xx</div>
+      <div class="body-bottom">
+        <div class="px-4 py-2.5 md:py-4 flex justify-between rounded-md border border-negative-600 bg-negative-800">
+          <div class="flex items-center">
+            <imager
+              transition
+              class="flex-static w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden select-none bg-negative-700"
+              :src="avatarImage"
+            />
+            <div class="ml-3 select-none">
+              <div class="text-sm font-semibold">Shook</div>
+              <div class="text-xs text-positive-100">发布于 昨天 xx:xx</div>
+            </div>
           </div>
-        </div>
 
-        <div class="flex items-center">
-          <text-button type="gray" padding="sm">
-            <icon class="text-2xl" name="icon-setting" />
-          </text-button>
+          <div class="flex items-center">
+            <text-button type="gray" padding="sm">
+              <icon class="text-2xl" name="icon-setting" />
+            </text-button>
+          </div>
         </div>
       </div>
     </div>
