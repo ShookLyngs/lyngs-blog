@@ -9,12 +9,12 @@
 <script>
   // Functions
   import { ref, watch, inject, onBeforeMount } from 'vue';
-  import { v1 as createUid } from 'uuid';
+  // import { v1 as createUid } from 'uuid';
 
   export default {
     name: 'lazy',
     setup() {
-      const uid = createUid();
+      const uid = Date.now().toString();
       const element = ref();
       const reduced = ref();
 
