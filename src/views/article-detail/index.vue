@@ -12,37 +12,65 @@
       </transition>
     </teleport>
 
-    <!-- banner -->
-    <imager
-      background
-      :src="detailImage"
-      class="background bg-cover bg-center bg-negative-700 w-full md:breaker-content"
-    />
+    <div class="rounded-lg border border-negative-700 bg-negative-900">
+      <!-- Main image of the article -->
+      <imager
+        view
+        background
+        :src="detailImage"
+        class="rounded-t-lg background bg-cover bg-center bg-negative-700 w-full"
+      />
 
-    <!-- content -->
-    <div
-      class="relative body-x mt-48 rounded-lg border border-negative-700 bg-negative-900"
-    >
-      <!-- title -->
-      <div class="pt-7 text-positive-800 font-bold text-2xl">
-        赵文昊和我，我和今天，明天和未来
+      <!-- Title -->
+      <div class="body-x pt-8 font-bold text-xl md:text-3xl text-positive-900">
+        细谈 Resize Observer / Intersection API 与他们所带来的 Bugs
       </div>
 
       <!-- tags -->
-      <div class="body-y flex flex-wrap pt-2 select-none">
+      <div class="body-x body-bottom flex flex-wrap pt-2 select-none">
         <tag v-for="tag in data.tags" :key="tag">{{ tag }}</tag>
       </div>
 
-      <!-- content -->
+      <!-- Userinfo -->
+      <div class="body">
+        <div class="px-4 py-2.5 md:py-4 flex justify-between rounded-md border border-negative-600 bg-negative-800">
+          <div class="flex items-center">
+            <imager
+              transition
+              class="flex-static w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden select-none bg-negative-700"
+              :src="avatarImage"
+            />
+            <div class="ml-3 select-none">
+              <div class="text-sm font-semibold">Shook</div>
+              <div class="text-xs text-positive-100">发布于 昨天 xx:xx</div>
+            </div>
+          </div>
+
+          <div class="flex items-center">
+            <text-button type="gray" padding="sm">
+              <icon class="text-2xl" name="icon-setting" />
+            </text-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="h-16 flex justify-center items-center">
+      <div class="h-[2px] w-1/3 bg-negative-700" />
+    </div>
+
+    <div class="relative body-x rounded-lg border border-negative-700 bg-negative-900">
+      <!-- Content -->
       <markdown-renderer
-        class="body-y"
+        class="py-10"
         :content="data.content"
       />
 
-      <!-- taken block, donate -->
+      <!-- Placeholder, for donate block -->
       <empty class="mt-20" />
 
-      <!-- userinfo, and actions -->
+      <!-- Userinfo, and actions -->
       <div class="mt-20 mb-6 body-y px-4 flex justify-between rounded-md bg-negative-800">
         <div class="flex items-center">
           <imager
@@ -127,48 +155,88 @@
       const data = ref({
         tags: ['前端开发', 'Vue3'],
         content: `
-# 起源
-## 起源2
-### 起源3
-#### 起源4
-##### 起源5
-###### 起源6
+# What is \`LyngsBlog\` ?
+The project is currently in a part-time-development stage.
 
-![GitHub Logo](https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg)
+It's targeting to be a \`simple looked\` blog website.
+You can take a look at the designs of the project below.
 
-起初，我们只是因为一些小事而聚到一起，大家都只是孩子，我们一起用一款叫做 \`RPG Maker XP\` 的软件来制作游戏。
+# Designs
+![articles](documentation/images/articles.png "Articles")
+<p style="text-align: center;">Articles</p>
 
-赵文昊的出现，打破了僵局。
+![article-detail](documentation/images/article-detail.png "Article Detail")
+<p style="text-align: center;">Article Detail</p>
 
-- [ ] Something
-- [ ] Someting else
-  - [x] eee
+# Goals
+- [x] Designs
+- [ ] Articles
+  - [x] ListItem
+  - [x] Pager
+  - [x] Locale time
+  - [ ] Fetch data
+- [ ] Article detail
+  - [x] Markdown to HTML
+  - [x] Detail basics
+  - [x] Markdown renderer
+  - [x] Like and dislike
+  - [x] Manage article dialog
+  - [ ] Confirm dialog
+  - [ ] Donation dialog
+  - [ ] Fetch data
+- [ ] Post Article
+  - [ ] Upload banner
+  - [ ] Markdown editor
+- [ ] Memos
+  - [x] List item
+  - [x] Reach bottom load more
+  - [ ] Manage memo dialog
+- [ ] Memo detail
+  - [ ] Memo detail dialog
+- [ ] Post Memo dialog
+  - [ ] Upload images
+  - [ ] Topic edit?
+- [ ] Comments
+  - [ ] List item
+  - [ ] Reply
+  - [ ] Manage Comment dialog
+- [ ] Submit Comment dialog
 
-\`\`\`javascript
-const element = ref(false);
-watchEffect(() => {
-  if (element.value) {
-    update();
-  }
-});
-\`\`\`
+# Bugs
 
-
+- [ ] Vite
+  - Vite did not pass env variable to postcss in development mode.
+    This can be solved by using \`cross-env\` to ensure \`NODE_ENV=development\` in package.json -> scripts.
+    Follow: https://github.com/vitejs/vite/commit/fa8574921195dd03b539c150a2ae5f97121a0aea
+- [ ] Vue
+  - Component/scrollbar, mergedWrapStyle is not update normally.
+    When switching mobile and PC mode in Chrome, the scrollbar margin changed in computed value, yet the actual DOM changed nothing.
+    It gets fixed when other stuff updates.
         `,
       });
+
+      // Layout shared state
+      // it shares scroll data and stuff
+      const layoutState = useLayoutState();
+      const scrollTop = computed(() => layoutState.scrollTop);
 
       // Post button
       // When the post button has been scrolled out of the screen,
       // the button shows in header
       const postButton = ref();
-      const layoutState = useLayoutState();
       const isShowPostButton = computed(() => {
-        if (postButton.value && layoutState.scrollTop) {
+        if (postButton.value && scrollTop.value) {
           const rect = postButton.value.$el.getBoundingClientRect();
           return rect.top < (80 - rect.height);
         } else {
           return false;
         }
+      });
+
+      const infoStyle = computed(() => {
+        return {
+          height: `${Math.max(256 - scrollTop.value, 0)}px`,
+        };
       });
 
       return {
@@ -178,6 +246,9 @@ watchEffect(() => {
         // Header post button
         postButton,
         isShowPostButton,
+
+        //
+        infoStyle,
 
         // Resources
         detailImage,
@@ -189,7 +260,7 @@ watchEffect(() => {
 
 <style lang="less" scoped>
   .background {
-    @apply absolute top-5 h-64 overflow-hidden md:rounded-2xl bg-negative-600;
+    @apply h-64 overflow-hidden bg-negative-600;
     left: 50%;
     transform: translate3d(-50%, 0, 0);
   }
