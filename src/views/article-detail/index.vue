@@ -40,7 +40,8 @@
               class="flex-static w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden select-none bg-negative-700"
               :src="avatarImage"
             />
-            <div class="ml-3 select-none">
+            <divider horizontal padding="sm" color="bg-negative-500" />
+            <div class="select-none">
               <div class="text-sm font-semibold">Shook</div>
               <div class="text-xs text-positive-100">发布于 昨天 xx:xx</div>
             </div>
@@ -56,9 +57,10 @@
     </div>
 
     <!-- Divider -->
-    <div class="h-16 flex justify-center items-center">
+    <divider />
+    <!--<div class="h-16 flex justify-center items-center">
       <div class="h-[2px] w-1/3 bg-negative-700" />
-    </div>
+    </div>-->
 
     <div class="relative body-x rounded-lg border border-negative-700 bg-negative-900">
       <!-- Content -->
@@ -140,6 +142,7 @@
   import MarkdownRenderer from '@/components/markdown-renderer';
   import LazyGroup from '@/components/lazy-group.vue';
   import Lazy from '@/components/lazy.vue';
+  import Divider from '@/components/divider.vue';
   // Resources
   import detailImage from '@/assets/images/article/detail.jpg';
   import avatarImage from '@/assets/images/avatar.jpg';
@@ -152,6 +155,7 @@
       MarkdownRenderer,
       LazyGroup,
       Lazy,
+      Divider,
     },
     setup() {
       const data = ref({
