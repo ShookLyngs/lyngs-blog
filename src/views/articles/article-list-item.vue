@@ -13,7 +13,7 @@
 
     <!-- Card -->
     <div
-      class="scale-card body box-border rounded-xl border border-negative-700 bg-negative-900"
+      class="scale-card body box-border rounded-xl border border-negative-700 hover:border-theme-400 bg-negative-900"
       @click="onClick"
     >
       <div class="text-xl text-positive-800 font-bold truncate md:text-2xl">
@@ -74,7 +74,7 @@
   };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .line-clamp {
     display: -webkit-box;
     -webkit-line-clamp: 4;

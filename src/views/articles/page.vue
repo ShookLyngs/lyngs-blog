@@ -13,6 +13,10 @@
       </transition>
     </teleport>
 
+    <div class="py-10">
+      <Button>1</Button>
+    </div>
+
     <!-- Banner -->
     <imager
       transition
@@ -50,6 +54,7 @@
   // Components
   import ArticleListItem from './article-list-item.vue';
   import Pager from '@/components/pager.vue';
+  import Button from '@/components/button.vue';
   // Resources
   import articlesImage from '@/assets/images/article/articles.jpg';
 
@@ -58,6 +63,7 @@
     components: {
       ArticleListItem,
       Pager,
+      Button,
     },
     setup() {
       // Article list
