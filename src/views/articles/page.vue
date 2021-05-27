@@ -14,7 +14,7 @@
     </teleport>
 
     <div class="py-10">
-      <Button>1</Button>
+      <Button>Default</Button>
     </div>
 
     <!-- Banner -->
