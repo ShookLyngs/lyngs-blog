@@ -14,7 +14,16 @@
     </teleport>
 
     <div class="py-10">
-      <Button>Default</Button>
+      <ripple-button icon="icon-arrow-left" size="xs">
+        超小
+      </ripple-button>
+      <ripple-button size="sm">小号</ripple-button>
+      <ripple-button size="md">默认</ripple-button>
+      <ripple-button size="lg">大号</ripple-button>
+    </div>
+
+    <div class="py-10 flex">
+      <ripple-button block>默认</ripple-button>
     </div>
 
     <!-- Banner -->
@@ -54,7 +63,7 @@
   // Components
   import ArticleListItem from './article-list-item.vue';
   import Pager from '@/components/pager.vue';
-  import Button from '@/components/button.vue';
+  import RippleButton from '@/components/button.vue';
   // Resources
   import articlesImage from '@/assets/images/article/articles.jpg';
 
@@ -63,7 +72,7 @@
     components: {
       ArticleListItem,
       Pager,
-      Button,
+      RippleButton,
     },
     setup() {
       // Article list

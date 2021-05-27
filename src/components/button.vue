@@ -1,98 +1,158 @@
 <template>
-  <button
-    class="button rounded px-5 py-1"
+  <ripple
+    tag="button"
+    class="button"
     :class="buttonClass"
-    @mousedown="onTapDown"
-    @mouseup="onTapUp"
+    :disabled="disabled"
   >
-    <slot />
-  </button>
+    <slot name="prefix">
+      <icon
+        :name="icon"
+        :class="$slots.default ? 'mr-1' : ''"
+        v-if="icon"
+      />
+    </slot>
+
+    <slot name="text">
+      <span>
+        <slot />
+      </span>
+    </slot>
+
+    <slot name="suffix" />
+  </ripple>
 </template>
 
 <script>
-  import { computed, ref } from 'vue';
+  // Functions
+  import { computed } from 'vue';
+  // Components
+  import Ripple from './ripple.vue';
+  import Icon from './icon';
+
   export default {
     name: 'ripple-button',
+    components: {
+      Ripple,
+      Icon,
+    },
     props: {
       type: {
         type: String,
         default: 'default',
       },
+      size: {
+        type: String,
+        default: 'md',
+      },
+      rounded: {
+        type: String,
+        default: 'default',
+      },
+      icon: {
+        type: String,
+        default: '',
+      },
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
+      block: {
+        type: Boolean,
+        default: false,
+      },
+      gutter: {
+        type: Boolean,
+        default: true,
+      },
     },
     setup(props) {
-      const ripple = ref(false);
-      const rippleTimer = ref();
-      async function createRipple() {
-        if (rippleTimer.value) clearTimeout(rippleTimer.value);
-        ripple.value = true;
-        rippleTimer.value = setTimeout(() => {
-          ripple.value = false;
-          console.log('changed');
-        }, 10000);
-      }
-
       const buttonClass = computed(() => {
         const classes = [];
-        if (ripple.value) classes.push('is-ripple');
-        if (props.type) classes.push(`is-${props.type}`);
+        if (props.type) classes.push(`is-type-${props.type}`);
+        if (props.size) classes.push(`is-size-${props.size}`);
+        if (props.rounded) classes.push(`is-rounded-${props.rounded}`);
+        if (props.disabled) classes.push('is-disabled');
+        if (props.gutter) classes.push('is-gutter');
+        if (props.block) classes.push('is-block');
 
         return classes;
       });
 
-      function onTapDown() {
-        ripple.value = false;
-      }
-      function onTapUp() {
-        createRipple();
-      }
-
       return {
-        ripple,
-
         buttonClass,
-
-        onTapDown,
-        onTapUp,
       };
     },
   };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .button {
-    @apply relative transition-all duration-300;
+    @apply inline-flex justify-center items-center transition-all duration-300;
 
-    &.is-ripple::after {
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      opacity: .2;
-      content: '';
-      display: block;
-      position: absolute;
-      pointer-events: none;
-      border-radius: inherit;
-      animation:
-        shadow-fade 2s cubic-bezier(0.08, 0.82, 0.17, 1) forwards,
-        shadow-ripple .4s cubic-bezier(0.08, 0.82, 0.17, 1) forwards;
-      box-shadow: 0 0 0 0 theme('colors.theme-500');
-    }
-
-    &.is-default {
+    // Types
+    &.is-type-default {
       @apply border border-solid border-negative-700 hover:border-negative-600 active:border-negative-500;
       @apply bg-negative-900 hover:text-theme-500 active:text-theme-600;
-    }
-  }
 
-  @keyframes shadow-fade {
-    100% {
-      opacity: 0;
+      &.is-disabled {
+        @apply cursor-default bg-negative-900 text-positive-300 border-negative-700;
+      }
     }
-  }
-  @keyframes shadow-ripple {
-    100% {
-      box-shadow: 0 0 0 6px theme('colors.theme-500');
+
+    // Sizes
+    &.is-size-xs {
+      @apply px-3 h-7 text-xs;
+    }
+    &.is-size-sm {
+      @apply px-4 h-8 text-sm;
+    }
+    &.is-size-md {
+      @apply px-5 h-9 text-base;
+    }
+    &.is-size-lg {
+      @apply px-6 h-11 text-lg;
+    }
+
+    // Rounded
+    &.is-rounded-none {
+      @apply rounded-none;
+    }
+    &.is-rounded-sm {
+      @apply rounded-sm;
+    }
+    &.is-rounded-default {
+      @apply rounded;
+    }
+    &.is-rounded-md {
+      @apply rounded-md;
+    }
+    &.is-rounded-lg {
+      @apply rounded-lg;
+    }
+    &.is-rounded-xl {
+      @apply rounded-xl;
+    }
+    &.is-rounded-2xl {
+      @apply rounded-2xl;
+    }
+    &.is-rounded-3xl {
+      @apply rounded-3xl;
+    }
+    &.is-rounded-full {
+      @apply rounded-full;
+    }
+
+    // Gutter
+    &:not(:first-child) {
+      &.is-gutter {
+        @apply ml-2;
+      }
+    }
+
+    // Block
+    &.is-block {
+      @apply w-full;
     }
   }
 </style>
