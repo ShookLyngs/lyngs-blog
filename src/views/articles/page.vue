@@ -17,6 +17,9 @@
       <ripple-button icon="icon-arrow-left" size="xs">
         超小
       </ripple-button>
+      <ripple-button icon="icon-arrow-left" border="none" size="xs">
+        超小
+      </ripple-button>
       <ripple-button size="sm">小号</ripple-button>
       <ripple-button size="md">默认</ripple-button>
       <ripple-button size="lg">大号</ripple-button>

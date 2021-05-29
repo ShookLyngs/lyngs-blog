@@ -49,6 +49,10 @@
         type: String,
         default: 'default',
       },
+      border: {
+        type: String,
+        default: 'xs',
+      },
       icon: {
         type: String,
         default: '',
@@ -72,6 +76,7 @@
         if (props.type) classes.push(`is-type-${props.type}`);
         if (props.size) classes.push(`is-size-${props.size}`);
         if (props.rounded) classes.push(`is-rounded-${props.rounded}`);
+        if (props.border) classes.push(`is-border-${props.border}`);
         if (props.disabled) classes.push('is-disabled');
         if (props.gutter) classes.push('is-gutter');
         if (props.block) classes.push('is-block');
@@ -92,8 +97,9 @@
 
     // Types
     &.is-type-default {
-      @apply border border-solid border-negative-700 hover:border-negative-600 active:border-negative-500;
-      @apply bg-negative-900 hover:text-theme-500 active:text-theme-600;
+      @apply border-solid border-negative-700 hover:border-negative-600 active:border-negative-500;
+      @apply hover:text-theme-500 active:text-theme-600;
+      @apply bg-negative-900 active:bg-negative-800;
 
       &.is-disabled {
         @apply cursor-default bg-negative-900 text-positive-300 border-negative-700;
@@ -112,6 +118,17 @@
     }
     &.is-size-lg {
       @apply px-6 h-11 text-lg;
+    }
+
+    // Border width
+    &.is-border-none {
+      @apply border-none;
+    }
+    &.is-border-xs {
+      @apply border;
+    }
+    &.is-border-sm {
+      @apply border-2;
     }
 
     // Rounded
