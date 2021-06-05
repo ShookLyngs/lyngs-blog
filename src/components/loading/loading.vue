@@ -25,7 +25,7 @@
   import { ref, computed } from 'vue';
   import { delayThrottle } from '@/assets/util/event';
   // Components
-  import LoadingCircle from './loading-circle.vue';
+  import LoadingCircle from './loading-indicator.vue';
 
   export default {
     name: 'loading',
