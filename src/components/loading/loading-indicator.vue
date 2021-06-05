@@ -27,7 +27,7 @@
 
 <script>
   export default {
-    name: 'loading-circle',
+    name: 'loading-indicator',
     props: {
       size: {
         type: [Number, String],

@@ -3,14 +3,16 @@
     tag="button"
     class="button"
     :class="buttonClass"
-    :disabled="disabled"
+    :disabled="disabled || loading"
+    @click="onClick"
   >
     <slot name="prefix">
-      <icon
-        :name="icon"
-        :class="$slots.default ? 'mr-1' : ''"
-        v-if="icon"
-      />
+      <span :class="$slots.default ? 'mr-1' : ''" v-if="loading || icon">
+        <collapse direction="horizontal" show v-if="loading">
+          <loading-circle :size="16" />
+        </collapse>
+        <icon :name="icon" v-else-if="icon" />
+      </span>
     </slot>
 
     <slot name="text">
@@ -27,14 +29,18 @@
   // Functions
   import { computed } from 'vue';
   // Components
-  import Ripple from './ripple.vue';
   import Icon from './icon';
+  import Ripple from './ripple.vue';
+  import Collapse from './collapse';
+  import LoadingCircle from './loading/loading-indicator.vue';
 
   export default {
     name: 'ripple-button',
     components: {
-      Ripple,
       Icon,
+      Ripple,
+      Collapse,
+      LoadingCircle,
     },
     props: {
       type: {
@@ -57,6 +63,10 @@
         type: String,
         default: '',
       },
+      loading: {
+        type: Boolean,
+        default: false,
+      },
       disabled: {
         type: Boolean,
         default: false,
@@ -70,7 +80,8 @@
         default: true,
       },
     },
-    setup(props) {
+    emits: [ 'click' ],
+    setup(props, { emit }) {
       const buttonClass = computed(() => {
         const classes = [];
         if (props.type) classes.push(`is-type-${props.type}`);
@@ -78,14 +89,22 @@
         if (props.rounded) classes.push(`is-rounded-${props.rounded}`);
         if (props.border) classes.push(`is-border-${props.border}`);
         if (props.disabled) classes.push('is-disabled');
+        if (props.loading) classes.push('is-loading');
         if (props.gutter) classes.push('is-gutter');
         if (props.block) classes.push('is-block');
 
         return classes;
       });
 
+      function onClick() {
+        if (props.disabled || props.loading) return;
+        emit('click');
+        console.log('clicked');
+      }
+
       return {
         buttonClass,
+        onClick,
       };
     },
   };
@@ -96,6 +115,7 @@
     @apply inline-flex justify-center items-center transition-all duration-300;
 
     // Types
+    // Default type
     &.is-type-default {
       @apply border-solid border-negative-700 hover:border-negative-600 active:border-negative-500;
       @apply hover:text-theme-500 active:text-theme-600;
@@ -103,6 +123,15 @@
 
       &.is-disabled {
         @apply cursor-default bg-negative-900 text-positive-300 border-negative-700;
+      }
+    }
+    &.is-type-theme {
+      @apply border-solid border-theme-500 hover:border-theme-400 active:border-theme-300;
+      @apply text-negative-900;
+      @apply bg-theme-500 hover:bg-theme-400 active:bg-theme-300;
+
+      &.is-disabled {
+        @apply cursor-default border-theme-300 bg-theme-300 text-negative-600;
       }
     }
 
