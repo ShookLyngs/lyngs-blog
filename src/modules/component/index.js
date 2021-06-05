@@ -1,11 +1,12 @@
 // components
+import RippleButton from '@/components/ripple-button.vue';
 import BorderButton from '@/components/border-button.vue';
 import TextButton from '@/components/text-button.vue';
 import Imager from '@/components/imager.vue';
 import Empty from '@/components/empty.vue';
 import Container from '@/layouts/container.vue';
 
-const components = [BorderButton, TextButton, Imager, Empty, Container];
+const components = [RippleButton, BorderButton, TextButton, Imager, Empty, Container];
 
 // uses
 import Icon from '@/components/icon';

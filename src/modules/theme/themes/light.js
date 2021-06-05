@@ -26,7 +26,9 @@ export default createTheme({
       },
       theme: {
         default: '#3c7dff',
-        200: '#a4b9df',
+        200: '#83aeff',
+        300: '#7aa6ff',
+        400: '#568fff',
         500: '#3c7dff',
         600: '#225aca',
       },
