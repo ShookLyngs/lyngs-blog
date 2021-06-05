@@ -1,8 +1,8 @@
 <template>
-  <div ref="tabs" class="relative">
+  <div ref="tabs" class="relative inline-flex items-center">
     <slot />
     <div
-      class="tabs-decorator absolute rounded transition-all bottom-0 bg-theme-500"
+      class="tabs-decorator absolute transition-all bottom-0 bg-theme-500"
       :style="decoratorStyle"
     />
   </div>
@@ -82,6 +82,6 @@
 
 <style scoped>
   .tabs-decorator {
-    height: 3px;
+    height: 4px;
   }
 </style>
