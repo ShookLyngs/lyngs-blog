@@ -20,37 +20,49 @@
 
       <!-- Navigation -->
       <div class="select-none flex-auto flex items-center justify-between md:justify-end">
-        <div class="flex h-full">
-          <tabs :current="currentTab" @upadte="onTabUpdate">
-            <router-link to="/articles">
-              <tab value="articles" :values="['articles', 'article-view', 'article-post']">文章</tab>
-            </router-link>
-            <router-link to="/memos">
-              <tab value="memos">想法</tab>
-            </router-link>
-            <router-link to="/tools">
-              <tab value="tools">工具</tab>
-            </router-link>
-          </tabs>
-        </div>
+        <tabs class="flex h-full" :current="currentTab" @upadte="onTabUpdate">
+          <tab to="/articles" value="articles" :values="['articles', 'article-view', 'article-post']">
+            文章
+          </tab>
+          <tab to="/memos" value="memos">
+            想法
+          </tab>
+          <tab to="/tools" value="tools">
+            工具
+          </tab>
+        </tabs>
         <div class="flex">
-          <div class="flex-static ml-5">
-            <collapse
-              direction="horizontal"
-              show-class="opacity-100"
-              hidden-class="opacity-0"
-              :show="isShowHeaderActions"
-            >
-              <div class="w-max" id="header-actions" />
-            </collapse>
-          </div>
-          <imager
-            background
-            :lazy="false"
-            :transition="false"
-            class="rounded-full overflow-hidden flex-static ml-2.5 w-10 h-10 text-positive-500 bg-negative-500"
-            :src="avatarImage"
-          />
+          <collapse
+            class="flex-static ml-5"
+            direction="horizontal"
+            show-class="opacity-100"
+            hidden-class="opacity-0"
+            :show="isShowHeaderActions"
+          >
+            <div class="w-max" id="header-actions" />
+          </collapse>
+          <popper
+            content-reachable
+            class="flex-static"
+            placement="bottom-end"
+            trigger="hover"
+            :offset="0"
+          >
+            <imager
+              background
+              :lazy="false"
+              :transition="false"
+              class="rounded-full overflow-hidden flex-static ml-2.5 w-10 h-10 text-positive-500 bg-negative-500"
+              :src="avatarImage"
+            />
+            <template #content>
+              <div class="relative w-36 z-10">
+                <ul>
+                  <li class="hover:bg-negative-800 active:bg-negative-800 body-x py-1">a</li>
+                </ul>
+              </div>
+            </template>
+          </popper>
         </div>
       </div>
     </div>
@@ -109,7 +121,7 @@
 <style lang="less" scoped>
   .header {
     @apply flex-static flex flex-col justify-center items-center;
-    @apply bg-mask-600;
+    @apply border-solid border-b border-negative-600 bg-mask-600;
     min-height: 70px;
     backdrop-filter: saturate(180%) blur(20px);
   }
