@@ -1,5 +1,5 @@
 import { createTheme } from '@lyngs/themer-vue';
-import { alpha } from '../util';
+import { alphaSwatch } from '../util';
 
 export default createTheme({
   name: 'light',
@@ -40,30 +40,8 @@ export default createTheme({
         500: '#e35f5f',
         600: '#b14c4c',
       },
-      mask: {
-        50: alpha('#f9f9f9', 0.1),
-        100: alpha('#f9f9f9', 0.2),
-        200: alpha('#f9f9f9', 0.3),
-        300: alpha('#f9f9f9', 0.4),
-        400: alpha('#f9f9f9', 0.5),
-        500: alpha('#f9f9f9', 0.6),
-        600: alpha('#f9f9f9', 0.7),
-        700: alpha('#f9f9f9', 0.8),
-        800: alpha('#f9f9f9', 0.9),
-        900: '#f9f9f9',
-      },
-      modal: {
-        50: alpha('#ececec', 0.1),
-        100: alpha('#ececec', 0.2),
-        200: alpha('#ececec', 0.3),
-        300: alpha('#ececec', 0.4),
-        400: alpha('#ececec', 0.5),
-        500: alpha('#ececec', 0.6),
-        600: alpha('#ececec', 0.7),
-        700: alpha('#ececec', 0.8),
-        800: alpha('#ececec', 0.9),
-        900: '#ececec',
-      },
+      mask: alphaSwatch('#f9f9f9'),
+      modal: alphaSwatch('#ececec'),
     },
   },
 });
