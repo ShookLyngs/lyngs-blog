@@ -112,7 +112,7 @@
 
 <style lang="less" scoped>
   .button {
-    @apply inline-flex justify-center items-center transition-all duration-300;
+    @apply inline-flex justify-center items-center select-none transition-all duration-300;
 
     // Types
     // Default type
@@ -146,7 +146,10 @@
       @apply px-5 h-9 text-base;
     }
     &.is-size-lg {
-      @apply px-6 h-11 text-lg;
+      @apply px-6 h-10 text-base;
+    }
+    &.is-size-xl {
+    @apply px-6 h-11 text-lg;
     }
 
     // Border width

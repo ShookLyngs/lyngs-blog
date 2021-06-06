@@ -26,6 +26,10 @@
       <div class="gap w-1/3 bg-negative-700" />
     </div>
 
+    <div class="flex justify-end">
+      <ripple-button size="lg" icon="icon-copy">创建文章</ripple-button>
+    </div>
+
     <!-- List -->
     <empty v-if="!list.length" />
     <transition-group name="list">

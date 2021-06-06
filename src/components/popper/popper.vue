@@ -1,5 +1,5 @@
 <template>
-  <!-- default slot, preventing lose sight of async-component -->
+  <!-- Default slot, preventing lose sight of async-component -->
   <component
     tabindex="0"
     ref="target"
@@ -12,9 +12,16 @@
     @mouseleave="conditionAction('hover', false, 'mouse-leave')"
   />
 
-  <!-- teleport the popper to body -->
+  <!-- Teleport the popper to body -->
   <teleport :disabled="!teleport" :to="teleportTo">
-    <div class="ls-popper__wrapper">
+    <div
+      tabindex="0"
+      class="ls-popper__wrapper"
+      @focus="contentConditionAction('focus', true, 'focus')"
+      @blur="contentConditionAction('focus', false, 'blur')"
+      @mouseenter="contentConditionAction('hover', true, 'mouse-enter')"
+      @mouseleave="contentConditionAction('hover', false, 'mouse-leave')"
+    >
       <div
         class="ls-popper"
         ref="popper"
@@ -58,14 +65,16 @@
         type: [ Number, Array, Function ],
         default: () => [ 0, 10 ],
         validator: offset => {
-          if (offset instanceof Function) {
-            return true;
-          }
+          if (offset instanceof Function) return true;
           if (Array.isArray(offset)) {
             return offset.length === 2 && offset.every(item => typeof item === 'number');
           }
           return typeof offset === 'number';
         },
+      },
+      contentReachable: {
+        type: Boolean,
+        default: false,
       },
       teleport: {
         type: Boolean,
@@ -141,6 +150,12 @@
         if (eventType) emit(eventType, ...params);
       }
 
+      // Use on content events,
+      // If content is unreachable, then the event won't be triggered.
+      function contentConditionAction(...params) {
+        if (props.contentReachable) conditionAction(...params);
+      }
+
       return {
         defaultSlot,
         target,
@@ -153,7 +168,9 @@
 
         rebindPopper,
         updatePopper,
+
         conditionAction,
+        contentConditionAction,
       };
     },
   }
@@ -163,7 +180,7 @@
   @popper-arrow-size: 10px;
 
   .ls-popper {
-    @apply absolute transition duration-300 invisible opacity-0;
+    @apply absolute transition duration-150 invisible opacity-0;
     z-index: 100;
     outline-width: 0;
     transition-property: padding, visibility, opacity, z-index;
@@ -182,11 +199,11 @@
 
     &__wrapper {
       position: relative;
-      padding: 8px;
+      //padding: 8px;
     }
 
     &__inner {
-      @apply py-2 relative transition rounded-md;
+      @apply py-2 relative transition rounded;
       @apply border border-negative-600 bg-negative-900 text-positive-700 shadow-lg;
     }
 
