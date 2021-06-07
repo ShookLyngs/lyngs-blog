@@ -5,7 +5,7 @@
     :offset="0"
   >
     <template #default>
-      <component :is="defaultSlot" />
+      <component class="cursor-pointer" :is="defaultSlot" />
     </template>
 
     <template #content>

@@ -53,7 +53,7 @@
             <template #dropdown>
               <dropdown-menu>
                 <dropdown-item>Item 1</dropdown-item>
-                <dropdown-item>Item 2</dropdown-item>
+                <dropdown-item divided>Item 2</dropdown-item>
                 <dropdown-item>Item 3</dropdown-item>
               </dropdown-menu>
             </template>

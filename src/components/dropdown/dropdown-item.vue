@@ -1,8 +1,10 @@
 <template>
-  <li class="dropdown-item" :class="itemClass">
-    <div class="dropdown-divider" v-if="dividedTop" />
-    <slot />
-    <div class="dropdown-divider" v-if="dividedBottom" />
+  <li class="dropdown-item">
+    <div class="dropdown-item__divider" v-if="dividedTop" />
+    <div class="dropdown-item__content">
+      <slot />
+    </div>
+    <div class="dropdown-item__divider" v-if="dividedBottom" />
   </li>
 </template>
 
@@ -61,15 +63,15 @@
 
 <style lang="less" scoped>
   .dropdown-item {
-    @apply body-x py-1 transition cursor-pointer select-none hover:bg-negative-800 active:bg-negative-700;
-
+    &__content {
+      @apply relative body-x py-1 transition cursor-pointer select-none hover:bg-negative-800 active:bg-negative-700;
+    }
     &.is-disabled {
       @apply opacity-70 cursor-not-allowed bg-transparent;
     }
 
-    &-divider {
-      @apply py-1 bg-negative-600;
-      height: 1px;
+    &__divider {
+      @apply h-px my-2 w-full bg-negative-700;
     }
   }
 </style>

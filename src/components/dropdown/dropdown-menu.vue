@@ -1,5 +1,5 @@
 <template>
-  <ul class="py-2">
+  <ul class="py-1.5">
     <slot />
   </ul>
 </template>
