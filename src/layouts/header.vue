@@ -41,13 +41,7 @@
           >
             <div class="w-max" id="header-actions" />
           </collapse>
-          <popper
-            content-reachable
-            class="flex-static"
-            placement="bottom-end"
-            trigger="hover"
-            :offset="0"
-          >
+          <dropdown class="flex-static" trigger="hover">
             <imager
               background
               :lazy="false"
@@ -55,14 +49,15 @@
               class="rounded-full overflow-hidden flex-static ml-2.5 w-10 h-10 text-positive-500 bg-negative-500"
               :src="avatarImage"
             />
-            <template #content>
-              <div class="relative w-36 z-10">
-                <ul>
-                  <li class="hover:bg-negative-800 active:bg-negative-800 body-x py-1">a</li>
-                </ul>
-              </div>
+
+            <template #dropdown>
+              <dropdown-menu>
+                <dropdown-item>Item 1</dropdown-item>
+                <dropdown-item>Item 2</dropdown-item>
+                <dropdown-item>Item 3</dropdown-item>
+              </dropdown-menu>
             </template>
-          </popper>
+          </dropdown>
         </div>
       </div>
     </div>
@@ -78,6 +73,7 @@
   import Tabs from '@/components/tabs.vue';
   import Tab from '@/components/tab.vue';
   import Collapse from '@/components/collapse';
+  import { Dropdown, DropdownMenu, DropdownItem } from '@/components/dropdown';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
 
@@ -87,6 +83,9 @@
       Tabs,
       Tab,
       Collapse,
+      Dropdown,
+      DropdownMenu,
+      DropdownItem,
     },
     setup() {
       // Current tab
