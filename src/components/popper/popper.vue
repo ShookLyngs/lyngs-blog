@@ -118,7 +118,7 @@
       const isShowPopper = ref(false);
 
       // If visibility changes, update popper
-      watch(() => isShowPopper.value, (value) => {
+      watch(isShowPopper, (value) => {
         if (value && instance) {
           nextTick(() => {
             updatePopper();
