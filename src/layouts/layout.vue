@@ -85,6 +85,6 @@
 
 <style lang="less" scoped>
   .main {
-    min-height: calc(100vh - 80px);
+    min-height: calc(100vh - 70px);
   }
 </style>
