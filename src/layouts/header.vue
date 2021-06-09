@@ -41,7 +41,7 @@
           >
             <div class="w-max" id="header-actions" />
           </collapse>
-          <dropdown class="flex-static" trigger="hover">
+          <dropdown close-on-click class="flex-static" trigger="hover">
             <imager
               background
               :lazy="false"
@@ -52,9 +52,9 @@
 
             <template #dropdown>
               <dropdown-menu>
-                <dropdown-item>Item 1</dropdown-item>
-                <dropdown-item divided>Item 2</dropdown-item>
-                <dropdown-item>Item 3</dropdown-item>
+                <dropdown-item>发布新的文章</dropdown-item>
+                <dropdown-item divided>我的信息</dropdown-item>
+                <dropdown-item>退出</dropdown-item>
               </dropdown-menu>
             </template>
           </dropdown>
@@ -120,8 +120,9 @@
 <style lang="less" scoped>
   .header {
     @apply flex-static flex flex-col justify-center items-center;
-    @apply border-solid border-b border-negative-600 bg-mask-600;
+    @apply bg-mask-600;
     min-height: 70px;
     backdrop-filter: saturate(180%) blur(20px);
+    box-shadow: 0 1px 0 theme('colors.negative-600');
   }
 </style>

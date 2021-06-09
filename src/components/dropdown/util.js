@@ -12,10 +12,10 @@ export const dropdownItemProps = {
   },
 };
 
-export function createDropdownShared(props) {
+export function createDropdownShared(merged) {
   const instance = {
     dropdown: ref(),
-    props,
+    ...merged,
   };
 
   watchEffect(() => console.log(instance.dropdown));

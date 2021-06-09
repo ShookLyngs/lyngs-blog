@@ -1,5 +1,5 @@
 <template>
-  <li class="dropdown-item">
+  <li class="dropdown-item" @click="onClick">
     <div class="dropdown-item__divider" v-if="dividedTop" />
     <div class="dropdown-item__content">
       <slot />
@@ -30,7 +30,8 @@
         default: '',
       },
     },
-    setup(props) {
+    emits: [ 'click' ],
+    setup(props, { emit }) {
       // Shared DATA
       const shared = useDropdownShared();
 
@@ -52,10 +53,21 @@
         return classes;
       });
 
+      // When clicked item, trigger `@click` event,
+      // and `@trigger` event from Dropdown component.
+      function onClick() {
+        emit('click', props.value);
+        if (shared.onClickItem instanceof Function) {
+          shared.onClickItem(props.value);
+        }
+      }
+
       return {
         dividedTop,
         dividedBottom,
         itemClass,
+
+        onClick,
       };
     },
   };
