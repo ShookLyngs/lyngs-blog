@@ -130,7 +130,7 @@
       // Set popper <visibility>, changes will be execute after 300ms.
       // In 300ms, new changes will always cover the older one.
       // And every new change will reset the timer.
-      const setPopperVisible = delayThrottle((value) => {
+      const setPopperVisibility = delayThrottle((value) => {
         isShowPopper.value = value;
         nextTick(() => {
           updatePopper();
@@ -146,7 +146,7 @@
       // Set popper visibility, and emit event.
       // Used it on @on events.
       function conditionAction(trigger, visible, eventType, ...params) {
-        if (props.trigger === trigger) setPopperVisible(visible);
+        if (props.trigger === trigger) setPopperVisibility(visible);
         if (eventType) emit(eventType, ...params);
       }
 
@@ -164,7 +164,7 @@
         instance,
 
         isShowPopper,
-        setPopperVisible,
+        setPopperVisibility,
 
         rebindPopper,
         updatePopper,
