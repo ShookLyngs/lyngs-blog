@@ -7,10 +7,16 @@
       >
         <slot name="time">{{ time }}</slot>
       </div>
-      <div
-        class="box-border rounded-full border-4 border-positive-400 bg-negative-800 z-10"
-        :style="symbolStyle"
-      />
+      <ripple
+        class="rounded-full z-10"
+        type="interval"
+        :interval="1000"
+      >
+        <div
+          class="box-border rounded-full border-4 border-positive-400 bg-negative-800"
+          :style="symbolStyle"
+        />
+      </ripple>
     </div>
     <div
       class="absolute flex justify-center box-content right-0"
@@ -23,9 +29,13 @@
 
 <script>
   import { computed } from 'vue';
+  import Ripple from '@/components/ripple.vue';
 
   export default {
     name: 'timeline-node',
+    components: {
+      Ripple,
+    },
     props: {
       time: {
         type: String,

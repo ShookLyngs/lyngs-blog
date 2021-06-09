@@ -1,4 +1,4 @@
-import { ref, provide, inject, watchEffect } from 'vue';
+import { ref, provide, inject } from 'vue';
 
 export const dropdownItemProps = {
   disabled: {
@@ -17,8 +17,6 @@ export function createDropdownShared(merged) {
     dropdown: ref(),
     ...merged,
   };
-
-  watchEffect(() => console.log(instance.dropdown));
 
   provide('dropdown', instance);
   return instance;

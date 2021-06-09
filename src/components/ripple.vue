@@ -1,8 +1,8 @@
 <template>
   <component
     class="ripple"
-    :class="rippleClass"
     :is="tag"
+    :class="rippleClass"
     @mousedown="stopRipple"
     @mouseup="startRipple"
   >
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import { computed, ref } from 'vue';
+  import { computed, ref, watchEffect } from 'vue';
 
   export default {
     name: 'ripple',
@@ -24,8 +24,18 @@
         type: Boolean,
         default: false,
       },
+      type: {
+        type: String,
+        validator: value => [ 'click', 'interval' ].includes(value),
+        default: 'click',
+      },
+      interval: {
+        type: Number,
+        default: 0,
+      },
     },
     setup(props) {
+      // Ripple and It's effect trigger functions
       const ripple = ref(false);
       const rippleTimer = ref();
       function stopRipple() {
@@ -33,10 +43,36 @@
         ripple.value = false;
       }
       function startRipple() {
-        ripple.value = true;
-        rippleTimer.value = setTimeout(() => ripple.value = false, 2000);
+        return new Promise((resolve) => {
+          clearTimeout(rippleTimer.value);
+          ripple.value = true;
+          console.log('start', ripple.value);
+          rippleTimer.value = setTimeout(() => {
+            ripple.value = false;
+            resolve();
+          }, 2000);
+        });
       }
 
+      // Interval ripple effect,
+      // and watcher to observe changes of prop `type`
+      const intervalTimer = ref();
+      async function startInterval() {
+        if (props.type === 'interval') {
+          await startRipple();
+          console.log('end', ripple.value);
+          intervalTimer.value = setTimeout(startInterval, props.interval);
+        }
+      }
+      watchEffect(() => {
+        if (props.type === 'interval') {
+          startInterval();
+        } else {
+          clearTimeout(intervalTimer.value);
+        }
+      });
+
+      // Ripple classes
       const rippleClass = computed(() => {
         const classes = [];
         if (ripple.value) classes.push('is-rippling');
@@ -45,11 +81,22 @@
         return classes;
       });
 
+      // Ripple trigger events
+      function onClickDown() {
+        if (props.type === 'click') stopRipple();
+      }
+      function onClickUp() {
+        if (props.type === 'click') startRipple();
+      }
+
       return {
         startRipple,
         stopRipple,
 
         rippleClass,
+
+        onClickDown,
+        onClickUp,
       };
     },
   };
