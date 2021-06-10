@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import { computed, ref, watchEffect } from 'vue';
+  import { computed, ref, watch } from 'vue';
 
   export default {
     name: 'ripple',
@@ -46,7 +46,6 @@
         return new Promise((resolve) => {
           clearTimeout(rippleTimer.value);
           ripple.value = true;
-          console.log('start', ripple.value);
           rippleTimer.value = setTimeout(() => {
             ripple.value = false;
             resolve();
@@ -60,17 +59,16 @@
       async function startInterval() {
         if (props.type === 'interval') {
           await startRipple();
-          console.log('end', ripple.value);
           intervalTimer.value = setTimeout(startInterval, props.interval);
         }
       }
-      watchEffect(() => {
+      watch(() => props.type, () => {
         if (props.type === 'interval') {
           startInterval();
         } else {
           clearTimeout(intervalTimer.value);
         }
-      });
+      }, { immediate: true });
 
       // Ripple classes
       const rippleClass = computed(() => {
