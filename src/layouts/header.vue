@@ -5,34 +5,39 @@
       <img class="h-12 select-none" src="@/assets/images/logo.svg" alt="logo">
     </router-link>
   </div>
+
   <header class="header z-30 sticky top-0 left-0 right-0">
     <div class="px-3.5 flex w-full h-full md:px-0 md:content">
       <!-- LOGO -->
-      <div class="hidden flex-auto md:flex flex items-center justify-center md:justify-start md:md-0">
-        <router-link to="/">
-          <img
-            class="h-12 select-none"
-            src="@/assets/images/logo.svg"
-            alt="logo"
-          >
-        </router-link>
+      <div class="hidden md:flex flex items-center justify-center md:justify-start md:md-0 md:mr-6">
+        <popper placement="left">
+          <router-link to="/">
+            <ripple type="interval" class="w-7 h-7 rounded-full transition duration-300 hover:opacity-80">
+              <div class="w-full h-full rounded-full border-[7px] border-solid border-negative-600 bg-theme-400" />
+            </ripple>
+          </router-link>
+
+          <template #content>
+            <div class="inline-flex items-center body-x text-sm">回到首页</div>
+          </template>
+        </popper>
       </div>
 
-      <!-- Navigation -->
-      <div class="select-none flex-auto flex items-center justify-between md:justify-end">
-        <tabs class="flex h-full" :current="currentTab" @upadte="onTabUpdate">
-          <tab to="/articles" value="articles" :values="['articles', 'article-view', 'article-post']">
-            文章
-          </tab>
-          <tab to="/memos" value="memos">
-            想法
-          </tab>
-          <tab to="/tools" value="tools">
-            工具
-          </tab>
-        </tabs>
+      <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="onTabUpdate">
+        <tab to="/articles" value="articles" :values="['articles', 'article-view', 'article-post']">
+          文章
+        </tab>
+        <tab to="/memos" value="memos">
+          想法
+        </tab>
+        <tab to="/tools" value="tools">
+          工具
+        </tab>
+      </tabs>
 
-        <div class="flex">
+      <!-- Navigation -->
+      <div class="select-none flex items-center justify-between md:justify-end">
+        <div class="flex-static flex">
           <collapse
             class="flex-static ml-5"
             direction="horizontal"
@@ -74,9 +79,11 @@
   import Tabs from '@/components/tabs.vue';
   import Tab from '@/components/tab.vue';
   import Collapse from '@/components/collapse';
+  import Ripple from '@/components/ripple.vue';
   import { Dropdown, DropdownMenu, DropdownItem } from '@/components/dropdown';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
+  import articlesImage from '@/assets/images/article/articles.jpg';
 
   export default {
     name: 'layout-header',
@@ -84,6 +91,7 @@
       Tabs,
       Tab,
       Collapse,
+      Ripple,
       Dropdown,
       DropdownMenu,
       DropdownItem,
@@ -113,6 +121,7 @@
         isShowHeaderActions,
 
         avatarImage,
+        articlesImage,
       };
     },
   };
@@ -121,8 +130,9 @@
 <style lang="less" scoped>
   .header {
     @apply flex-static flex flex-col justify-center items-center;
-    @apply bg-mask-600;
+    //@apply bg-mask-600;
     min-height: 70px;
+    background-color: rgba(255, 255, 255, .8);
     backdrop-filter: saturate(180%) blur(20px);
     box-shadow: 0 1px 0 theme('colors.negative-600');
   }

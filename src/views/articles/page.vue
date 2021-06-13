@@ -14,12 +14,18 @@
     </teleport>
 
     <!-- Banner -->
-    <imager
-      transition
-      background
-      class="transition h-36 rounded-lg overflow-hidden cursor-pointer bg-center bg-cover bg-negative-600 active:opacity-80"
-      :src="articlesImage"
-    />
+    <!--
+    <div class="flex justify-center bg-negative-900">
+      <div class="body-y md:content">
+        <imager
+          transition
+          background
+          class="transition h-36 rounded-lg overflow-hidden cursor-pointer bg-center bg-cover bg-negative-600 active:opacity-80"
+          :src="articlesImage"
+        />
+      </div>
+    </div>
+    -->
 
     <!-- Divider -->
     <div class="h-12 pt-2.5 flex justify-center items-center">

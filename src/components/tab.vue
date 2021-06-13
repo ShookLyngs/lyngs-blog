@@ -2,7 +2,7 @@
   <router-link :to="to">
     <button
       ref="tab"
-      class="tab select-none box-content mx-2 h-9 leading-9 font-medium transition-all hover:bg-text-theme-600"
+      class="tab select-none box-content mr-5 h-9 leading-9 font-medium transition-all hover:bg-text-theme-600"
       :class="isCurrent ? 'text-theme-600' : 'text-positive-800'"
       @click="onClickTab"
     >

@@ -203,7 +203,7 @@
     }
 
     &__inner {
-      @apply py-2 relative transition rounded;
+      @apply py-2 relative transition rounded w-max;
       @apply border border-negative-600 bg-negative-900 text-positive-700 shadow-lg;
     }
 
