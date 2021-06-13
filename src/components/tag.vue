@@ -1,7 +1,7 @@
 <template>
-  <div class="tag" :class="classes">
+  <span class="tag" :class="classes">
     <slot>{{ text }}</slot>
-  </div>
+  </span>
 </template>
 
 <script>
