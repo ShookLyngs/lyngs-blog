@@ -27,14 +27,17 @@
     </div>
     -->
 
+    <!-- Recommended articles -->
+    <recommended-articles />
+
     <!-- Divider -->
     <div class="h-12 pt-2.5 flex justify-center items-center">
       <div class="gap w-1/3 bg-negative-700" />
     </div>
 
-    <div class="flex justify-end">
+    <!--<div class="flex justify-end">
       <ripple-button size="lg" icon="icon-copy">创建文章</ripple-button>
-    </div>
+    </div>-->
 
     <!-- List -->
     <empty v-if="!list.length" />
@@ -58,6 +61,7 @@
   import { useRouter } from 'vue-router';
   import { useList } from '@/hooks/use-list';
   // Components
+  import RecommendedArticles from './recommended.vue';
   import ArticleListItem from './article-list-item.vue';
   import Pager from '@/components/pager.vue';
   // Resources
@@ -67,6 +71,7 @@
   export default {
     name: 'articles',
     components: {
+      RecommendedArticles,
       ArticleListItem,
       Pager,
     },
