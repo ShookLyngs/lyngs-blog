@@ -2,18 +2,14 @@
   <div class="absolute right-full top-0 bottom-0">
     <div class="flex items-center select-none" :style="nodeStyle">
       <div
-        class="mr-2 whitespace-nowrap font-semibold text-sm text-positive-400"
-        v-if="$slots.time || time"
+        class="mr-2 whitespace-nowrap text-xs text-positive-600"
+        v-if="$slots.title || title"
       >
-        <slot name="time">{{ time }}</slot>
+        <slot name="time">{{ title }}</slot>
       </div>
-      <ripple
-        class="rounded-full z-10"
-        type="interval"
-        :interval="1000"
-      >
+      <ripple class="rounded-full z-10" type="interval" :interval="1000">
         <div
-          class="box-border rounded-full border-4 border-positive-400 bg-negative-800"
+          class="box-border rounded-full border-4 border-negative-400 bg-theme-500"
           :style="symbolStyle"
         />
       </ripple>
@@ -28,7 +24,9 @@
 </template>
 
 <script>
+  // Functions
   import { computed } from 'vue';
+  // Components
   import Ripple from '@/components/ripple.vue';
 
   export default {
@@ -37,7 +35,7 @@
       Ripple,
     },
     props: {
-      time: {
+      title: {
         type: String,
         default: '',
       },

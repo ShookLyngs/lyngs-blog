@@ -3,15 +3,15 @@
     class="ripple"
     :is="tag"
     :class="rippleClass"
-    @mousedown="stopRipple"
-    @mouseup="startRipple"
+    @mousedown="onClickDown"
+    @mouseup="onClickUp"
   >
     <slot />
   </component>
 </template>
 
 <script>
-  import { computed, ref, watch } from 'vue';
+  import { computed, onMounted, ref, watch } from 'vue';
 
   export default {
     name: 'ripple',
@@ -62,13 +62,16 @@
           intervalTimer.value = setTimeout(startInterval, props.interval);
         }
       }
-      watch(() => props.type, () => {
+      function updateRippleType() {
         if (props.type === 'interval') {
           startInterval();
         } else {
           clearTimeout(intervalTimer.value);
         }
-      }, { immediate: true });
+      }
+
+      watch(() => props.type, () => updateRippleType());
+      onMounted(() => updateRippleType());
 
       // Ripple classes
       const rippleClass = computed(() => {

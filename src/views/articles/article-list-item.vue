@@ -5,19 +5,32 @@
       class="mr-7 hidden lg:block"
       :is-first="isFirst"
       :is-last="isLast"
-      :time="localeDateTime(row.createTime)"
+      :title="localeDateTime(row.createTime)"
     />
 
     <!-- Card -->
     <ripple class="article-item" @click="onClick">
-      <div class="text-xl text-positive-800 font-bold truncate md:text-2xl">
-        {{ row.title }}
-      </div>
-      <div class="mt-3 text-base text-positive-600 font-medium overflow-hidden line-clamp">
-        {{ row.content }}
-      </div>
-      <div class="flex flex-wrap pt-2">
-        <tag v-for="tag in row.tags" :key="tag">{{ tag }}</tag>
+      <div class="flex">
+        <div class="flex-auto">
+          <div class="text-xl text-positive-900 font-bold md:text-2xl">
+            {{ row.title }}
+          </div>
+          <div class="mt-3 text-sm text-positive-600 font-medium overflow-hidden line-clamp">
+            {{ row.subtitle }}
+          </div>
+          <div class="flex flex-wrap pt-2">
+            <tag v-for="tag in row.tags" :key="tag">{{ tag }}</tag>
+          </div>
+        </div>
+
+        <div class="hidden flex-static md:flex flex-col w-1/3 md:w-[25%] md:ml-2" v-if="row.image">
+          <imager
+            transition
+            background
+            class="w-full flex-auto rounded overflow-hidden"
+            :src="row.image"
+          />
+        </div>
       </div>
     </ripple>
   </div>
@@ -73,12 +86,12 @@
 <style lang="less" scoped>
   .line-clamp {
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
   .article-item {
     @apply body box-border rounded-lg select-none cursor-pointer transition duration-300;
-    @apply border border-negative-700 hover:border-negative-500 bg-negative-900;
-    @apply active:opacity-80;
+    @apply border border-negative-700 bg-negative-900;
+    @apply hover:opacity-80;
   }
 </style>
