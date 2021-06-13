@@ -1,16 +1,20 @@
 <template>
   <div class="flex justify-center body-y">
-    <imager class="w-32 h-32 object-fit select-none" :src="image" />
+    <imager class="w-1/4 object-fit select-none" :src="image" />
   </div>
 </template>
 
 <script>
+  // Functions
+  import { computed } from 'vue';
+  // Resources
   import emptyImage from '@/assets/images/empty.png';
+  import emptyLargeImage from '@/assets/images/empty-large.png';
   import emptySearchImage from '@/assets/images/empty-search.png';
-  import {computed} from 'vue';
 
   const types = {
     default: emptyImage,
+    large: emptyLargeImage,
     search: emptySearchImage,
   };
 
