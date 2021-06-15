@@ -40,6 +40,7 @@
     </div>-->
 
     <!-- List -->
+    <div class="body-y text-xl">文章</div>
     <empty v-if="!list.length" />
     <transition-group name="list">
       <ArticleListItem

@@ -51,7 +51,7 @@
     @apply text-positive-600 bg-negative-700;
 
     &.w-sm {
-      padding: theme('spacing[0.5]') theme('spacing[2]');
+      padding: theme('spacing[1]') theme('spacing[2]');
     }
     &.w-md {
       padding: theme('spacing[1.5]') theme('spacing[3]');

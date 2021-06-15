@@ -1,47 +1,42 @@
 <template>
-  <div class="body rounded-lg bg-negative-900 border border-negative-700">
-    <div>推荐文章</div>
+  <div class="body-y text-xl">推荐</div>
+  <div class="rounded-lg bg-negative-900 border border-negative-700">
     <ul>
-      <li class="flex body-y">
-        <div class="w-32 h-20 mr-4">
+      <li class="flex body hover:opacity-80">
+        <div class="flex-auto">
+          <div class="text-base text-xl text-positive-900 font-bold hover:text-theme-600">关于微任务，关于宏任务，这里是详细的解释</div>
+          <div class="text-sm text-positive-300">讲讲什么是微任务、宏任务</div>
+          <div class="mt-2">
+            <tag padding="sm" class="mr-2">前端开发</tag>
+            <tag padding="sm" class="mr-2">Javascript</tag>
+          </div>
+        </div>
+        <div class="flex-static w-24 md:w-36 h-20 ml-1">
           <imager
-            transition
-            background
+            transition background
             class="w-full h-full flex-auto rounded overflow-hidden"
             :src="detailImage"
           />
-        </div>
-        <div>
-          <div class="text-lg text-positive-900 font-semibold">
-            关于微任务，关于宏任务，这里是详细的解释
-          </div>
-          <div class="text-sm text-positive-300">
-            讲讲什么是微任务、宏任务。
-          </div>
-          <div class="mt-2">
-            <tag no-gap padding="sm" class="mr-2">前端开发</tag>
-          </div>
         </div>
       </li>
-      <li class="flex body-y">
-        <div class="w-32 h-20 mr-4">
+      <div class="body-x">
+        <div class="w-full h-px bg-negative-600" />
+      </div>
+      <li class="flex body hover:opacity-80">
+        <div class="flex-auto">
+          <div class="text-base text-lg text-positive-900 font-bold hover:text-theme-600">关于微任务，关于宏任务，这里是详细的解释</div>
+          <div class="text-sm text-positive-300">讲讲什么是微任务、宏任务</div>
+          <div class="mt-2">
+            <tag padding="sm" class="mr-2">前端开发</tag>
+            <tag padding="sm" class="mr-2">Javascript</tag>
+          </div>
+        </div>
+        <div class="flex-static w-24 md:w-36 h-20 ml-1">
           <imager
-            transition
-            background
+            transition background
             class="w-full h-full flex-auto rounded overflow-hidden"
             :src="detailImage"
           />
-        </div>
-        <div>
-          <div class="text-lg text-positive-900 font-semibold">
-            关于微任务，关于宏任务，这里是详细的解释
-          </div>
-          <div class="text-sm text-positive-300">
-            讲讲什么是微任务、宏任务。
-          </div>
-          <div class="mt-2">
-            <tag no-gap padding="sm" class="mr-2">前端开发</tag>
-          </div>
         </div>
       </li>
     </ul>
