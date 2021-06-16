@@ -1,42 +1,33 @@
 <template>
   <div class="body-y text-xl">推荐</div>
-  <div class="rounded-lg bg-negative-900 border border-negative-700">
+  <div class="rounded-lg border border-negative-700 overflow-hidden">
     <ul>
-      <li class="flex body hover:opacity-80">
-        <div class="flex-auto">
-          <div class="text-base text-xl text-positive-900 font-bold hover:text-theme-600">关于微任务，关于宏任务，这里是详细的解释</div>
-          <div class="text-sm text-positive-300">讲讲什么是微任务、宏任务</div>
-          <div class="mt-2">
-            <tag padding="sm" class="mr-2">前端开发</tag>
-            <tag padding="sm" class="mr-2">Javascript</tag>
+      <li class="recommended-item" v-for="(item, index) in list" :key="item.id">
+        <div class="flex w-full body-y">
+          <div class="flex-static pt-0.5">
+            <tag padding="sm" class="mt-1 !bg-theme-500 !text-negative-900">{{ index + 1 }}</tag>
           </div>
-        </div>
-        <div class="flex-static w-24 md:w-36 h-20 ml-1">
-          <imager
-            transition background
-            class="w-full h-full flex-auto rounded overflow-hidden"
-            :src="detailImage"
-          />
-        </div>
-      </li>
-      <div class="body-x">
-        <div class="w-full h-px bg-negative-600" />
-      </div>
-      <li class="flex body hover:opacity-80">
-        <div class="flex-auto">
-          <div class="text-base text-lg text-positive-900 font-bold hover:text-theme-600">关于微任务，关于宏任务，这里是详细的解释</div>
-          <div class="text-sm text-positive-300">讲讲什么是微任务、宏任务</div>
-          <div class="mt-2">
-            <tag padding="sm" class="mr-2">前端开发</tag>
-            <tag padding="sm" class="mr-2">Javascript</tag>
+          <div class="flex-auto">
+            <div class="recommended-item__title text-base text-xl text-positive-900 font-bold">{{ item.title }}</div>
+            <div class="text-sm text-positive-300">{{ item.subtitle }}</div>
+            <div class="mt-1 inline-flex flex-wrap" v-if="item.tags">
+              <tag
+                padding="sm"
+                class="mr-2"
+                v-for="tag in item.tags"
+                :key="tag"
+              >
+                {{ tag }}
+              </tag>
+            </div>
           </div>
-        </div>
-        <div class="flex-static w-24 md:w-36 h-20 ml-1">
-          <imager
-            transition background
-            class="w-full h-full flex-auto rounded overflow-hidden"
-            :src="detailImage"
-          />
+          <div class="flex-static w-24 md:w-36 h-20 ml-2" v-if="item.image">
+            <imager
+              transition background
+              class="w-full h-full flex-auto rounded overflow-hidden"
+              :src="item.image"
+            />
+          </div>
         </div>
       </li>
     </ul>
@@ -44,23 +35,65 @@
 </template>
 
 <script>
+  // Functions
+  import { ref } from 'vue';
   // Components
   import Tag from '@/components/tag.vue';
   // Resources
   import detailImage from '@/assets/images/article/detail.jpg';
+
   export default {
     name: 'articles-recommended',
     components: {
       Tag,
     },
     setup() {
+      const list = ref([
+        {
+          id: `${Date.now()}`,
+          title: '如何在现代浏览器里实现列表/图片懒加载',
+          subtitle: '细谈 Resize Observer / Intersection API 与他们所带来的 Bugs，这部分知识你不一定需要用到，但是知道总比不懂得要好。',
+          createTime: '2021-04-09 18:26:22',
+          tags: ['前端开发', 'JavaScript', 'ES2021'],
+          image: detailImage,
+        },
+        {
+          id: `${Date.now()}`,
+          title: '如何在现代浏览器里实现列表/图片懒加载',
+          subtitle: '细谈 Resize Observer / Intersection API 与他们所带来的 Bugs，这部分知识你不一定需要用到，但是知道总比不懂得要好。',
+          createTime: '2021-04-09 18:26:22',
+          tags: ['前端开发', 'JavaScript', 'ES2021'],
+          image: detailImage,
+        },
+      ]);
+
       return {
+        list,
         detailImage,
       };
     },
   };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+  .recommended-item {
+    @apply flex flex-col body-x cursor-pointer bg-negative-900;
+    @apply transition-all duration-300 hover:opacity-80 active:opacity-60;
 
+    .recommended-item__title {
+      @apply transition duration-300;
+    }
+    &:hover {
+      .recommended-item__title {
+        @apply text-theme-600;
+      }
+    }
+
+    &:not(:last-child) {
+      &::after {
+        content: '';
+        @apply w-full h-px bg-negative-600;
+      }
+    }
+  }
 </style>
