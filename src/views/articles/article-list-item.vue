@@ -12,18 +12,18 @@
     <ripple class="article-item" @click="onClick">
       <div class="flex">
         <div class="flex-auto">
-          <div class="text-xl text-positive-900 font-bold md:text-2xl">
+          <div class="text-lg md:text-xl text-positive-900 font-bold">
             {{ row.title }}
           </div>
-          <div class="mt-3 text-sm text-positive-600 font-medium overflow-hidden line-clamp">
+          <div class="mt-1 text-xm md:text-sm text-positive-300 font-medium overflow-hidden line-clamp">
             {{ row.subtitle }}
           </div>
-          <div class="flex flex-wrap pt-2">
+          <div class="inline-flex flex-wrap pt-2">
             <tag v-for="tag in row.tags" :key="tag">{{ tag }}</tag>
           </div>
         </div>
 
-        <div class="hidden flex-static md:flex flex-col w-1/3 md:w-[25%] md:ml-2" v-if="row.image">
+        <div class="hidden flex-static md:flex flex-col w-1/3 md:w-[25%] md:ml-4" v-if="row.image">
           <imager
             transition
             background

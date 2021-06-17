@@ -4,12 +4,12 @@
     <ul>
       <li class="recommended-item" v-for="(item, index) in list" :key="item.id">
         <div class="flex w-full body-y">
-          <div class="flex-static pt-0.5">
-            <tag padding="sm" class="mt-1 !bg-theme-500 !text-negative-900">{{ index + 1 }}</tag>
+          <div class="flex-static">
+            <tag padding="sm" class="mt-1 !bg-theme-500 !text-negative-900 font-bold">{{ index + 1 }}</tag>
           </div>
           <div class="flex-auto">
-            <div class="recommended-item__title text-base text-xl text-positive-900 font-bold">{{ item.title }}</div>
-            <div class="text-sm text-positive-300">{{ item.subtitle }}</div>
+            <div class="recommended-item__title text-base text-lg md:text-xl text-positive-900 font-bold">{{ item.title }}</div>
+            <div class="mt-1 text-xs md:text-sm text-positive-300">{{ item.subtitle }}</div>
             <div class="mt-1 inline-flex flex-wrap" v-if="item.tags">
               <tag
                 padding="sm"
@@ -77,8 +77,8 @@
 
 <style lang="less" scoped>
   .recommended-item {
-    @apply flex flex-col body-x cursor-pointer bg-negative-900;
-    @apply transition-all duration-300 hover:opacity-80 active:opacity-60;
+    @apply flex flex-col body-x cursor-pointer select-none bg-negative-900;
+    @apply transition-all duration-300 active:opacity-70;
 
     .recommended-item__title {
       @apply transition duration-300;
