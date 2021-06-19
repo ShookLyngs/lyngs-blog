@@ -29,8 +29,6 @@
         <span class="text-2xl font-semibold text-positive-900">前端工程师</span>
         <span class="px-1.5 text-negative-500">/</span>
         <span>3年经验</span>
-        <span class="px-1.5 text-negative-500">/</span>
-        <span>南宁</span>
       </div>
       <div class="text-sm md:text-base">
         <div>
