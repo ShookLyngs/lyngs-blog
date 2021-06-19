@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/',
     name: 'entry',
-    redirect: '/articles',
+    redirect: '/resume',
   },
   {
     path: '/articles',
@@ -26,6 +26,12 @@ const routes = [
     path: '/memos',
     name: 'memos',
     component: () => import('@/views/memos/index.vue'),
+  },
+
+  {
+    path: '/resume',
+    name: 'resume',
+    component: () => import('@/views/resume/index.vue'),
   },
 
   {
