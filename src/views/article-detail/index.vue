@@ -20,85 +20,58 @@
         :src="detailImage"
         class="rounded-t-lg background bg-cover bg-center bg-negative-700 w-full"
       />
-
-      <!-- Title -->
-      <div class="body-x pt-8 font-bold text-xl md:text-3xl text-positive-900">
-        细谈 Resize Observer / Intersection API 与他们所带来的 Bugs
-      </div>
-
       <!-- Tags -->
-      <div class="body-x body-bottom flex flex-wrap pt-2 select-none">
+      <div class="body flex flex-wrap select-none">
         <tag v-for="tag in data.tags" :key="tag">{{ tag }}</tag>
       </div>
 
-      <!-- Userinfo -->
-      <div class="body">
-        <div class="px-4 py-2.5 md:py-4 flex justify-between rounded-md border border-negative-600 bg-negative-800">
-          <div class="flex items-center">
-            <imager
-              transition
-              class="flex-static w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden select-none bg-negative-700"
-              :src="avatarImage"
-            />
-            <divider horizontal padding="sm" color="bg-negative-500" />
-            <div class="select-none">
-              <div class="text-sm font-semibold">Shook</div>
-              <div class="text-xs text-positive-100">发布于 昨天 xx:xx</div>
-            </div>
-          </div>
+      <!-- Title -->
+      <div class="body-x body-bottom font-bold text-2xl md:text-3xl text-positive-900">
+        细谈 Resize Observer / Intersection API 与他们所带来的 Bugs
+      </div>
 
-          <div class="flex items-center">
-            <text-button type="gray" padding="sm">
-              <icon class="text-2xl" name="icon-setting" />
-            </text-button>
+      <divider />
+
+      <div class="relative body-x">
+        <!-- Content -->
+        <markdown-renderer
+          class="body-y"
+          :content="data.content"
+        />
+
+        <!-- Placeholder, for donate block -->
+        <empty class="" />
+
+        <!-- Userinfo, and actions -->
+        <div class="body-bottom">
+          <div class="px-4 py-2.5 md:py-4 flex justify-between rounded-md border border-negative-600 bg-negative-800">
+            <div class="flex items-center">
+              <imager
+                transition
+                class="flex-static w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden select-none bg-negative-700"
+                :src="avatarImage"
+              />
+              <div class="ml-3 select-none">
+                <div class="text-sm font-semibold">Shook</div>
+                <div class="text-xs text-positive-100">发布于 昨天 xx:xx</div>
+              </div>
+            </div>
+
+            <div class="flex items-center">
+              <text-button type="gray" padding="sm">
+                <icon class="text-2xl" name="icon-setting" />
+              </text-button>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Divider -->
     <divider />
-    <!--<div class="h-16 flex justify-center items-center">
-      <div class="h-[2px] w-1/3 bg-negative-700" />
-    </div>-->
-
-    <div class="relative body-x rounded-lg border border-negative-700 bg-negative-900">
-      <!-- Content -->
-      <markdown-renderer
-        class="py-10"
-        :content="data.content"
-      />
-
-      <!-- Placeholder, for donate block -->
-      <empty class="mt-20" />
-
-      <!-- Userinfo, and actions -->
-      <div class="body-bottom">
-        <div class="px-4 py-2.5 md:py-4 flex justify-between rounded-md border border-negative-600 bg-negative-800">
-          <div class="flex items-center">
-            <imager
-              transition
-              class="flex-static w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden select-none bg-negative-700"
-              :src="avatarImage"
-            />
-            <div class="ml-3 select-none">
-              <div class="text-sm font-semibold">Shook</div>
-              <div class="text-xs text-positive-100">发布于 昨天 xx:xx</div>
-            </div>
-          </div>
-
-          <div class="flex items-center">
-            <text-button type="gray" padding="sm">
-              <icon class="text-2xl" name="icon-setting" />
-            </text-button>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- comment -->
     <div
-      class="relative mt-5 rounded-lg border border-negative-700 bg-negative-900"
+      class="relative rounded-lg border border-negative-700 bg-negative-900"
     >
       <div
         class="body flex items-center justify-between select-none rounded-lg bg-negative-900"
