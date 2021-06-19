@@ -12,10 +12,10 @@
     <ripple class="article-item" @click="onClick">
       <div class="flex">
         <div class="flex-auto">
-          <div class="text-lg md:text-xl text-positive-900 font-bold">
+          <div class="article-item__title text-lg md:text-xl font-bold">
             {{ row.title }}
           </div>
-          <div class="mt-1 text-xm md:text-sm text-positive-300 font-medium overflow-hidden line-clamp">
+          <div class="mt-1 text-xs md:text-sm text-positive-300 font-medium overflow-hidden line-clamp">
             {{ row.subtitle }}
           </div>
           <div class="inline-flex flex-wrap pt-2">
@@ -92,6 +92,15 @@
   .article-item {
     @apply body box-border rounded-lg select-none cursor-pointer transition duration-300;
     @apply border border-negative-700 bg-negative-900;
-    @apply hover:opacity-80;
+    @apply active:opacity-70;
+
+    &__title {
+      @apply transition duration-300 text-positive-900;
+    }
+    &:hover {
+      .article-item__title {
+        @apply text-theme-600;
+      }
+    }
   }
 </style>

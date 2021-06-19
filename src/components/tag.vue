@@ -47,8 +47,8 @@
 
 <style lang="less" scoped>
   .tag {
-    @apply text-xs font-medium rounded;
-    @apply text-positive-600 bg-negative-700;
+    @apply text-xs rounded;
+    @apply bg-negative-700;
 
     &.w-sm {
       padding: theme('spacing[1]') theme('spacing[2]');

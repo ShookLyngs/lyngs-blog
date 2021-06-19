@@ -1,6 +1,7 @@
 <template>
   <!-- Logo -->
   <div class="py-3 relative flex justify-center md:hidden">
+    <div class="header__background" :style="backgroundStyle" />
     <router-link to="/">
       <img class="h-12 select-none" src="@/assets/images/logo.svg" alt="logo">
     </router-link>
@@ -29,9 +30,10 @@
         </div>
 
         <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="onTabUpdate">
+          <tab to="/resume" value="resume">首页</tab>
           <tab to="/articles" value="articles" :values="['articles', 'article-view', 'article-post']">文章</tab>
-          <tab to="/memos" value="memos">想法</tab>
-          <tab to="/tools" value="tools">工具</tab>
+          <!--<tab to="/memos" value="memos">想法</tab>-->
+          <!--<tab to="/tools" value="tools">工具</tab>-->
         </tabs>
 
         <!-- Navigation -->
@@ -108,7 +110,7 @@
       watchEffect(() => (currentTab.value = route.name));
 
       // Show header parts
-      const isShowHeaderActions = ref(true);
+      const isShowHeaderActions = ref(false);
 
       // Add properties into layout state
       const layoutState = useLayoutState();
@@ -116,10 +118,10 @@
       layoutState.isShowHeaderActions = isShowHeaderActions;
 
       // Background opacity, changes while page scrolls
-      const fadeDistance = 200;
+      const fadeDistance = 70;
       const backgroundStyle = computed(() => {
         const scrollTop = layoutState.scrollTop;
-        return `opacity: ${scrollTop >= fadeDistance ? 0.7 : (scrollTop / fadeDistance) * 0.7}`;
+        return `opacity: ${scrollTop >= fadeDistance ? 0.9 : (scrollTop / fadeDistance) * 0.9}`;
       });
 
       return {
@@ -139,15 +141,15 @@
   .header {
     @apply flex-static flex flex-col;
 
-    &__background {
-      @apply absolute left-0 right-0 top-0 bottom-0 bg-negative-900;
-    }
     &__main {
       @apply h-full flex-auto flex flex-col justify-center items-center;
       min-height: 70px;
-
       backdrop-filter: saturate(180%) blur(20px);
       box-shadow: 0 1px 0 theme('colors.negative-600');
     }
+  }
+
+  .header__background {
+    @apply absolute left-0 right-0 top-0 bottom-0 bg-negative-900;
   }
 </style>
