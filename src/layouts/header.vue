@@ -32,7 +32,7 @@
         <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="onTabUpdate">
           <tab to="/resume" value="resume">首页</tab>
           <tab to="/articles" value="articles" :values="['articles', 'article-view', 'article-post']">文章</tab>
-          <!--<tab to="/memos" value="memos">想法</tab>-->
+          <tab to="/memos" value="memos">想法</tab>
           <!--<tab to="/tools" value="tools">工具</tab>-->
         </tabs>
 
@@ -100,7 +100,7 @@
     },
     setup() {
       // Current tab
-      const currentTab = ref(null);
+      const currentTab = ref();
       function onTabUpdate(current) {
         currentTab.value = current;
       }
