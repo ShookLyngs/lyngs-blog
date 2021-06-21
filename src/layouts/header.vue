@@ -69,6 +69,10 @@
         </div>
       </div>
     </div>
+
+    <slot-detector>
+      <div id="header-replace-slot" />
+    </slot-detector>
   </div>
 </template>
 
@@ -82,6 +86,7 @@
   import Tab from '@/components/tab.vue';
   import Collapse from '@/components/collapse';
   import Ripple from '@/components/ripple.vue';
+  import SlotDetector from '@/components/slot-detector.vue';
   import { Dropdown, DropdownMenu, DropdownItem } from '@/components/dropdown';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
@@ -94,6 +99,7 @@
       Tab,
       Collapse,
       Ripple,
+      SlotDetector,
       Dropdown,
       DropdownMenu,
       DropdownItem,

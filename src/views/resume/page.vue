@@ -1,5 +1,9 @@
 <template>
   <div>
+    <teleport :disabled="true" to="#header-replace-slot">
+      <span>replaced header</span>
+    </teleport>
+
     <container content-class="!py-20">
       <div class="flex items-center">
         <imager
@@ -230,9 +234,13 @@
         currentTab.value = current;
       }
 
+      const replaceHeader = ref(false);
+      setTimeout(() => replaceHeader.value = true, 2000);
+
       return {
         currentTab,
         onTabUpdate,
+        replaceHeader,
 
         avatarImage,
       };
