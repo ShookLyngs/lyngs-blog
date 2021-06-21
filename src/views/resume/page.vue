@@ -1,6 +1,6 @@
 <template>
   <div>
-    <container content-class="!pt-20">
+    <container content-class="!py-20">
       <div class="flex items-center">
         <imager
           class="w-16 h-16 md:w-24 md:h-24 flex-static rounded-full overflow-hidden"
@@ -21,29 +21,30 @@
           <span class="text-positive-100">。</span>
         </div>
       </div>
-
-      <div class="mt-20 h-14 flex">
-        <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="onTabUpdate">
-          <tab value="resume">关于我</tab>
-          <tab value="articles">提供 Offer</tab>
-        </tabs>
-
-        <div class="flex-static flex items-center">
-          <a href="javascript:;">
-            <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
-          </a>
-          <a href="javascript:;">
-            <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
-          </a>
-          <a href="javascript:;">
-            <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
-          </a>
-        </div>
-      </div>
-
     </container>
 
-    <div class="w-full h-px bg-negative-500" />
+    <div class="tabs !sticky top-0 left-0 z-40 bg-negative-800">
+      <container content-class="!pt-0">
+        <div class="h-[70px] flex">
+          <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="onTabUpdate">
+            <tab value="resume">关于我</tab>
+            <tab value="articles">提供 Offer</tab>
+          </tabs>
+
+          <div class="flex-static flex items-center">
+            <a href="javascript:;">
+              <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
+            </a>
+            <a href="javascript:;">
+              <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
+            </a>
+            <a href="javascript:;">
+              <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
+            </a>
+          </div>
+        </div>
+      </container>
+    </div>
 
     <container content-class="!py-20">
       <div class="mb-4 flex justify-between items-center">
@@ -239,6 +240,8 @@
   };
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+  .tabs {
+    box-shadow: 0 1px 0 theme('colors.negative-600');
+  }
 </style>
