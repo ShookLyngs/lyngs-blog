@@ -70,9 +70,7 @@
       </div>
     </div>
 
-    <slot-detector>
-      <div id="header-replace-slot" />
-    </slot-detector>
+    <teleport-detector id="header-replace-slot" />
   </div>
 </template>
 
@@ -86,7 +84,7 @@
   import Tab from '@/components/tab.vue';
   import Collapse from '@/components/collapse';
   import Ripple from '@/components/ripple.vue';
-  import SlotDetector from '@/components/slot-detector.vue';
+  import TeleportDetector from '@/components/teleport-detector.vue';
   import { Dropdown, DropdownMenu, DropdownItem } from '@/components/dropdown';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
@@ -99,7 +97,7 @@
       Tab,
       Collapse,
       Ripple,
-      SlotDetector,
+      TeleportDetector,
       Dropdown,
       DropdownMenu,
       DropdownItem,
