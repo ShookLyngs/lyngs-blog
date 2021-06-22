@@ -55,7 +55,7 @@
                 background
                 :lazy="false"
                 :transition="false"
-                class="rounded-full overflow-hidden flex-static ml-2.5 w-10 h-10 text-positive-500 bg-negative-500"
+                class="rounded-full overflow-hidden flex-static ml-2.5 w-9 h-9 text-positive-500 bg-negative-500"
                 :src="avatarImage"
               />
 
@@ -72,12 +72,11 @@
       </div>
     </div>
 
-    <div class="header__main">
-      <teleport-detector
-        id="header-replace-slot"
-        @update="onReplaceTeleportUpdate"
-      />
-    </div>
+    <teleport-detector
+      class="header__main"
+      id="header-replace-slot"
+      @update="onReplaceTeleportUpdate"
+    />
   </div>
 </template>
 

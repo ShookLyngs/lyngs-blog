@@ -25,7 +25,7 @@
 
     <div ref="replaceHeaderContent" class="h-[70px] tabs">
       <teleport :disabled="!isReplaceHeader" to="#header-replace-slot">
-        <container content-class="!pt-0">
+        <container class="w-full" content-class="!pt-0">
           <div class="h-[70px] flex">
             <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="onTabUpdate">
               <tab value="resume">关于我</tab>
