@@ -233,14 +233,16 @@
         currentTab.value = current;
       }
 
+      // Shared layout state, stores scrollTop and stuffs.
       const layoutState = useLayoutState();
 
+      // replacement content,
+      // replace header default content if page content was covered.
       const replaceHeaderContent = ref();
       const isReplaceHeader = ref(false);
       watch(() => layoutState.scrollTop, () => {
         const content = replaceHeaderContent.value;
         if (!content) isReplaceHeader.value = false;
-
         const rect = content.getBoundingClientRect();
         isReplaceHeader.value = rect.y + rect.height < 70;
       });

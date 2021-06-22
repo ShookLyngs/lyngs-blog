@@ -110,17 +110,17 @@
       DropdownItem,
     },
     setup() {
-      // Current tab
+      // Current tab.
       const currentTab = ref();
       function onTabUpdate(current) {
         currentTab.value = current;
       }
 
-      // Watch changes of current tab
+      // Watch changes of current tab.
       const route = useRoute();
       watchEffect(() => (currentTab.value = route.name));
 
-      // Show header parts
+      // Show header parts.
       const isShowHeaderActions = ref(false);
 
       // Add properties into layout state
@@ -128,13 +128,14 @@
       layoutState.currentTab = currentTab;
       layoutState.isShowHeaderActions = isShowHeaderActions;
 
-      // Background opacity, changes while page scrolls
+      // Background opacity, changes while page scrolls.
       const fadeDistance = 70;
       const backgroundStyle = computed(() => {
         const scrollTop = layoutState.scrollTop;
         return `opacity: ${scrollTop >= fadeDistance ? 0.9 : (scrollTop / fadeDistance) * 0.9}`;
       });
 
+      // When scrollTop updated, check if can show the replacement content.
       const showReplacedContent = ref(false);
       const mainContentClass = computed(() => showReplacedContent.value ? 'is-slide-top' : '');
       function onReplaceTeleportUpdate(children) {
