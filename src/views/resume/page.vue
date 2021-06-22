@@ -23,30 +23,28 @@
       </div>
     </container>
 
-    <div class="h-[70px]">
-      <teleport :disabled="!replaceHeader" to="#header-replace-slot">
-        <div class="tabs !sticky top-0 left-0 z-40 bg-negative-800">
-          <container content-class="!pt-0">
-            <div class="h-[70px] flex">
-              <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="onTabUpdate">
-                <tab value="resume">关于我</tab>
-                <tab value="articles">提供 Offer</tab>
-              </tabs>
+    <div ref="replaceHeaderContent" class="h-[70px] tabs">
+      <teleport :disabled="!isReplaceHeader" to="#header-replace-slot">
+        <container content-class="!pt-0">
+          <div class="h-[70px] flex">
+            <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="onTabUpdate">
+              <tab value="resume">关于我</tab>
+              <tab value="articles">提供 Offer</tab>
+            </tabs>
 
-              <div class="flex-static flex items-center">
-                <a href="javascript:;">
-                  <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
-                </a>
-                <a href="javascript:;">
-                  <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
-                </a>
-                <a href="javascript:;">
-                  <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
-                </a>
-              </div>
+            <div class="flex-static flex items-center">
+              <a href="javascript:;">
+                <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
+              </a>
+              <a href="javascript:;">
+                <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
+              </a>
+              <a href="javascript:;">
+                <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
+              </a>
             </div>
-          </container>
-        </div>
+          </div>
+        </container>
       </teleport>
     </div>
 
@@ -217,7 +215,8 @@
   import Repositories from './repositories.vue';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
-  import { ref } from 'vue';
+  import { computed, ref, watch } from 'vue';
+  import { useLayoutState } from '@/hooks/use-layout-state';
 
   export default {
     name: 'resume-page',
@@ -234,13 +233,24 @@
         currentTab.value = current;
       }
 
-      const replaceHeader = ref(false);
-      setTimeout(() => replaceHeader.value = true, 2000);
+      const layoutState = useLayoutState();
+
+      const replaceHeaderContent = ref();
+      const isReplaceHeader = ref(false);
+      watch(() => layoutState.scrollTop, () => {
+        const content = replaceHeaderContent.value;
+        if (!content) isReplaceHeader.value = false;
+
+        const rect = content.getBoundingClientRect();
+        isReplaceHeader.value = rect.y + rect.height < 70;
+      });
 
       return {
         currentTab,
         onTabUpdate,
-        replaceHeader,
+
+        replaceHeaderContent,
+        isReplaceHeader,
 
         avatarImage,
       };

@@ -1,6 +1,8 @@
 <template>
   <div ref="detector" :id="id">
-    <slot />
+    <transition name="fade-fast">
+      <slot />
+    </transition>
   </div>
 </template>
 

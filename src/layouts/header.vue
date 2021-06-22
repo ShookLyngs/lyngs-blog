@@ -8,11 +8,13 @@
   </div>
 
   <div class="header z-30 sticky top-0 left-0 right-0">
+    <!-- Backdrop filter -->
+    <div class="header__filter" />
     <!-- Background -->
     <div class="header__background" :style="backgroundStyle" />
 
     <!-- Main -->
-    <div class="header__main">
+    <div class="header__main" :class="mainContentClass">
       <div class="px-3.5 flex w-full h-full md:px-0 md:content">
         <!-- LOGO -->
         <div class="hidden md:flex flex items-center justify-center md:justify-start md:md-0 md:mr-6">
@@ -70,7 +72,12 @@
       </div>
     </div>
 
-    <teleport-detector id="header-replace-slot" />
+    <div class="header__main">
+      <teleport-detector
+        id="header-replace-slot"
+        @update="onReplaceTeleportUpdate"
+      />
+    </div>
   </div>
 </template>
 
@@ -128,11 +135,21 @@
         return `opacity: ${scrollTop >= fadeDistance ? 0.9 : (scrollTop / fadeDistance) * 0.9}`;
       });
 
+      const showReplacedContent = ref(false);
+      const mainContentClass = computed(() => showReplacedContent.value ? 'is-slide-top' : '');
+      function onReplaceTeleportUpdate(children) {
+        showReplacedContent.value = children.length;
+      }
+
       return {
         currentTab,
         onTabUpdate,
         isShowHeaderActions,
         backgroundStyle,
+
+        showReplacedContent,
+        mainContentClass,
+        onReplaceTeleportUpdate,
 
         avatarImage,
         articlesImage,
@@ -143,16 +160,26 @@
 
 <style lang="less" scoped>
   .header {
-    @apply flex-static flex flex-col;
+    @apply flex-static flex flex-col overflow-hidden;
+    height: 70px;
+    box-shadow: 0 1px 0 theme('colors.negative-600');
 
     &__main {
-      @apply h-full flex-auto flex flex-col justify-center items-center;
-      min-height: 70px;
-      backdrop-filter: saturate(180%) blur(20px);
-      box-shadow: 0 1px 0 theme('colors.negative-600');
+      @apply h-full flex-static flex flex-col justify-center items-center;
+      @apply transition-all duration-500;
+      height: 70px;
+
+      &.is-slide-top {
+        @apply opacity-0;
+        margin-top: -70px;
+      }
     }
   }
 
+  .header__filter {
+    @apply absolute left-0 right-0 top-0 bottom-0;
+    backdrop-filter: saturate(180%) blur(20px);
+  }
   .header__background {
     @apply absolute left-0 right-0 top-0 bottom-0 bg-negative-900;
   }
