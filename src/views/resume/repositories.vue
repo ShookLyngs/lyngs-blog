@@ -1,27 +1,40 @@
 <template>
-  <collapse show>
-    <div class="relative" v-loading="loading">
-      <transition name="fade" mode="out-in">
-        <empty type="large" v-if="!repositories.length" />
-        <div class="repository-wrapper flex flex-wrap" v-else>
-          <div
-            class="repository-item"
-            v-for="item in repositories"
-            :key="item?.id"
-          >
-            <div class="body h-full flex flex-col bg-negative-900 border border-negative-600">
-              <div class="font-bold truncate text-positive-900">{{ item?.name }}</div>
-              <div class="mt-2 flex-auto text-sm truncate-3 text-positive-500">{{ item?.description ?? '' }}</div>
-              <div class="mt-4 inline-flex items-center text-positive-300">
-                <icon name="icon-more" />
-                <span class="ml-2 text-xs truncate">2021-11-02 16:02</span>
+  <container content-class="!py-20">
+    <resume-section-header
+      title="我的仓库"
+      description="我通常将项目文件保存在 Github。"
+    >
+      <template #actions>
+        <a href="javascript:;">
+          <imager class="w-7 h-7 rounded-full overflow-hidden bg-negative-600" />
+        </a>
+        <icon name="icon-arrow-right" />
+      </template>
+    </resume-section-header>
+    <collapse show>
+      <div class="relative" v-loading="loading">
+        <transition name="fade" mode="out-in">
+          <empty type="large" v-if="!repositories.length" />
+          <div class="repository-wrapper flex flex-wrap" v-else>
+            <div
+              class="repository-item"
+              v-for="item in repositories"
+              :key="item?.id"
+            >
+              <div class="body h-full flex flex-col bg-negative-900 border border-negative-600">
+                <div class="font-bold truncate text-positive-900">{{ item?.name }}</div>
+                <div class="mt-2 flex-auto text-sm truncate-3 text-positive-500">{{ item?.description ?? '' }}</div>
+                <div class="mt-4 inline-flex items-center text-positive-300">
+                  <icon name="icon-more" />
+                  <span class="ml-2 text-xs truncate">2021-11-02 16:02</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </transition>
-    </div>
-  </collapse>
+        </transition>
+      </div>
+    </collapse>
+  </container>
 </template>
 
 <script>
@@ -30,11 +43,13 @@
   import { getRepositories } from '@/modules/api/requests/github';
   // Components
   import Collapse from '@/components/collapse';
+  import ResumeSectionHeader from './section-header.vue';
 
   export default {
     name: 'resume-repositories',
     components: {
       Collapse,
+      ResumeSectionHeader,
     },
     setup() {
       const loading = ref(false);
