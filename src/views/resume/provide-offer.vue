@@ -2,7 +2,7 @@
   <div class="py-20 bg-negative-700">
     <container content-class="!pt-0">
       <resume-section-header
-        title="提供 Offer"
+        title="联系"
         description="如果你想要提供给我内推的机会，请先阅读我的应聘信息。"
       >
         <template #actions>

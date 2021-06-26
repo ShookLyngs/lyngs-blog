@@ -1,8 +1,8 @@
 <template>
   <container content-class="!py-20">
     <resume-section-header
-      title="我的仓库"
-      description="我通常将项目文件保存在 Github。"
+      title="项目"
+      description="我的 Github 仓库快照，每小时更新。"
     >
       <template #actions>
         <a href="javascript:;">
@@ -12,7 +12,7 @@
       </template>
     </resume-section-header>
     <collapse show>
-      <div class="relative" v-loading="loading">
+      <div class="relative pb-6" v-loading="loading">
         <transition name="fade" mode="out-in">
           <empty type="large" v-if="!repositories.length" />
           <div class="repository-wrapper flex flex-wrap" v-else>
@@ -60,7 +60,7 @@
         try {
           loading.value = true;
           const { data } = await getRepositories();
-          repositories.value = data ?? [];
+          repositories.value = (data ?? []).slice(0, 6);
         } finally {
           loading.value = false;
         }
@@ -89,7 +89,7 @@
     margin-right: calc(theme('spacing[3]') / 2 * -1);
   }
   .repository-item {
-    @apply mt-4 rounded cursor-pointer hover:shadow-xl;
+    @apply mt-4 rounded cursor-pointer;
     margin-left: calc(theme('spacing[3]') / 2);
     margin-right: calc(theme('spacing[3]') / 2);
     width: calc(33.33% - theme('spacing[3]'));

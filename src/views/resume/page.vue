@@ -31,8 +31,11 @@
         <container class="w-full" content-class="!pt-0">
           <div class="h-[70px] flex">
             <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="onTabUpdate">
-              <tab value="resume">关于我</tab>
-              <tab value="articles">提供 Offer</tab>
+              <tab value="resume">介绍</tab>
+              <tab value="repositories">项目</tab>
+              <tab value="articles">文章</tab>
+              <tab value="memos">想法</tab>
+              <tab value="offer">联系</tab>
             </tabs>
 
             <div class="flex-static flex items-center">
@@ -51,6 +54,9 @@
       </teleport>
     </div>
 
+    <!-- Description -->
+    <description />
+
     <!-- My repositories -->
     <repositories />
 
@@ -60,21 +66,24 @@
 </template>
 
 <script>
+  // Functions
+  import { ref, watch } from 'vue';
+  import { useLayoutState } from '@/hooks/use-layout-state';
   // Components
   import Tabs from '@/components/tabs.vue';
   import Tab from '@/components/tab.vue';
+  import Description from './description.vue';
   import Repositories from './repositories.vue';
   import ProvideOffer from './provide-offer.vue';
   // Resources
   import avatarImage from '@/assets/images/avatar.jpg';
-  import { ref, watch } from 'vue';
-  import { useLayoutState } from '@/hooks/use-layout-state';
 
   export default {
     name: 'resume-page',
     components: {
       Tabs,
       Tab,
+      Description,
       Repositories,
       ProvideOffer,
     },
