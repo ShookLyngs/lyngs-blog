@@ -10,11 +10,11 @@
 </template>
 
 <script>
-  import ResumeSectionHeader from './section-header.vue';
   import { defineAsyncComponent } from 'vue';
+  import ResumeSectionHeader from './section-header.vue';
 
   export default {
-    name: 'description',
+    name: 'resume-description',
     components: {
       ResumeSectionHeader,
       MarkdownRenderer: defineAsyncComponent(() => import('@/components/markdown-renderer')),

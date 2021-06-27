@@ -88,7 +88,7 @@
 <script>
   import ResumeSectionHeader from './section-header.vue';
   export default {
-    name: 'provide-offer',
+    name: 'resume-provide-offer',
     components: {
       ResumeSectionHeader,
     },
