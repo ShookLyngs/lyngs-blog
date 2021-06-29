@@ -58,6 +58,9 @@
     <description />
 
     <!-- My repositories -->
+    <articles />
+
+    <!-- My repositories -->
     <repositories />
 
     <!-- Provide Offer -->
@@ -73,6 +76,7 @@
   import Tabs from '@/components/tabs.vue';
   import Tab from '@/components/tab.vue';
   import Description from './description.vue';
+  import Articles from './articles.vue';
   import Repositories from './repositories.vue';
   import ProvideOffer from './provide-offer.vue';
   // Resources
@@ -84,6 +88,7 @@
       Tabs,
       Tab,
       Description,
+      Articles,
       Repositories,
       ProvideOffer,
     },
