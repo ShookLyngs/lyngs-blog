@@ -1,8 +1,8 @@
 <template>
-  <container content-class="!py-20">
+  <container class="bg-negative-700" content-class="!py-20">
     <resume-section-header
       title="项目"
-      description="我的 Github 仓库快照，每小时更新。"
+      description="我开发的项目，更多请到 Github 查看。"
     >
       <template #actions>
         <a href="javascript:;">

@@ -1,8 +1,8 @@
 <template>
   <container content-class="!py-20">
     <resume-section-header
-      title="介绍"
-      description="谈谈我感兴趣的技术方向。"
+      title="关于"
+      description="聊聊我和我的工作。"
     />
 
     <markdown-renderer :content="content" />
@@ -21,16 +21,23 @@
     },
     setup() {
       const content = `
-在工作中，我接触得比较多、也用的比较熟练的技术栈是 \`Vue.js\` 和 \`Flutter\`。
-在使用这些框架时，我能够更熟练地进行前端开发的工作。
+![header](/src/assets/images/article/articles.jpg)
 
-而在业余时间里没了约束，我便更喜欢接触流行、新颖的技术，比如 \`React.js\`、\`TypeScript\`、\`TailwindCSS\`、\`Vite\`。
+### 开发
+作为一名前端工程师，大多数时候我和网页打交道。
+
+我会用 \`Vue.js\`、\`React.js\`，也懂得使用 \`TypeScript\`、\`TailwindCSS\`、\`Vite\` 等主流的技术。
+由于公司业务需要，我用 \`Flutter\`、\`UniApp\` 开发过不少交易相关的APP。
+
+可以说在前端应用这方面，无论是 Web 或者 APP，我都可以胜任开发。
+
+### 开源
+由于在工作中没有太多机会接触像 \`TypeScript\` 这样对项目影响比较大的技术，所以业余时间针对想要学的技术进行一定量的练习是很有必要的。
 
 通常为了练习，我喜欢用新学的技术来造轮子。比如，我曾用 \`TypeScript\` 写过一些能够同时支持 Vue 和 React 的颜色管理库：
 [@lyngs/themer](https://github.com/ShookLyngs/themer)。
 
-这些名不见经传的开源项目，通常能够让我学到很多工作中没机会用的新东西，所以我总是不会排斥造轮子。
-毕竟这是我成长的主要手段。
+这些项目名不见经传，我也并非有意维护，只是这作为我主要的成长方式，实在是对我的成长有很大的帮助。
 `;
       return {
         content,

@@ -25,19 +25,19 @@
     </container>
 
     <!-- Secondary header -->
-    <!-- Will replace the default header since secondary header has covered by the default -->
+    <!-- Will replace the default header when it scroll to be covered by the default -->
     <div ref="replaceHeaderContent" class="h-[70px] tabs">
       <teleport :disabled="!isReplaceHeader" to="#header-replace-slot">
         <container class="w-full" content-class="!pt-0">
           <div class="h-[70px] flex">
-            <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="onTabUpdate">
-              <tab value="resume">介绍</tab>
+            <!-- Tabs -->
+            <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="updateTab">
+              <tab value="description">关于</tab>
               <tab value="repositories">项目</tab>
-              <tab value="articles">文章</tab>
-              <tab value="memos">想法</tab>
               <tab value="offer">联系</tab>
             </tabs>
 
+            <!-- Actions -->
             <div class="flex-static flex items-center">
               <a href="javascript:;">
                 <imager class="w-7 h-7 ml-2 rounded-full overflow-hidden bg-negative-600" />
@@ -55,16 +55,20 @@
     </div>
 
     <!-- Description -->
-    <description />
+    <range-observer @update="onUpdateTab('description', $event)" @leave="onLeaveTab('description')">
+      <description />
+    </range-observer>
 
     <!-- My repositories -->
-    <articles />
-
-    <!-- My repositories -->
-    <repositories />
+    <range-observer @update="onUpdateTab('repositories', $event)" @leave="onLeaveTab('repositories')">
+      <repositories />
+    </range-observer>
 
     <!-- Provide Offer -->
-    <provide-offer />
+    <range-observer @update="onUpdateTab('offer', $event)" @leave="onLeaveTab('offer')">
+      <provide-offer />
+    </range-observer>
+
   </div>
 </template>
 
@@ -75,8 +79,8 @@
   // Components
   import Tabs from '@/components/tabs.vue';
   import Tab from '@/components/tab.vue';
+  import RangeObserver from '@/components/range-observer.vue';
   import Description from './description.vue';
-  import Articles from './articles.vue';
   import Repositories from './repositories.vue';
   import ProvideOffer from './provide-offer.vue';
   // Resources
@@ -87,16 +91,41 @@
     components: {
       Tabs,
       Tab,
+      RangeObserver,
       Description,
-      Articles,
       Repositories,
       ProvideOffer,
     },
     setup() {
-      // Current tab
-      const currentTab = ref();
-      function onTabUpdate(current) {
+      // Secondary tabs
+      const currentTab = ref('description');
+      function updateTab(current) {
         currentTab.value = current;
+      }
+
+      const tabRects = {};
+      function onUpdateTab(name, { top }) {
+        tabRects[name] = top;
+        updateActiveTab();
+      }
+      function onLeaveTab(name) {
+        tabRects[name] = Infinity;
+        updateActiveTab();
+      }
+      function updateActiveTab() {
+        let value = '';
+        let rect = Infinity;
+        for (const key in tabRects) {
+          const currentRect = tabRects[key];
+          if (value === key) {
+            rect = currentRect;
+          } else if (currentRect <= rect) {
+            value = key;
+            rect = currentRect;
+          }
+        }
+
+        updateTab(value);
       }
 
       // Shared layout state, stores scrollTop and stuffs.
@@ -115,7 +144,9 @@
 
       return {
         currentTab,
-        onTabUpdate,
+        updateTab,
+        onUpdateTab,
+        onLeaveTab,
 
         replaceHeaderContent,
         isReplaceHeader,
