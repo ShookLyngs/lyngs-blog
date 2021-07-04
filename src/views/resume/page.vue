@@ -4,6 +4,7 @@
     <container content-class="!py-20">
       <div class="flex items-center">
         <imager
+          transition
           class="w-16 h-16 md:w-24 md:h-24 flex-static rounded-full overflow-hidden"
           :src="avatarImage"
         />
@@ -32,9 +33,9 @@
           <div class="h-[70px] flex">
             <!-- Tabs -->
             <tabs class="flex flex-auto h-full" :current="currentTab" @upadte="updateTab">
-              <tab value="description">关于</tab>
-              <tab value="repositories">项目</tab>
-              <tab value="offer">联系</tab>
+              <tab value="description" @click="onClickTab('description')">关于</tab>
+              <tab value="repositories" @click="onClickTab('repositories')">项目</tab>
+              <tab value="offer" @click="onClickTab('offer')">联系</tab>
             </tabs>
 
             <!-- Actions -->
@@ -56,17 +57,17 @@
 
     <!-- Description -->
     <range-observer @update="onUpdateTab('description', $event)" @leave="onLeaveTab('description')">
-      <description />
+      <description ref="descriptionRef" />
     </range-observer>
 
     <!-- My repositories -->
     <range-observer @update="onUpdateTab('repositories', $event)" @leave="onLeaveTab('repositories')">
-      <repositories />
+      <repositories ref="repositoriesRef" />
     </range-observer>
 
     <!-- Provide Offer -->
     <range-observer @update="onUpdateTab('offer', $event)" @leave="onLeaveTab('offer')">
-      <provide-offer />
+      <provide-offer ref="offerRef" />
     </range-observer>
 
   </div>
@@ -74,8 +75,9 @@
 
 <script>
   // Functions
-  import { ref, watch } from 'vue';
-  import { useLayoutState } from '@/hooks/use-layout-state';
+  import { onBeforeUnmount, ref } from 'vue';
+  import { findDomNode } from '@/assets/util/dom';
+  import { useScrollbar } from '@/components/scrollbar';
   // Components
   import Tabs from '@/components/tabs.vue';
   import Tab from '@/components/tab.vue';
@@ -97,12 +99,13 @@
       ProvideOffer,
     },
     setup() {
-      // Secondary tabs
+      // Secondary tabs.
       const currentTab = ref('description');
       function updateTab(current) {
         currentTab.value = current;
       }
 
+      // Update active tab when scrolling.
       const tabRects = {};
       function onUpdateTab(name, { top }) {
         tabRects[name] = top;
@@ -114,12 +117,12 @@
       }
       function updateActiveTab() {
         let value = '';
-        let rect = Infinity;
+        let rect = null;
         for (const key in tabRects) {
           const currentRect = tabRects[key];
           if (value === key) {
             rect = currentRect;
-          } else if (currentRect <= rect) {
+          } else if (rect === null || currentRect <= rect) {
             value = key;
             rect = currentRect;
           }
@@ -128,25 +131,60 @@
         updateTab(value);
       }
 
-      // Shared layout state, stores scrollTop and stuffs.
-      const layoutState = useLayoutState();
+      // Use global shared scrollbar state,
+      // and takes out its useful functions.
+      const { scrollTo, onScroll, removeOnScroll, getWrapSizes } = useScrollbar();
+
+      // When clicked the tab button,
+      // check and scroll to the position where that tab's content at.
+      const descriptionRef = ref();
+      const repositoriesRef = ref();
+      const offerRef = ref();
+      function onClickTab(tabName) {
+        let dom;
+        switch (tabName) {
+          case 'description':
+            dom = findDomNode(descriptionRef.value);
+            break;
+          case 'repositories':
+            dom = findDomNode(repositoriesRef.value);
+            break;
+          case 'offer':
+            dom = findDomNode(offerRef.value);
+            break;
+        }
+
+        if (dom) {
+          const { scrollTop } = getWrapSizes();
+          const { top } = dom.getBoundingClientRect();
+          scrollTo(0, (scrollTop + top - 70).toFixed(0));
+        }
+      }
 
       // replacement content,
       // replace header default content if page content was covered.
       const replaceHeaderContent = ref();
       const isReplaceHeader = ref(false);
-      watch(() => layoutState.scrollTop, () => {
+      function onWrapperScroll() {
         const content = replaceHeaderContent.value;
-        if (!content) isReplaceHeader.value = false;
-        const rect = content.getBoundingClientRect();
-        isReplaceHeader.value = rect.y + rect.height < 70;
-      });
+        if (!content) return (isReplaceHeader.value = false);
+
+        const { bottom } = content.getBoundingClientRect();
+        isReplaceHeader.value = bottom.toFixed(0) <= 70;
+      }
+      onScroll(onWrapperScroll);
+      onBeforeUnmount(() => removeOnScroll(onWrapperScroll));
 
       return {
         currentTab,
         updateTab,
         onUpdateTab,
         onLeaveTab,
+
+        descriptionRef,
+        repositoriesRef,
+        offerRef,
+        onClickTab,
 
         replaceHeaderContent,
         isReplaceHeader,

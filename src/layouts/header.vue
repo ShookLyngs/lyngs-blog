@@ -35,7 +35,6 @@
           <tab to="/resume" value="resume">首页</tab>
           <tab to="/articles" value="articles" :values="['articles', 'article-view', 'article-post']">文章</tab>
           <tab to="/memos" value="memos">想法</tab>
-          <!--<tab to="/tools" value="tools">工具</tab>-->
         </tabs>
 
         <!-- Navigation -->
