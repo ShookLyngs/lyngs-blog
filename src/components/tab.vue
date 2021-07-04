@@ -36,7 +36,8 @@
         default: false,
       },
     },
-    setup(props) {
+    emits: [ 'click' ],
+    setup(props, { emit }) {
       const tab = ref();
 
       const { list, state, remove } = useListItem({
@@ -63,6 +64,7 @@
       function onClickTab() {
         if (!props.disabled) {
           state.current = props.value;
+          emit('click', props.value);
         }
       }
 
