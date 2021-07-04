@@ -1,5 +1,5 @@
 import { createPopper } from '@popperjs/core';
-import { findDOMNode } from '@/assets/util/dom';
+import { findDomNode } from '@/assets/util/dom';
 import { watch, nextTick, onBeforeUnmount } from 'vue';
 
 const handleOffset = (offset, ...params) => {
@@ -43,8 +43,8 @@ const usePopper = ({ target, popper, props }) => {
     };
 
     instance = createPopper(
-      findDOMNode(target.value),
-      findDOMNode(popper.value),
+      findDomNode(target.value),
+      findDomNode(popper.value),
       options
     );
   };
@@ -61,7 +61,7 @@ const usePopper = ({ target, popper, props }) => {
 
         // Only rebind popper when target and popper both exists
         nextTick(() => {
-          if (findDOMNode(target.value) && findDOMNode(popper.value)) {
+          if (findDomNode(target.value) && findDomNode(popper.value)) {
             rebindPopper(props);
           }
         });

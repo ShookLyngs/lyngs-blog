@@ -4,7 +4,7 @@
 
 <script>
   import Observer from 'resize-observer-polyfill';
-  import { findDOMNode } from '@/assets/util/dom';
+  import { findDomNode } from '@/assets/util/dom';
 
   export default {
     name: 'ls-resize-observer',
@@ -30,7 +30,7 @@
           return;
         }
 
-        const element = findDOMNode(this);
+        const element = findDomNode(this);
 
         if (element !== this.currentElement) {
           this.destroyObserver();

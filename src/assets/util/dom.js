@@ -5,7 +5,7 @@
  * @param instance - vue-instance/vue-ref
  * @returns {*}
  */
-export function findDOMNode(instance) {
+export function findDomNode(instance) {
   let node = instance && (instance.$el || instance);
   while (node && !node.tagName) {
     node = node.nextSibling;
