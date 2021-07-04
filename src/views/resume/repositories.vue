@@ -89,7 +89,8 @@
     margin-right: calc(theme('spacing[3]') / 2 * -1);
   }
   .repository-item {
-    @apply mt-4 rounded cursor-pointer;
+    @apply mt-4 rounded cursor-pointer transform;
+    @apply transition duration-300 hover:-translate-y-1 hover:shadow-lg;
     margin-left: calc(theme('spacing[3]') / 2);
     margin-right: calc(theme('spacing[3]') / 2);
     width: calc(33.33% - theme('spacing[3]'));
