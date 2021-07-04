@@ -139,6 +139,7 @@
       function scrollTo(x, y) {
         if (wrap.value) {
           wrap.value.scrollTo(x, y);
+          onWrapScroll();
         }
       }
 
