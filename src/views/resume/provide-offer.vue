@@ -1,5 +1,5 @@
 <template>
-  <div class="py-20">
+  <div class="py-20 md:py-28">
     <container content-class="!pt-0">
       <resume-section-header
         title="联系"

@@ -1,12 +1,14 @@
 <template>
-  <container content-class="!py-20">
-    <resume-section-header
-      title="关于"
-      description="聊聊我和我的工作。"
-    />
+  <div class="py-20 md:py-28">
+    <container content-class="!pt-0">
+      <resume-section-header
+        title="关于"
+        description="聊聊我和我的工作。"
+      />
 
-    <markdown-renderer :content="content" />
-  </container>
+      <markdown-renderer :content="content" />
+    </container>
+  </div>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Introduce -->
-    <container content-class="!py-20">
+    <container content-class="!pt-28 pb-20">
       <div class="flex items-center">
         <imager
           transition
