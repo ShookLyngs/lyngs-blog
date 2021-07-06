@@ -12,6 +12,7 @@
           <icon name="icon-arrow-right" />
         </template>
       </resume-section-header>
+
       <collapse show>
         <div class="relative pb-6" v-loading="loading">
           <transition name="fade" mode="out-in">
@@ -23,8 +24,12 @@
                 :key="item?.id"
               >
                 <div class="body h-full flex flex-col bg-negative-900">
-                  <div class="font-bold truncate text-positive-900">{{ item?.name }}</div>
-                  <div class="mt-2 flex-auto text-sm truncate-3 text-positive-500">{{ item?.description ?? '' }}</div>
+                  <div class="font-bold truncate text-positive-900">
+                    {{ item?.name }}
+                  </div>
+                  <div class="mt-2 flex-auto text-sm truncate-3 text-positive-500">
+                    {{ item?.description ?? '' }}
+                  </div>
                   <div class="mt-4 inline-flex items-center text-positive-300">
                     <icon name="icon-more" />
                     <span class="ml-2 text-xs truncate">2021-11-02 16:02</span>
@@ -94,8 +99,11 @@
     }
     // Normally on the smallest screen, item takes full width.
     &-item {
-      @apply mt-4 w-full cursor-pointer transform;
+      @apply mt-4 cursor-pointer transform;
       @apply transition duration-300 hover:-translate-y-1 hover:shadow-lg;
+      width: calc(50% - theme('spacing[3]'));
+      margin-left: calc(theme('spacing[3]') / 2);
+      margin-right: calc(theme('spacing[3]') / 2);
 
       // When the screen size reached to `md`,
       // there can have maximum size of 3 items in 1 row.

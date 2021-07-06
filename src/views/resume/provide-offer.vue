@@ -6,27 +6,29 @@
         description="如果你想要提供给我内推的机会，请先阅读我的应聘信息。"
       >
         <template #actions>
-          <span class="mr-1">联系我</span>
+          <a href="javascript:;">
+            <imager class="w-7 h-7 rounded-full overflow-hidden bg-negative-600" />
+          </a>
           <icon name="icon-arrow-right" />
         </template>
       </resume-section-header>
 
-      <div class="mt-8 flex">
-        <div class="mr-3 body flex-1 flex items-center bg-negative-900">
+      <div class="mt-8 md:flex">
+        <div class="mb-3 md:mb-0 md:mr-3 body w-full md:flex-1 flex items-center bg-negative-900">
           <imager class="w-12 h-12 rounded-full overflow-hidden bg-negative-700" />
           <div class="body-left flex-auto">
             <div class="text-xs text-positive-300">职业方向</div>
             <div class="md:text-xl font-bold text-positive-900">前端开发</div>
           </div>
         </div>
-        <div class="mr-3 body flex-1 flex items-center bg-negative-900">
+        <div class="mb-3 md:mb-0 md:mr-3 body w-full md:flex-1 flex items-center bg-negative-900">
           <imager class="w-12 h-12 rounded-full overflow-hidden bg-negative-700" />
           <div class="body-left flex-auto">
             <div class="text-xs text-positive-300">现居城市</div>
             <div class="md:text-xl font-bold text-positive-900">广西·南宁</div>
           </div>
         </div>
-        <div class="flex-1 body flex items-center bg-negative-900">
+        <div class="mb-3 md:mb-0 body w-full md:flex-1 flex items-center bg-negative-900">
           <imager class="w-12 h-12 rounded-full overflow-hidden bg-negative-700" />
           <div class="body-left flex-auto">
             <div class="text-xs text-positive-300">薪资区间</div>
@@ -34,6 +36,7 @@
           </div>
         </div>
       </div>
+
       <div class="mt-8 body bg-negative-900">
         <div class="text-positive-600 body-bottom">
           <span class="text-2xl font-semibold text-positive-900">技术栈</span>
