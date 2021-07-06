@@ -298,6 +298,7 @@
 
     & &__wrap {
       overflow: scroll;
+      scroll-behavior: smooth;
     }
     & &__thumb {
       @apply relative transition bg-positive-800;
