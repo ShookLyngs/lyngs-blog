@@ -12,7 +12,12 @@ import Tween from '@tweenjs/tween.js';
  * @param {Function} onUpdate - Trigger when animate state updated
  * @returns {Promise<void>}
  */
-export async function scrollAnimateTo({ from, to, duration = 300, onUpdate = () => {} }) {
+export async function scrollAnimateTo({
+  from,
+  to,
+  duration = 400,
+  onUpdate = () => {},
+}) {
   return new Promise((resolve) => {
     // Create position state and tween instance.
     const tween = new Tween.Tween({
@@ -31,7 +36,7 @@ export async function scrollAnimateTo({ from, to, duration = 300, onUpdate = () 
     // Set animation values.
     tween
       .to(target, duration)
-      .easing(Tween.Easing.Cubic.Out)
+      .easing(Tween.Easing.Cubic.InOut)
       .onUpdate(onUpdate)
       .onComplete(finish)
       .onStop(finish)

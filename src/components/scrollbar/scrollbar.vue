@@ -226,7 +226,6 @@
 
       const gutterWidth = ref(getScrollBarWidth());
       const gutterWithUnit = computed(() => {
-        console.log(gutterWidth.value);
         return gutterWidth.value ? `-${gutterWidth.value}px` : null;
       });
       function updateViewSizes() {

@@ -157,7 +157,7 @@
         if (dom) {
           const { scrollTop } = getWrapSizes();
           const { top } = dom.getBoundingClientRect();
-          animateTo({ y: (scrollTop + top - 70).toFixed(0) });
+          animateTo({ y: Math.ceil(scrollTop + top - 70) });
         }
       }
 
