@@ -46,9 +46,11 @@
   import { mergeStyle } from '@/assets/util/style';
   import { useIntersection } from '@/hooks/use-intersection';
   import { createScrollbar } from './shared';
+  import Tween from '@tweenjs/tween.js';
   // Components
   import ResizeObserver from '@/components/resize-observer.vue';
   import ScrollbarBar from './scrollbar-bar.vue';
+  import { scrollAnimateTo } from '@/components/scrollbar/animate';
 
   export default {
     name: 'scrollbar',
@@ -136,11 +138,25 @@
           height, width,
         };
       }
-      function scrollTo(x, y) {
+
+      // Scroll to methods
+      function scrollTo({ x, y } = {}) {
         if (wrap.value) {
           wrap.value.scrollTo(x, y);
           onWrapScroll();
         }
+      }
+      async function animateTo({ x, y, duration = 300 } = {}) {
+        const { scrollTop, scrollLeft } = getWrapSizes();
+        return scrollAnimateTo({
+          from: { x: scrollLeft, y: scrollTop },
+          to: { x, y },
+          duration,
+          onUpdate: (state) => scrollTo({
+            x: state.x,
+            y: state.y,
+          }),
+        });
       }
 
       // List wrapper scroll distance and sizes
@@ -252,6 +268,7 @@
         mergedWrapStyle,
         getWrapSizes,
         scrollTo,
+        animateTo,
 
         wrapSizes,
         updateWrapSizes,
@@ -298,7 +315,6 @@
 
     & &__wrap {
       overflow: scroll;
-      scroll-behavior: smooth;
     }
     & &__thumb {
       @apply relative transition bg-positive-800;

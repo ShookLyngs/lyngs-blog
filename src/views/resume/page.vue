@@ -133,7 +133,7 @@
 
       // Use global shared scrollbar state,
       // and takes out its useful functions.
-      const { scrollTo, onScroll, removeOnScroll, getWrapSizes } = useScrollbar();
+      const { animateTo, onScroll, removeOnScroll, getWrapSizes } = useScrollbar();
 
       // When clicked the tab button,
       // check and scroll to the position where that tab's content at.
@@ -157,7 +157,7 @@
         if (dom) {
           const { scrollTop } = getWrapSizes();
           const { top } = dom.getBoundingClientRect();
-          scrollTo(0, (scrollTop + top - 70).toFixed(0));
+          animateTo({ y: (scrollTop + top - 70).toFixed(0) });
         }
       }
 
