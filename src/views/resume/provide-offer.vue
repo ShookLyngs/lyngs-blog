@@ -13,24 +13,24 @@
         </template>
       </resume-section-header>
 
-      <div class="mt-8 md:flex">
-        <div class="mb-3 md:mb-0 md:mr-3 body w-full md:flex-1 flex items-center bg-negative-900">
-          <imager class="w-12 h-12 rounded-full overflow-hidden bg-negative-700" />
-          <div class="body-left flex-auto">
+      <div class="mt-8 flex">
+        <div class="mr-3 body w-full flex-1 flex-col flex md:flex-row justify-center items-center bg-negative-900">
+          <imager class="inline-flex w-12 h-12 rounded-full overflow-hidden bg-negative-700" />
+          <div class="body-top md:pt-0 md:body-left flex-auto flex flex-col items-center md:items-start">
             <div class="text-xs text-positive-300">职业方向</div>
             <div class="md:text-xl font-bold text-positive-900">前端开发</div>
           </div>
         </div>
-        <div class="mb-3 md:mb-0 md:mr-3 body w-full md:flex-1 flex items-center bg-negative-900">
-          <imager class="w-12 h-12 rounded-full overflow-hidden bg-negative-700" />
-          <div class="body-left flex-auto">
+        <div class="mr-3 body w-full flex-1 flex-col flex md:flex-row justify-center items-center bg-negative-900">
+          <imager class="inline-flex w-12 h-12 rounded-full overflow-hidden bg-negative-700" />
+          <div class="body-top md:pt-0 md:body-left flex-auto flex flex-col items-center md:items-start">
             <div class="text-xs text-positive-300">现居城市</div>
-            <div class="md:text-xl font-bold text-positive-900">广西·南宁</div>
+            <div class="md:text-xl font-bold text-positive-900">南宁</div>
           </div>
         </div>
-        <div class="mb-3 md:mb-0 body w-full md:flex-1 flex items-center bg-negative-900">
-          <imager class="w-12 h-12 rounded-full overflow-hidden bg-negative-700" />
-          <div class="body-left flex-auto">
+        <div class="body w-full flex-1 flex-col flex md:flex-row justify-center items-center bg-negative-900">
+          <imager class="inline-flex w-12 h-12 rounded-full overflow-hidden bg-negative-700" />
+          <div class="body-top md:pt-0 md:body-left flex-auto flex flex-col items-center md:items-start">
             <div class="text-xs text-positive-300">薪资区间</div>
             <div class="md:text-xl font-bold text-positive-900">12-14K</div>
           </div>
