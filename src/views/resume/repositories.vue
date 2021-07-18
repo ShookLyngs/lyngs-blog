@@ -13,16 +13,13 @@
         </template>
       </resume-section-header>
 
+
       <collapse show>
         <div class="relative pb-6" v-loading="loading">
           <transition name="fade" mode="out-in">
             <empty type="large" v-if="!repositories.length" />
-            <div class="repository-wrapper flex flex-wrap" v-else>
-              <div
-                class="repository-item"
-                v-for="item in repositories"
-                :key="item?.id"
-              >
+            <div class="relative grid grid-cols-3 gap-3" v-else>
+              <div class="repository-item" v-for="item in repositories" :key="item?.id">
                 <div class="body h-full flex flex-col bg-negative-900">
                   <div class="font-bold truncate text-positive-900">
                     {{ item?.name }}
@@ -92,26 +89,9 @@
   }
 
   .repository {
-    // The wrapper always have a negative (spacing[3] / 2) margin.
-    &-wrapper {
-      margin-left: calc(theme('spacing[3]') / 2 * -1);
-      margin-right: calc(theme('spacing[3]') / 2 * -1);
-    }
-    // Normally on the smallest screen, item takes full width.
     &-item {
       @apply mt-4 cursor-pointer transform;
       @apply transition duration-300 hover:-translate-y-1 hover:shadow-lg;
-      width: calc(50% - theme('spacing[3]'));
-      margin-left: calc(theme('spacing[3]') / 2);
-      margin-right: calc(theme('spacing[3]') / 2);
-
-      // When the screen size reached to `md`,
-      // there can have maximum size of 3 items in 1 row.
-      @media (min-width: theme('screens.md')) {
-        width: calc(33.33% - theme('spacing[3]'));
-        margin-left: calc(theme('spacing[3]') / 2);
-        margin-right: calc(theme('spacing[3]') / 2);
-      }
     }
   }
 </style>
